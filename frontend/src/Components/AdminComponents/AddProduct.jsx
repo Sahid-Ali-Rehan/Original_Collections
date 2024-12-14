@@ -77,7 +77,7 @@ const AddProduct = () => {
     };
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/products/add', payload, {
+      const response = await axios.post('https://ruhana.onrender.com/api/products/add', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success(response.data.message);

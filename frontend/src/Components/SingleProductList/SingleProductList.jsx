@@ -25,7 +25,7 @@ const SingleProductList = () => {
 
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/single/${id}`);
+        const response = await fetch(`https://ruhana.onrender.com/api/products/single/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }

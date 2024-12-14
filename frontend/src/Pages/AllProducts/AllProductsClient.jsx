@@ -43,7 +43,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchProducts = async () => {
         try {
-          const { data } = await axios.get('http://localhost:5000/api/products/fetch-products', {
+          const { data } = await axios.get('https://ruhana.onrender.com/api/products/fetch-products', {
             params: {
               search: filters.search,
               productCode: filters.productCode,

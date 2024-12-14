@@ -35,7 +35,7 @@ const SignupForm = () => {
     }
   
     try {
-      const { data } = await axios.post("http://localhost:5000/api/auth/signup", formData);
+      const { data } = await axios.post("https://ruhana.onrender.com/api/auth/signup", formData);
       toast.success(data.message);
       navigate("/login");
     } catch (error) {
