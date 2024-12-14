@@ -18,9 +18,7 @@ const EditProduct = () => {
     productCode: '',
     category: '',
     subCategory: '',
-    sizeChart: '',
-    availableColors: [],
-    availableSizes: [],
+   
     isBestSeller: false,
   });
   const navigate = useNavigate(); // Initialize useNavigate
