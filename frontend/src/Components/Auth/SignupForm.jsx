@@ -23,11 +23,12 @@ const SignupForm = () => {
     e.preventDefault();
   
     // Password strength check
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^[A-Za-z\d]{8,}$/; // At least 8 characters, only letters and numbers
     if (!passwordRegex.test(formData.password)) {
-      toast.error("Password must be at least 8 characters long, with uppercase, lowercase, number, and special character.");
+      toast.error("Password must be at least 8 characters long and contain only letters and numbers.");
       return;
     }
+    
   
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
