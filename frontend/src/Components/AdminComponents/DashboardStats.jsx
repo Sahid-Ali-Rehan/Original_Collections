@@ -31,7 +31,7 @@ const DashboardStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/dashboard/stats');
+        const response = await fetch('https://ruhana.onrender.com/api/dashboard/stats');
         const data = await response.json();
         
         console.log("Fetched Data:", data);  // Debugging - check the structure of fetched data
