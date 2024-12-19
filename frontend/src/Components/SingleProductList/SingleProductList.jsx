@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom"; // For dynamic routing
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
+import { motion } from "framer-motion"; // Adding framer-motion for animations
 
 const SingleProductList = () => {
   const { id } = useParams(); // Get the product ID from URL
-  const [product, setProduct] = useState(null); // State to store fetched product
+  const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [quantity, setQuantity] = useState(1);
@@ -16,7 +17,6 @@ const SingleProductList = () => {
 
   const imageRef = useRef(null);
 
-  // Fetch product data based on ID
   useEffect(() => {
     if (!id) {
       console.error("Product ID is missing.");
@@ -25,7 +25,7 @@ const SingleProductList = () => {
 
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://ruhana.onrender.com/api/products/single/${id}`);
+        const response = await fetch(`http://localhost:5000/api/products/single/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
@@ -60,10 +60,11 @@ const SingleProductList = () => {
   };
 
   if (!product) {
-    return <div>Loading...</div>; // Or some other fallback for loading state
+    return <div>Loading...</div>;
   }
 
-  const discountedPrice = product.price * (1 - product.discount / 100);
+  const selectedSizePrice = product.availableSizes?.find(sizeObj => sizeObj.size === selectedSize)?.sizePrice || product.price;
+  const discountedPrice = selectedSizePrice * (1 - product.discount / 100);
 
   const handleSizeSelection = (size) => {
     setSelectedSize(size);
@@ -75,14 +76,14 @@ const SingleProductList = () => {
 
   const handleQuantityChange = (amount) => {
     if (amount > product.stock) {
-      alert("Not enough stock available");
+      toast.error("Not enough stock available");
     } else {
       setQuantity(amount);
     }
   };
 
   const addToCart = (product) => {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       toast.error("Please log in to add items to your cart.");
       return;
@@ -93,9 +94,22 @@ const SingleProductList = () => {
       return;
     }
 
-    const existingCartItems = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+    const selectedSizePrice = product.availableSizes?.find(
+      (sizeObj) => sizeObj.size === selectedSize
+    )?.sizePrice;
 
-    const existingItem = existingCartItems.find(item => item._id === product._id && item.selectedSize === selectedSize && item.selectedColor === selectedColor);
+    if (!selectedSizePrice) {
+      toast.error("Invalid size selected.");
+      return;
+    }
+
+    const existingCartItems = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+    const existingItem = existingCartItems.find(
+      (item) =>
+        item._id === product._id &&
+        item.selectedSize === selectedSize &&
+        item.selectedColor === selectedColor
+    );
 
     if (existingItem) {
       const updatedQuantity = existingItem.quantity + 1;
@@ -105,106 +119,139 @@ const SingleProductList = () => {
       }
       existingItem.quantity = updatedQuantity;
       localStorage.setItem(`cart_${userId}`, JSON.stringify(existingCartItems));
-      toast.info('Product quantity increased in the cart!');
+      toast.info("Product quantity increased in the cart!");
     } else {
       if (product.stock < 1) {
         toast.error("Out of stock!");
         return;
       }
-      product.quantity = 1;
-      product.selectedSize = selectedSize;
-      product.selectedColor = selectedColor;
-      existingCartItems.push(product);
+      const cartItem = {
+        ...product,
+        price: selectedSizePrice,
+        quantity: 1,
+        selectedSize,
+        selectedColor,
+      };
+      existingCartItems.push(cartItem);
       localStorage.setItem(`cart_${userId}`, JSON.stringify(existingCartItems));
-      toast.success('Product added to the cart!');
+      toast.success("Product added to the cart!");
     }
   };
 
   return (
-    <div className=" bg-gray-50">
+    <div className="bg-white">
       <Navbar />
-      <div className="max-w-7xl mt-14 mb-14 mx-auto bg-white shadow-lg  p-4 md:p-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="max-w-7xl mx-auto bg-white py-14 px-6 sm:px-12 md:px-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="space-y-4">
             <div className="relative overflow-hidden">
               <img
                 src={mainImage}
                 alt={product.productName}
                 ref={imageRef}
-                className="w-full rounded-lg object-cover transition-transform duration-300"
+                className="w-full rounded-xl object-cover transition-transform duration-300"
                 onMouseMove={handleZoom}
                 onMouseLeave={resetZoom}
                 style={{ cursor: "zoom-in", height: "500px" }}
               />
             </div>
-            <div className="flex space-x-2">
-              {product.images && product.images.length > 0 ? (
-                product.images.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img}
-                    alt={`Thumbnail ${idx + 1}`}
-                    className="w-16 h-16 object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-red-500"
-                    onClick={() => setMainImage(img)}
-                  />
-                ))
-              ) : (
-                <div>No images available</div>
-              )}
+            <div className="flex space-x-2 overflow-x-auto">
+              {product.images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Thumbnail ${idx + 1}`}
+                  className="w-16 h-16 object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-indigo-500 transition-all"
+                  onClick={() => setMainImage(img)}
+                />
+              ))}
             </div>
           </div>
 
-          <div>
-            <h1 className="text-2xl font-bold text-[#8d5c51]">{product.productName}</h1>
-            <p className="text-sm text-[#7d835f]">Product Code: {product.productCode}</p>
-            <div className="mt-4">
-              <p className="text-xl text-[#8d5c51] font-bold">
+          <div className="space-y-6">
+            <h1 className="text-3xl font-extrabold text-gray-800">{product.productName}</h1>
+            <p className="text-lg text-gray-600">Product Code: {product.productCode}</p>
+            <div>
+              <p className="text-2xl font-bold text-indigo-600">
                 Tk. {discountedPrice.toFixed(2)}{" "}
-                <span className="line-through text-gray-400">Tk. {product.price}</span>
+                <span className="line-through text-gray-400">Tk. {selectedSizePrice}</span>
               </p>
-              <p className="text-sm text-[#7b7c4d]">You Save: Tk. {(product.price - discountedPrice).toFixed(2)}</p>
+              <p className="text-md text-gray-500">You Save: Tk. {(selectedSizePrice - discountedPrice).toFixed(2)}</p>
             </div>
 
-            {/* Select Size */}
-            <div className="mt-6 mb-10">
-              <label className="text-sm font-semibold text-[#7b7c4d]">Select Size:</label>
-              <div className="flex space-x-4 mt-2">
-                {product.availableSizes?.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => handleSizeSelection(size)}
-                    className={`px-4 py-2 ${selectedSize === size ? "bg-[#8d5c51] text-white" : "bg-[#f4ebb4] hover:bg-[#8d5c51] hover:text-white"} transition`}
+            {/* Size Selection */}
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold text-gray-700">Select Size</h3>
+              <div className="grid grid-cols-4 gap-2 mt-3">
+                {product.availableSizes.map((sizeObj) => (
+                  <motion.button
+                    key={sizeObj.size}
+                    className={`px-4 py-2 border rounded-lg text-sm transition-all ${
+                      selectedSize === sizeObj.size
+                        ? "bg-indigo-600 text-white"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                    onClick={() => handleSizeSelection(sizeObj.size)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {size}
-                  </button>
+                    {sizeObj.size} - Tk. {sizeObj.sizePrice}
+                  </motion.button>
                 ))}
               </div>
             </div>
 
-            {/* Select Color */}
-            <div className="mt-6 mb-10">
-              <label className="text-sm font-semibold text-[#7b7c4d]">Select Color:</label>
-              <div className="flex space-x-4 mt-2">
-                {product.availableColors?.map((color) => (
-                  <button
+            {/* Color Selection */}
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold text-gray-700">Select Color</h3>
+              <div className="flex space-x-3 mt-3">
+                {product.availableColors.map((color) => (
+                  <motion.button
                     key={color}
+                    className={`w-8 h-8 rounded-full border transition-all ${
+                      selectedColor === color ? "border-indigo-600" : ""
+                    }`}
+                    style={{ backgroundColor: color }}
                     onClick={() => handleColorSelection(color)}
-                    className={`px-4 py-2 ${selectedColor === color ? "bg-[#8d5c51] text-white" : "bg-[#f4ebb4] hover:bg-[#8d5c51] hover:text-white"} transition`}
-                  >
-                    {color}
-                  </button>
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.95 }}
+                  ></motion.button>
                 ))}
               </div>
             </div>
 
-            {/* Quantity Selection */}
-            <div className="mt-6 flex items-center space-x-4">
-              <button onClick={() => addToCart(product)} className="px-32 py-3 bg-[#8d5c51] text-white hover:bg-[#7d835f] transition">
-                Add to Cart
-              </button>
+            {/* Quantity */}
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold text-gray-700">Quantity</h3>
+              <div className="flex items-center space-x-4 mt-3">
+                <button
+                  onClick={() => handleQuantityChange(quantity - 1)}
+                  disabled={quantity <= 1}
+                  className="px-4 py-2 bg-gray-300 rounded-lg"
+                >
+                  -
+                </button>
+                <span className="text-lg">{quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange(quantity + 1)}
+                  className="px-4 py-2 bg-gray-300 rounded-lg"
+                >
+                  +
+                </button>
+              </div>
             </div>
+
+            <motion.button
+              onClick={() => addToCart(product)}
+              className="w-full py-4 bg-indigo-600 text-white text-lg font-bold rounded-xl mt-6 hover:bg-indigo-700 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Add to Cart
+            </motion.button>
           </div>
         </div>
+
         <div className="mt-10">
           {/* Tabs */}
           <div className="flex space-x-4">
@@ -239,11 +286,15 @@ const SingleProductList = () => {
 )}
 
         </div>
+
+
       </div>
-      <ToastContainer />
+
       <Footer />
+      <ToastContainer />
     </div>
   );
 };
 
 export default SingleProductList;
+

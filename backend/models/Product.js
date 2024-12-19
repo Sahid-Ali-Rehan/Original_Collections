@@ -23,9 +23,18 @@ const productSchema = new mongoose.Schema(
     availableColors: {
       type: [String],
     },
+    // availableSizes: {
+    //   type: [String],
+    // },
     availableSizes: {
-      type: [String],
+      type: [
+        {
+          size: { type: String, required: true },
+          sizePrice: { type: Number, required: true, min: 0 },
+        },
+      ],
     },
+    
     sizeChart: {
       type: String, // Size chart image URL
     },

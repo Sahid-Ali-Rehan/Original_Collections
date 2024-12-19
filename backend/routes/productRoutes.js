@@ -32,6 +32,7 @@ router.post('/add', async (req, res) => {
     sizeChart,
     availableColors,
     availableSizes,
+    sizesWithPrices,
     stock,
     price,
     discount,
@@ -49,6 +50,7 @@ router.post('/add', async (req, res) => {
       sizeChart,
       availableColors,
       availableSizes,
+      sizesWithPrices,
       stock,
       price,
       discount,
@@ -67,12 +69,24 @@ router.post('/add', async (req, res) => {
 
 
 router.post('/add', async (req, res) => {
+  const { availableSizes } = req.body;
+
+  // Optional validation for availableSizes
+  if (
+    availableSizes &&
+    !availableSizes.every(
+      (item) => typeof item.size === 'string' && typeof item.sizePrice === 'number'
+    )
+  ) {
+    return res.status(400).json({ message: 'Invalid format for availableSizes' });
+  }
+
   try {
     const newProduct = new Product(req.body);
     await newProduct.save();
     res.status(201).json({ message: 'Product added successfully' });
   } catch (error) {
-    console.error('Error adding product:', error); // Log the error
+    console.error('Error adding product:', error);
     res.status(500).json({ message: 'Error adding product', error: error.message });
   }
 });
@@ -168,6 +182,20 @@ router.get('/single/:id', async (req, res) => {
     res.json(product);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching product', error: err.message });
+  }
+});
+
+
+router.delete('/:id', isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedProduct = await Product.findByIdAndDelete(id);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting product', error: error.message });
   }
 });
 

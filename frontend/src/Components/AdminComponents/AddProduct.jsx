@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const AddProduct = () => {
+  const [sizes, setSizes] = useState([{ size: '', sizePrice: 0 }]);
   const [formData, setFormData] = useState({
     productName: '',
     description: '',
@@ -62,22 +63,30 @@ const AddProduct = () => {
     setFormData({ ...formData, availableColors: formattedColors });
   };
 
-  const handleSizesChange = (e) => {
-    const formattedSizes = formatTags(e.target.value);
-    setFormData({ ...formData, availableSizes: formattedSizes });
+  const handleSizeChange = (index, field, value) => {
+    const updatedSizes = [...sizes];
+    updatedSizes[index][field] = field === 'sizePrice' ? Number(value) : value;
+    setSizes(updatedSizes);
   };
-
+  
+  const addSizeField = () => {
+    setSizes([...sizes, { size: '', sizePrice: 0 }]);
+  };
+  
+  const removeSizeField = (index) => {
+    const updatedSizes = sizes.filter((_, i) => i !== index);
+    setSizes(updatedSizes);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
       ...formData,
-      price: Number(formData.price),
-      stock: Number(formData.stock),
-      discount: Number(formData.discount),
+      availableSizes: sizes, // Correctly assigning `sizes` to `availableSizes`
     };
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('https://ruhana.onrender.com/api/products/add', payload, {
+      const response = await axios.post('http://localhost:5000/api/products/add', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success(response.data.message);
@@ -91,12 +100,18 @@ const AddProduct = () => {
         stock: 0,
         price: 0,
         discount: 0,
+        productCode: '',
+        category: '',
+        subCategory: '',
+        isBestSeller: false,
       });
+      setSizes([{ size: '', sizePrice: 0 }]);
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
       toast.error('Something went wrong.');
     }
   };
+  
   
   
 
@@ -231,7 +246,7 @@ const AddProduct = () => {
         className="p-2 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
       />
     </div>
-    <div>
+    {/* <div>
       <label className="font-semibold block mb-2 text-[#8d5c51]">Available Sizes</label>
       <input
         type="text"
@@ -240,8 +255,47 @@ const AddProduct = () => {
         onChange={handleSizesChange}
         className="p-2 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
       />
-    </div>
+    </div> */}
   </div>
+
+  <div className="mt-4">
+  <label className="font-semibold block mb-2 text-[#8d5c51]">Available Sizes & Prices</label>
+  {sizes.map((sizeEntry, index) => (
+    <div key={index} className="flex gap-4 mb-2">
+      <input
+        type="text"
+        placeholder="Size"
+        value={sizeEntry.size}
+        onChange={(e) => handleSizeChange(index, 'size', e.target.value)}
+        className="p-3 border rounded-lg w-1/2 text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
+      />
+      <input
+        type="number"
+        placeholder="Price"
+        value={sizeEntry.sizePrice}
+        onChange={(e) => handleSizeChange(index, 'sizePrice', e.target.value)}
+        className="p-3 border rounded-lg w-1/2 text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
+      />
+      {sizes.length > 1 && (
+        <button
+          type="button"
+          onClick={() => removeSizeField(index)}
+          className="text-red-600 font-semibold"
+        >
+          Remove
+        </button>
+      )}
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={addSizeField}
+    className="bg-[#8d5c51] text-white px-4 py-2 rounded-lg"
+  >
+    Add Size
+  </button>
+</div>
+
 
   {/* Best Seller */}
   <div className="mt-4 flex items-center gap-2">
