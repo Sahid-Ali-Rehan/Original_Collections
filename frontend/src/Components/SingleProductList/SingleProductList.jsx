@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
 import { motion } from "framer-motion"; // Adding framer-motion for animations
+import RelatedProduct from "../RelatedProduct/RelatedProduct";
 
 const SingleProductList = () => {
   const { id } = useParams(); // Get the product ID from URL
@@ -293,6 +294,12 @@ const SingleProductList = () => {
 
 
       </div>
+
+       {/* Related Products */}
+    <div className="max-w-7xl mx-auto px-6 sm:px-12 md:px-20">
+      {/* Related Products */}
+      <RelatedProduct category={product.category} currentProductId={product._id} />
+    </div>
 
       <Footer />
       <ToastContainer />

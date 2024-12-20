@@ -199,6 +199,17 @@ router.delete('/:id', isAdmin, async (req, res) => {
   }
 });
 
+
+router.get('/related/:category', async (req, res) => {
+  const { category } = req.params;
+  try {
+      const relatedProducts = await Product.find({ category }).limit(10); // Fetch related products with a limit
+      res.json(relatedProducts);
+  } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch related products' });
+  }
+});
+
   
 
 module.exports = router;
