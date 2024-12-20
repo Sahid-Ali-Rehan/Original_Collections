@@ -6,7 +6,7 @@ import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
 import { motion } from "framer-motion"; // Adding framer-motion for animations
 import RelatedProduct from "../RelatedProduct/RelatedProduct";
-
+import ReactStars from "react-rating-stars-component";
 const SingleProductList = () => {
   const { id } = useParams(); // Get the product ID from URL
   const [product, setProduct] = useState(null);
@@ -15,6 +15,55 @@ const SingleProductList = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(""); // State for selected size
   const [selectedColor, setSelectedColor] = useState(""); // State for selected color
+  // State for reviews and new review
+const [reviews, setReviews] = useState([]);
+const [newReview, setNewReview] = useState({ name: "", rating: 0, comment: "" });
+
+
+// Fetch reviews for the product
+useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`https://ruhana.onrender.com/api/reviews/${id}`);
+      const data = await response.json();
+      setReviews(data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  fetchReviews();
+}, [id]);
+
+// Handle review submission
+const handleAddReview = async () => {
+  if (!newReview.name || !newReview.rating || !newReview.comment) {
+    toast.error("All fields are required.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://ruhana.onrender.com/api/reviews/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...newReview, productId: id }),
+    });
+
+    if (!response.ok) throw new Error("Error adding review");
+
+    const data = await response.json();
+    setReviews((prev) => [...prev, data.review]); // Add new review
+    setNewReview({ name: "", rating: 0, comment: "" }); // Reset form
+    toast.success("Review added successfully!");
+  } catch (error) {
+    toast.error("Failed to add review.");
+  }
+};
+
+// Render stars for review submission
+const handleRatingChange = (newRating) => {
+  setNewReview((prev) => ({ ...prev, rating: newRating }));
+};
 
   const imageRef = useRef(null);
 
@@ -291,6 +340,46 @@ const SingleProductList = () => {
 )}
 
         </div>
+
+
+        <div className="mt-10">
+  <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+  {reviews.length > 0 ? (
+    reviews.map((review, idx) => (
+      <div key={idx} className="border-b pb-4 mb-4">
+        <p className="font-semibold">{review.name}</p>
+        <ReactStars value={review.rating} edit={false} size={20} />
+        <p>{review.comment}</p>
+      </div>
+    ))
+  ) : (
+    <p>No reviews yet.</p>
+  )}
+
+  <h3 className="text-xl font-semibold mt-6">Add Your Review</h3>
+  <div className="space-y-4">
+    <input
+      type="text"
+      placeholder="Your Name"
+      value={newReview.name}
+      onChange={(e) => setNewReview((prev) => ({ ...prev, name: e.target.value }))}
+      className="w-full p-2 border rounded"
+    />
+    <ReactStars value={newReview.rating} onChange={handleRatingChange} size={30} />
+    <textarea
+      placeholder="Your Comment"
+      value={newReview.comment}
+      onChange={(e) => setNewReview((prev) => ({ ...prev, comment: e.target.value }))}
+      className="w-full p-2 border rounded"
+    />
+    <button
+      onClick={handleAddReview}
+      className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+    >
+      Submit Review
+    </button>
+  </div>
+</div>
 
 
       </div>

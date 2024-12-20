@@ -16,6 +16,7 @@ const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const dashboardRoute = require('./routes/dashboardRoute');
+const reviewRoutes = require("./routes/reviewRoutes");
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/dashboard', dashboardRoute);
+app.use("/api/reviews", reviewRoutes);
 
 
 
