@@ -147,23 +147,29 @@ const AddProduct = () => {
       rows="3"
       required
     />
-    <input
-      type="number"
-      name="price"
-      placeholder="Price"
-    //   value={formData.price}
-      onChange={handleChange}
-      className="p-3 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
-      required
-    />
-    <input
-      type="number"
-      name="discount"
-      placeholder="Discount (%)"
-    //   value={formData.discount}
-      onChange={handleChange}
-      className="p-3 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
-    />
+    <div className="grid grid-cols-2 gap-6">
+  <input
+    type="number"
+    name="price"
+    placeholder="Price"
+    value={formData.price}
+    onChange={handleChange}
+    className="p-3 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
+    required
+  />
+  <input
+    type="number"
+    name="discount"
+    placeholder="Discount (%)"
+    value={formData.discount}
+    onChange={handleChange}
+    className="p-3 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
+  />
+</div>
+<div className="mt-4 text-lg font-semibold text-[#8d5c51]">
+  Discounted Price: {formData.price - (formData.price * formData.discount) / 100 || 0} TK
+</div>
+
     <input
       type="number"
       name="stock"
@@ -272,7 +278,7 @@ const AddProduct = () => {
       <input
         type="number"
         placeholder="Price"
-        value={sizeEntry.sizePrice}
+        // value={sizeEntry.sizePrice}
         onChange={(e) => handleSizeChange(index, 'sizePrice', e.target.value)}
         className="p-3 border rounded-lg w-1/2 text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
       />

@@ -128,9 +128,10 @@ addHeader();
     addCustomerDetails();
   
     // Add Order Table
+// Add Order Table
 const addOrderTable = () => {
   let yOffset = 320;
-
+  
   // Table Header
   doc.setFont("helvetica", "bold");
   doc.setFillColor("#f4ebb4"); // Olive green color for the header background
@@ -160,7 +161,13 @@ const addOrderTable = () => {
   doc.setTextColor("#8b4513"); // Olive brown color for total section text
   doc.text(`Delivery Charge: Tk. ${order.deliveryCharge}`, 20, yOffset);
   yOffset += 20;
-  doc.text(`Total Amount: Tk. ${order.totalAmount}`, 20, yOffset);
+
+  // Calculate the discount if applicable
+  const discountAmount = order.discount ? order.totalAmount * (order.discount / 100) : 0;
+  const finalAmount = order.totalAmount - discountAmount;
+
+  // Total Amount after discount
+  doc.text(`Total Amount (after discount): Tk. ${finalAmount}`, 20, yOffset);
 };
 
     addOrderTable();

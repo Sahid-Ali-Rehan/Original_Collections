@@ -88,21 +88,22 @@ const SingleProductList = () => {
       toast.error("Please log in to add items to your cart.");
       return;
     }
-
+  
+    // If size or color is not selected, show toast error
     if (!selectedSize || !selectedColor) {
       toast.error("Please select both size and color.");
       return;
     }
-
+  
     const selectedSizePrice = product.availableSizes?.find(
       (sizeObj) => sizeObj.size === selectedSize
     )?.sizePrice;
-
+  
     if (!selectedSizePrice) {
       toast.error("Invalid size selected.");
       return;
     }
-
+  
     const existingCartItems = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
     const existingItem = existingCartItems.find(
       (item) =>
@@ -110,9 +111,10 @@ const SingleProductList = () => {
         item.selectedSize === selectedSize &&
         item.selectedColor === selectedColor
     );
-
+  
     if (existingItem) {
-      const updatedQuantity = existingItem.quantity + 1;
+      // If the item exists, increase the quantity and ensure stock limit
+      const updatedQuantity = existingItem.quantity + quantity;
       if (updatedQuantity > product.stock) {
         toast.error(`Cannot add more than ${product.stock} items of ${product.productName} to the cart.`);
         return;
@@ -121,14 +123,15 @@ const SingleProductList = () => {
       localStorage.setItem(`cart_${userId}`, JSON.stringify(existingCartItems));
       toast.info("Product quantity increased in the cart!");
     } else {
-      if (product.stock < 1) {
-        toast.error("Out of stock!");
+      // If the item does not exist, add to the cart with selected size, color, and quantity
+      if (product.stock < quantity) {
+        toast.error("Not enough stock available!");
         return;
       }
       const cartItem = {
         ...product,
         price: selectedSizePrice,
-        quantity: 1,
+        quantity,
         selectedSize,
         selectedColor,
       };
@@ -137,6 +140,7 @@ const SingleProductList = () => {
       toast.success("Product added to the cart!");
     }
   };
+  
 
   return (
     <div className="bg-white">
