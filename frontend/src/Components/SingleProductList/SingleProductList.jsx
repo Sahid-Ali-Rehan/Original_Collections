@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import { motion } from "framer-motion"; // Adding framer-motion for animations
 import RelatedProduct from "../RelatedProduct/RelatedProduct";
 import ReactStars from "react-rating-stars-component";
+import ReactPlayer from 'react-player'; 
 const SingleProductList = () => {
   const { id } = useParams(); // Get the product ID from URL
   const [product, setProduct] = useState(null);
@@ -220,6 +221,21 @@ const handleRatingChange = (newRating) => {
                 />
               ))}
             </div>
+           
+
+{/* Render video after all images if videoUrl is available */}
+{product.videoUrl && (
+  <div className="mt-6">
+    <h3 className="text-lg font-semibold text-gray-700">Product Video</h3>
+    <ReactPlayer
+      url={product.videoUrl}
+      controls
+      width="100%"
+      height="300px"
+      className="rounded-xl overflow-hidden"
+    />
+  </div>
+)}
           </div>
 
           <div className="space-y-6">
