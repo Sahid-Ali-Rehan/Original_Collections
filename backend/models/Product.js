@@ -62,6 +62,15 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    videoUrl: {
+      type: String,
+      validate: {
+        validator: function (value) {
+          return /^https?:\/\/.+\.(mp4|mov|wmv|flv|avi|mkv|webm)$/.test(value); // Optional: Validate video URL format
+        },
+        message: 'Invalid video URL format',
+      },
+    },    
     category: {
       type: String,
       required: true,

@@ -51,10 +51,10 @@ const Footer = () => {
           {/* Column 3: Contact Info */}
           <div>
             <h3 className="text-3xl font-semibold mb-6">Contact Info</h3>
-            <p className="text-lg mb-4">Address: 1234 Digital St, Tech City, CA 94000</p>
+            <p className="text-lg mb-4">Address: Section 12, Block C, Line No: 6, House No 13, Pallabi Thana Mirpur Dhaka 1216</p>
             <p className="text-lg mb-4">Phone: (+880) 1714394330</p>
-            <p className="text-lg mb-4">Email: support@yourcompany.com</p>
-            <p className="text-lg mb-4">Fax: (+1) 800-765-4321</p>
+            <p className="text-lg mb-4">Email: ruhan@gmail.com</p>
+            <p className="text-lg mb-4">Emergency: (+880) 9638259714</p>
           </div>
 
           {/* Column 4: Social Media */}
@@ -63,7 +63,7 @@ const Footer = () => {
             <p className="text-lg mb-6">Connect with us on social media:</p>
             <div className="flex space-x-6 text-2xl">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/smsharfarraz.jhony"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#760000] hover:text-[#4267B2] transition-all duration-300"
@@ -90,7 +90,7 @@ const Footer = () => {
                 <FaTwitter size={32} />
               </a>
               <a
-                href="https://whatsapp.com"
+                href="https://wa.me/8801714394330"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#760000] hover:text-[#25D366] transition-all duration-300"

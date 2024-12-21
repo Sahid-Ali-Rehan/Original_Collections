@@ -40,6 +40,7 @@ router.post('/add', async (req, res) => {
     category,
     subCategory,
     isBestSeller,
+    videoUrl,
   } = req.body;
 
   try {
@@ -58,6 +59,7 @@ router.post('/add', async (req, res) => {
       category,
       subCategory,
       isBestSeller,
+      videoUrl,
     });
 
     await newProduct.save();

@@ -103,6 +103,7 @@ const AddProduct = () => {
         productCode: '',
         category: '',
         subCategory: '',
+        videoUrl: '',
         isBestSeller: false,
       });
       setSizes([{ size: '', sizePrice: 0 }]);
@@ -204,6 +205,15 @@ const AddProduct = () => {
       onChange={handleChange}
       className="p-3 border rounded-lg w-full col-span-2 text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
     />
+    <input
+  type="text"
+  name="videoUrl"
+  placeholder="Video URL"
+  value={formData.videoUrl || ''}
+  onChange={handleChange}
+  className="p-3 border rounded-lg w-full text-[#7b7c4d] bg-[#faeed5] placeholder:text-[#7b7c4d] focus:outline-none focus:ring-2 focus:ring-[#a0926c]"
+/>
+
   </div>
 
   {/* Dynamic Image URLs */}
@@ -301,6 +311,8 @@ const AddProduct = () => {
     Add Size
   </button>
 </div>
+
+
 
 
   {/* Best Seller */}
