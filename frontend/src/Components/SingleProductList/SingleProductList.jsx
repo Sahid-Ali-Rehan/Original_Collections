@@ -8,6 +8,10 @@ import { motion } from "framer-motion"; // Adding framer-motion for animations
 import RelatedProduct from "../RelatedProduct/RelatedProduct";
 import ReactStars from "react-rating-stars-component";
 import ReactPlayer from 'react-player'; 
+import Loading from '../Loading/Loading';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+
+
 const SingleProductList = () => {
   const { id } = useParams(); // Get the product ID from URL
   const [product, setProduct] = useState(null);
@@ -19,6 +23,8 @@ const SingleProductList = () => {
   // State for reviews and new review
 const [reviews, setReviews] = useState([]);
 const [newReview, setNewReview] = useState({ name: "", rating: 0, comment: "" });
+const [isReviewModalOpen, setReviewModalOpen] = useState(false); // Modal state
+
 
 
 // Fetch reviews for the product
@@ -35,6 +41,8 @@ useEffect(() => {
 
   fetchReviews();
 }, [id]);
+
+
 
 // Handle review submission
 const handleAddReview = async () => {
@@ -65,6 +73,18 @@ const handleAddReview = async () => {
 const handleRatingChange = (newRating) => {
   setNewReview((prev) => ({ ...prev, rating: newRating }));
 };
+
+// Calculate average rating
+const totalReviews = reviews.length;
+const averageRating =
+  totalReviews > 0
+    ? (reviews.reduce((acc, review) => acc + review.rating, 0) / totalReviews).toFixed(1)
+    : null;
+
+// Open/close review modal
+const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
+
+
 
   const imageRef = useRef(null);
 
@@ -111,7 +131,7 @@ const handleRatingChange = (newRating) => {
   };
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   const selectedSizePrice = product.availableSizes?.find(sizeObj => sizeObj.size === selectedSize)?.sizePrice || product.price;
@@ -191,6 +211,8 @@ const handleRatingChange = (newRating) => {
       toast.success("Product added to the cart!");
     }
   };
+
+  
   
 
   return (
@@ -241,6 +263,33 @@ const handleRatingChange = (newRating) => {
           <div className="space-y-6">
             <h1 className="text-3xl font-extrabold text-gray-800">{product.productName}</h1>
             <p className="text-lg text-gray-600">Product Code: {product.productCode}</p>
+           
+            {averageRating && (
+  <div className="mt-4 flex items-center">
+    {/* Display stars */}
+    <div className="flex space-x-1 text-yellow-400">
+      {Array.from({ length: 5 }).map((_, index) => {
+        const ratingValue = index + 1;
+        return (
+          <span key={index}>
+            {averageRating >= ratingValue ? (
+              <FaStar />
+            ) : averageRating >= ratingValue - 0.5 ? (
+              <FaStarHalfAlt />
+            ) : (
+              <FaRegStar />
+            )}
+          </span>
+        );
+      })}
+    </div>
+    {/* Display average rating and total reviews */}
+    <p className="ml-2 text-lg font-semibold text-gray-700">
+      {averageRating} ({totalReviews}) Reviews
+    </p>
+  </div>
+)}
+
             <div>
               <p className="text-2xl font-bold text-indigo-600">
                 Tk. {discountedPrice.toFixed(2)}{" "}
@@ -372,7 +421,7 @@ const handleRatingChange = (newRating) => {
     <p>No reviews yet.</p>
   )}
 
-  <h3 className="text-xl font-semibold mt-6">Add Your Review</h3>
+  {/* <h3 className="text-xl font-semibold mt-6">Add Your Review</h3>
   <div className="space-y-4">
     <input
       type="text"
@@ -394,7 +443,62 @@ const handleRatingChange = (newRating) => {
     >
       Submit Review
     </button>
+  </div> */}
+
+<button
+  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+  onClick={toggleReviewModal}
+>
+  Give a Review
+</button>
+
+{isReviewModalOpen && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md z-50">
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
+    >
+      <h3 className="text-xl font-bold text-gray-800 mb-4">Add Your Review</h3>
+      <input
+        type="text"
+        placeholder="Your Name"
+        className="w-full px-4 py-2 mb-3 border rounded-md"
+        value={newReview.name}
+        onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
+      />
+      <ReactStars
+        count={5}
+        size={30}
+        activeColor="#ffd700"
+        value={newReview.rating}
+        onChange={handleRatingChange}
+      />
+      <textarea
+        placeholder="Your Comment"
+        className="w-full px-4 py-2 mt-3 border rounded-md"
+        value={newReview.comment}
+        onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+      ></textarea>
+      <div className="mt-4 flex space-x-4">
+        <button
+          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+          onClick={handleAddReview}
+        >
+          Submit
+        </button>
+        <button
+          className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+          onClick={toggleReviewModal}
+        >
+          Cancel
+        </button>
+      </div>
+    </motion.div>
   </div>
+)}
 </div>
 
 

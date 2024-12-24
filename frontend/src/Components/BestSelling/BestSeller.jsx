@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 
 const BestSellers = () => {
   const [products, setProducts] = useState([]);
@@ -33,7 +34,7 @@ const BestSellers = () => {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   return (

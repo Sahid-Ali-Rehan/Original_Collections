@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
+import Loading from '../Loading/Loading';
 
 const Success = () => {
   const navigate = useNavigate();
@@ -209,7 +210,7 @@ const addFooter = () => {
   
   
 
-  if (!expectedDelivery) return <div>Loading...</div>;
+  if (!expectedDelivery) return <Loading/>;
 
   const formattedDelivery = expectedDelivery.toDateString();
 

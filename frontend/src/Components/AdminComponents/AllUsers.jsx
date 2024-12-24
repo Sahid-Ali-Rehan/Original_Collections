@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../Loading/Loading';
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -61,7 +62,7 @@ const AllUsers = () => {
   
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
+import Loading from '../Loading/Loading';
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -74,7 +76,7 @@ const DashboardStats = () => {
 
   // Display loading or the charts
   if (!donutData || !lineData) {
-    return <div>Loading...</div>; // You can customize this loading state
+    return <Loading/>; // You can customize this loading state
   }
 
   return (
