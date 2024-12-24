@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import decstop1 from '/Banner/Decs1.jpg'
+import decstop1 from '/Banner/Decs1.png'
 import decstop2 from '/Banner/Decs2.jpg'
 import decstop3 from '/Banner/Decs3.jpg'
-import decstop4 from '/Banner/Decs4.jpg'
+import decstop4 from '/Banner/Decs4.png'
 
 import mob1 from '/Banner/Mob1.jpg'
 import mob2 from '/Banner/Mob2.jpg'
