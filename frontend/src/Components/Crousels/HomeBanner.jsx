@@ -7,6 +7,12 @@ import decstop2 from '/Banner/Decs2.jpg'
 import decstop3 from '/Banner/Decs3.jpg'
 import decstop4 from '/Banner/Decs4.jpg'
 
+import mob1 from '/Banner/Mob1.jpg'
+import mob2 from '/Banner/Mob2.jpg'
+import mob3 from '/Banner/Mob3.jpg'
+import mob4 from '/Banner/Mob4.jpg'
+
+
 const HomeBanner = () => {
   // Desktop images
   const desktopImages = [
@@ -18,10 +24,10 @@ const HomeBanner = () => {
 
   // Mobile images
   const mobileImages = [
-    decstop1,
-    decstop2,
-    decstop3,
-    decstop4
+    mob1,
+    mob2,
+    mob3,
+    mob4
   ];
 
   const [isMobile, setIsMobile] = useState(false);
