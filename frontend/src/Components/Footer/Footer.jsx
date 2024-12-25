@@ -53,7 +53,7 @@ const Footer = () => {
             <h3 className="text-3xl font-semibold mb-6">Contact Info</h3>
             <p className="text-lg mb-4">Address: Section 12, Block C, Line No: 6, House No 13, Pallabi Thana Mirpur Dhaka 1216</p>
             <p className="text-lg mb-4">Phone: (+880) 1714394330</p>
-            <p className="text-lg mb-4">Email: ruhan@gmail.com</p>
+            <p className="text-lg mb-4">Email: ruhanas0311@gmail.com</p>
             <p className="text-lg mb-4">Emergency: (+880) 9638259714</p>
           </div>
 

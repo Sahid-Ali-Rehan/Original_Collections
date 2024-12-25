@@ -216,7 +216,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
   
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#F4EBB4]">
       <Navbar />
       <div className="max-w-7xl mx-auto bg-white py-14 px-6 sm:px-12 md:px-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

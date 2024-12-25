@@ -1,6 +1,6 @@
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
-
+import featured from '/Featured/Featured.jpg'
 const FeaturedProduct = () => {
   return (
     <section
@@ -12,7 +12,7 @@ const FeaturedProduct = () => {
           {/* Product Image */}
           <div className="flex justify-center">
             <img
-              src="https://w0.peakpx.com/wallpaper/256/680/HD-wallpaper-tokyo-revengers-wallpa-tokyo-revengers-sano-manjiro-mikey-kun-thumbnail.jpg" // Replace with product image URL
+              src="/Featured/Featured.jpg" // Replace with product image URL
               alt="Featured Product"
               className="rounded-lg shadow-lg"
               style={{
@@ -28,26 +28,26 @@ const FeaturedProduct = () => {
               className="text-5xl font-bold mb-4"
               style={{ color: "#8d5c51" }} // Title color
             >
-              Limited Edition Designer Jacket
+              Handcrafted Rose Ribbon Vase
             </h2>
             <p
               className="text-lg mb-6"
               style={{ color: "#7b7c4d" }} // Subtitle color
             >
-              Experience unmatched style and quality with our limited edition designer jacket. Perfect for any occasion, crafted with precision and care.
+              Add a touch of elegance to your space with this beautifully handcrafted vase, wrapped in vibrant multicolor yarn and adorned with delicate pink fabric roses. Perfect as a decorative centerpiece or a charming gift for loved ones. Durable and lightweight, this vase effortlessly blends style and utility.
             </p>
             <div className="flex items-center mb-6">
               <p
                 className="text-3xl font-bold mr-4"
                 style={{ color: "#7d835f" }} // Price color
               >
-                $129.99
+                ৳1299.00
               </p>
               <span
                 className="text-sm line-through"
                 style={{ color: "#bb9e8c" }} // Discount color
               >
-                $199.99
+                $2000.00
               </span>
             </div>
             {/* Add to Cart Button */}
@@ -66,7 +66,7 @@ const FeaturedProduct = () => {
               }
             >
               <FaShoppingCart className="mr-2" />
-              Add to Cart
+              View Products
             </button>
           </div>
         </div>
