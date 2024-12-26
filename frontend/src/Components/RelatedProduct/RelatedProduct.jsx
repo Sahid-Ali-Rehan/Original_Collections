@@ -43,7 +43,7 @@ const RelatedProducts = ({ category }) => {
           return (
             <div
               key={product._id}
-              className="bg-white shadow-lg mb-8 overflow-hidden transform transition-transform duration-300 hover:scale-105"
+              className="bg-white shadow-lg mb-8 overflow-hidden transform transition-transform duration-300 hover:scale-105 rounded-md"
             >
               <div className="relative group">
                 <img

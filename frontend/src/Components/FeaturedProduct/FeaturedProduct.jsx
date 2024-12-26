@@ -25,13 +25,13 @@ const FeaturedProduct = () => {
           {/* Product Details */}
           <div className="flex flex-col justify-center">
             <h2
-              className="text-5xl font-bold mb-4"
+              className="text-3xl font-bold mb-4"
               style={{ color: "#8d5c51" }} // Title color
             >
               Handcrafted Rose Ribbon Vase
             </h2>
             <p
-              className="text-lg mb-6"
+              className="text-md mb-6"
               style={{ color: "#7b7c4d" }} // Subtitle color
             >
               Add a touch of elegance to your space with this beautifully handcrafted vase, wrapped in vibrant multicolor yarn and adorned with delicate pink fabric roses. Perfect as a decorative centerpiece or a charming gift for loved ones. Durable and lightweight, this vase effortlessly blends style and utility.
@@ -47,7 +47,7 @@ const FeaturedProduct = () => {
                 className="text-sm line-through"
                 style={{ color: "#bb9e8c" }} // Discount color
               >
-                $2000.00
+                ৳2000.00
               </span>
             </div>
             {/* Add to Cart Button */}
