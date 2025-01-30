@@ -5,8 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#F68C1F",   // Orange for buttons and accents
+        secondary: "#56C5DC", // Light blue for highlights
+        black: "#000000",     // Black for text
+        white: "#FFFFFF",     // White for backgrounds and contrast
+        muted: "#7D835F",     // Muted tone for borders and subtle text
+      },
+    },
   },
   plugins: [],
-}
-
+};

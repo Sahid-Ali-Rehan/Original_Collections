@@ -106,7 +106,7 @@ const Cart = () => {
       <div>
         <Navbar />
         <div className="text-center my-10">
-          <h2 className="text-xl font-bold">Your Cart is Empty</h2>
+          <h2 className="text-xl text-primary font-bold">Your Cart is Empty</h2>
         </div>
         <Footer />
       </div>
@@ -117,7 +117,7 @@ const Cart = () => {
     <div className=" bg-gray-50">
       <Navbar />
       <div className="max-w-7xl mt-14 mb-14 mx-auto bg-white shadow-lg p-4 md:p-10">
-        <h2 className="text-2xl font-bold text-[#8d5c51] mb-6">Your Shopping Cart</h2>
+        <h2 className="text-2xl font-bold text-primary mb-6">Your Shopping Cart</h2>
 
         <div className="space-y-6">
           {cartItems.map((item) => (
@@ -125,9 +125,9 @@ const Cart = () => {
               <div className="flex items-center">
                 <img src={item.images[0]} alt={item.productName} className="w-20 h-20 object-cover rounded-lg" />
                 <div className="ml-4">
-                  <p className="font-semibold text-[#8d5c51]">{item.productName}</p>
-                  <p className="text-sm text-[#7b7c4d]">Size: {item.selectedSize}</p>
-                  <p className="text-sm text-[#7b7c4d]">Color: {item.selectedColor}</p>
+                  <p className="font-semibold text-primary">{item.productName}</p>
+                  <p className="text-sm text-secondary">Size: {item.selectedSize}</p>
+                  <p className="text-sm text-secondary">Color: {item.selectedColor}</p>
                 </div>
               </div>
 
@@ -135,19 +135,19 @@ const Cart = () => {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => handleQuantityChange(item, -1)}
-                    className="px-2 py-1 bg-[#8d5c51] text-white rounded"
+                    className="px-2 py-1 bg-primary text-white rounded"
                   >
                     -
                   </button>
-                  <span className="text-lg font-semibold">{item.quantity}</span>
+                  <span className="text-lg text-secondary font-semibold">{item.quantity}</span>
                   <button
                     onClick={() => handleQuantityChange(item, 1)}
-                    className="px-2 py-1 bg-[#8d5c51] text-white rounded"
+                    className="px-2 py-1 bg-primary text-white rounded"
                   >
                     +
                   </button>
                 </div>
-                <p className="text-lg font-semibold text-[#8d5c51]">
+                <p className="text-lg font-semibold text-secondary">
                   Tk. {(item.quantity * item.price * (1 - item.discount / 100)).toFixed(2)}
                 </p>
                 <button
@@ -162,9 +162,9 @@ const Cart = () => {
         </div>
 
         <div className="flex justify-between mt-6">
-          <p className="text-lg font-semibold text-[#8d5c51]">Total: Tk. {totalPrice.toFixed(2)}</p>
+          <p className="text-lg font-semibold text-primary">Total: Tk. {totalPrice.toFixed(2)}</p>
           <button
-      className="px-6 py-3 bg-[#8d5c51] text-white rounded-lg hover:bg-[#7d835f] transition"
+      className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-secondary transition"
       onClick={() => navigate("/checkout")}
     >
       Checkout

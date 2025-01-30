@@ -94,13 +94,13 @@ const Navbar = () => {
 
 
   return (
-    <nav className="p-3 backdrop-blur-md bg-white/30 shadow-lg z-50 sticky top-0">
+    <nav className="p-3 backdrop-blur-md  shadow-lg z-50 sticky top-0">
 
       <div className="max-w-screen-xl mx-auto flex justify-between items-center lg:flex-row flex-row-reverse">
 
         {/* Logo */}
         <div className="flex items-center space-x-2 order-last lg:order-none">
-          <img src="/Images/logo.jpg" alt="Logo" className="w-12 h-12 object-contain" />
+          <img src="/Images/Navlogo.png" alt="Logo" className=" h-16 object-contain" />
         </div>
 
         {/* Desktop Menu */}
@@ -111,7 +111,7 @@ const Navbar = () => {
             onMouseEnter={() => setIsMensDropdownOpen(true)}
             onMouseLeave={() => setIsMensDropdownOpen(false)}
           >
-            <button className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+            <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               Men's Items
             </button>
             <div
@@ -122,7 +122,7 @@ const Navbar = () => {
                <Link
                to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
                key={item.name}
-               className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+               className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#56C5DC] transition duration-200"
              >
                {item.name}
              </Link>
@@ -137,7 +137,7 @@ const Navbar = () => {
             onMouseEnter={() => setIsWomensDropdownOpen(true)}
             onMouseLeave={() => setIsWomensDropdownOpen(false)}
           >
-            <button className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+            <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               Women's Items
             </button>
             <div
@@ -147,7 +147,7 @@ const Navbar = () => {
                   <Link
                   to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
                   key={item.name}
-                  className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+                  className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
                   {item.name}
                 </Link>
@@ -162,7 +162,7 @@ const Navbar = () => {
             onMouseEnter={() => setIsKidsDropdownOpen(true)}
             onMouseLeave={() => setIsKidsDropdownOpen(false)}
           >
-            <button className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+            <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               Kid's Items
             </button>
             <div
@@ -172,7 +172,7 @@ const Navbar = () => {
                   <Link
                   to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
                   key={item.name}
-                  className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+                  className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
                   {item.name}
                 </Link>
@@ -188,7 +188,7 @@ const Navbar = () => {
             onMouseEnter={() => setIsAccessoriesDropdownOpen(true)}
             onMouseLeave={() => setIsAccessoriesDropdownOpen(false)}
           >
-            <button className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+            <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               Accessories Items
             </button>
             <div
@@ -198,7 +198,7 @@ const Navbar = () => {
                   <Link
                   to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
                   key={item.name}
-                  className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+                  className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
                   {item.name}
                 </Link>
@@ -213,7 +213,7 @@ const Navbar = () => {
             onMouseEnter={() => setIsFootwearDropdownOpen(true)}
             onMouseLeave={() => setIsFootwearDropdownOpen(false)}
           >
-            <button className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+            <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               Footwear Items
             </button>
             <div
@@ -223,7 +223,7 @@ const Navbar = () => {
                   <Link
                   to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
                   key={item.name}
-                  className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+                  className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
                   {item.name}
                 </Link>
@@ -232,7 +232,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button onClick={handleClick} className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+          <button onClick={handleClick} className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               All Products
             </button>
 
@@ -255,26 +255,26 @@ const Navbar = () => {
           <Link to="/cart" className="flex items-center">
             <FontAwesomeIcon
               icon={faShoppingCart}
-              className="w-6 h-6 text-[#760000] hover:text-[#a0926c] transition-all duration-200"
+              className="w-6 h-6 text-primary hover:text-[#F9A02B] transition-all duration-200"
             />
           </Link>
 
           {/* Avatar or Login/Signup */}
           {isLoggedIn ? (
-            <span className="w-7 h-7 flex items-center justify-center text-white bg-[#760000] rounded-full text-md">
+            <span className="w-7 h-7 flex items-center justify-center text-primary bg-[#F9A02B] rounded-full text-md">
               {user?.fullname?.[0]}
             </span>
           ) : (
             <div className="flex items-center space-x-2">
               <Link
                 to="/login"
-                className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-sm font-semibold"
+                className="text-primary hover:text-[#F9A02B] transition duration-200 text-sm font-semibold"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-sm font-semibold"
+                className="text-primary hover:text-[#F9A02B] transition duration-200 text-sm font-semibold"
               >
                 Sign Up
               </Link>
@@ -291,7 +291,7 @@ const Navbar = () => {
     {/* Men's Items */}
     <div className="space-y-2">
       <button
-        className="w-full text-left text-lg text-[#8d5c51] font-semibold"
+        className="w-full text-left text-lg text-primary  font-semibold"
         onClick={() => setIsMensDropdownOpen(!isMensDropdownOpen)}
       >
         Men's Items
@@ -302,7 +302,7 @@ const Navbar = () => {
               <Link
               to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
               key={item.name}
-              className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+              className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
               {item.name}
             </Link>
@@ -315,7 +315,7 @@ const Navbar = () => {
     {/* Women's Items */}
     <div className="space-y-2">
       <button
-        className="w-full text-left text-lg text-[#8d5c51] font-semibold"
+        className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsWomensDropdownOpen(!isWomensDropdownOpen)}
       >
         Women's Items
@@ -326,7 +326,7 @@ const Navbar = () => {
               <Link
               to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
               key={item.name}
-              className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+              className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
               {item.name}
             </Link>
@@ -339,7 +339,7 @@ const Navbar = () => {
     {/* Kid's Items */}
     <div className="space-y-2">
       <button
-        className="w-full text-left text-lg text-[#8d5c51] font-semibold"
+        className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsKidsDropdownOpen(!isKidsDropdownOpen)}
       >
         Kid's Items
@@ -350,7 +350,7 @@ const Navbar = () => {
               <Link
               to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
               key={item.name}
-              className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+              className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
               {item.name}
             </Link>
@@ -363,7 +363,7 @@ const Navbar = () => {
     {/* Accessories Items */}
     <div className="space-y-2">
       <button
-        className="w-full text-left text-lg text-[#8d5c51] font-semibold"
+        className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsAccessoriesDropdownOpen(!isAccessoriesDropdownOpen)}
       >
         Accessories Items
@@ -374,7 +374,7 @@ const Navbar = () => {
              <Link
              to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
              key={item.name}
-             className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+             className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
            >
              {item.name}
            </Link>
@@ -387,7 +387,7 @@ const Navbar = () => {
     {/* Footwear Items */}
     <div className="space-y-2">
       <button
-        className="w-full text-left text-lg text-[#8d5c51] font-semibold"
+        className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsFootwearDropdownOpen(!isFootwearDropdownOpen)}
       >
         Footwear Items
@@ -398,7 +398,7 @@ const Navbar = () => {
               <Link
               to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
               key={item.name}
-              className="block px-5 py-3 text-[#8d5c51] hover:bg-[#a0926c] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
+              className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
               {item.name}
             </Link>
@@ -408,7 +408,7 @@ const Navbar = () => {
       )}
     </div>
 
-    <button onClick={handleClick} className="text-[#8d5c51] hover:text-[#a0926c] transition duration-200 text-md font-semibold">
+    <button onClick={handleClick} className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
               All Products
             </button>
   </div>

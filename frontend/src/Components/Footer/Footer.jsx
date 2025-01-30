@@ -3,27 +3,27 @@ import { FaFacebookF, FaFacebookMessenger, FaTwitter, FaWhatsapp, FaInstagram } 
 
 const Footer = () => {
   return (
-    <footer className="bg-[#f4ebb4] text-[#760000] py-16 px-4 md:px-12 relative overflow-hidden">
+    <footer className="bg-[#fff] text-primary py-16 px-4 md:px-12 relative overflow-hidden">
       {/* Curved Top Corners */}
-      <div className="absolute top-0 left-0 w-full h-40 bg-[#a87c6d] rounded-b-[50%] z-0"></div>
+      <div className="absolute top-0 left-0 w-full h-40 bg-[#bdeef8] rounded-b-[50%] z-0"></div>
 
       <div className="relative z-10">
         {/* Main Content of the Footer */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 mb-16">
           {/* Column 1: About Us */}
           <div>
-            <h3 className="text-3xl font-semibold mb-6">About Us</h3>
-            <p className="text-lg leading-relaxed text-[#760000]">
+            <h3 className="text-3xl font-semibold mb-6 text-primary">About Us</h3>
+            <p className="text-lg leading-relaxed text-secondary">
               We are a leading provider of innovative solutions, dedicated to helping businesses grow in the digital era.
             </p>
             <div className="flex space-x-6 mt-6">
-              <a href="#" className="hover:text-[#760000] transition-all duration-300" aria-label="Facebook">
+              <a href="#" className="hover:text-primary transition-all duration-300" aria-label="Facebook">
                 <FaFacebookF size={24} />
               </a>
-              <a href="#" className="hover:text-[#760000] transition-all duration-300" aria-label="Twitter">
+              <a href="#" className="hover:text-primary transition-all duration-300" aria-label="Twitter">
                 <FaTwitter size={24} />
               </a>
-              <a href="#" className="hover:text-[#760000] transition-all duration-300" aria-label="LinkedIn">
+              <a href="#" className="hover:text-primary transition-all duration-300" aria-label="LinkedIn">
                 <FaWhatsapp size={24} />
               </a>
             </div>
@@ -31,18 +31,18 @@ const Footer = () => {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-3xl font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-3xl font-semibold mb-6 text-primary">Quick Links</h3>
             <ul>
-              <li className="mb-4 hover:text-[#760000] transition-all duration-300">
+              <li className="mb-4 hover:text-primary transition-all duration-300">
                 <a href="#">Home</a>
               </li>
-              <li className="mb-4 hover:text-[#760000] transition-all duration-300">
+              <li className="mb-4 hover:text-primary transition-all duration-300">
                 <a href="#">Services</a>
               </li>
-              <li className="mb-4 hover:text-[#760000] transition-all duration-300">
+              <li className="mb-4 hover:text-primary transition-all duration-300">
                 <a href="#">Portfolio</a>
               </li>
-              <li className="mb-4 hover:text-[#760000] transition-all duration-300">
+              <li className="mb-4 hover:text-primary transition-all duration-300">
                 <a href="#">Contact</a>
               </li>
             </ul>
@@ -50,23 +50,23 @@ const Footer = () => {
 
           {/* Column 3: Contact Info */}
           <div>
-            <h3 className="text-3xl font-semibold mb-6">Contact Info</h3>
-            <p className="text-lg mb-4">Address: Section 12, Block C, Line No: 6, House No 13, Pallabi Thana Mirpur Dhaka 1216</p>
-            <p className="text-lg mb-4">Phone: (+880) 1714394330</p>
-            <p className="text-lg mb-4">Email: ruhanas0311@gmail.com</p>
-            <p className="text-lg mb-4">Emergency: (+880) 9638259714</p>
+            <h3 className="text-3xl font-semibold mb-6 text-primary">Contact Info</h3>
+            <p className="text-lg mb-4 text-secondary">Address: Section 12, Block C, Line No: 6, House No 13, Pallabi Thana Mirpur Dhaka 1216</p>
+            <p className="text-lg mb-4 text-secondary">Phone: (+880) 1714394330</p>
+            <p className="text-lg mb-4 text-secondary">Email: ruhanas0311@gmail.com</p>
+            <p className="text-lg mb-4 text-secondary">Emergency: (+880) 9638259714</p>
           </div>
 
           {/* Column 4: Social Media */}
           <div>
-            <h3 className="text-3xl font-semibold mb-6">Follow Us</h3>
-            <p className="text-lg mb-6">Connect with us on social media:</p>
+            <h3 className="text-3xl font-semibold mb-6 text-primary">Follow Us</h3>
+            <p className="text-lg mb-6 text-secondary">Connect with us on social media:</p>
             <div className="flex space-x-6 text-2xl">
               <a
                 href="https://www.facebook.com/smsharfarraz.jhony"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#760000] hover:text-[#4267B2] transition-all duration-300"
+                className="text-primary hover:text-[#4267B2] transition-all duration-300"
                 aria-label="Facebook"
               >
                 <FaFacebookF size={32} />
@@ -75,7 +75,7 @@ const Footer = () => {
                 href="https://messenger.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#760000] hover:text-[#00B2FF] transition-all duration-300"
+                className="text-primary hover:text-[#00B2FF] transition-all duration-300"
                 aria-label="Messenger"
               >
                 <FaFacebookMessenger size={32} />
@@ -84,7 +84,7 @@ const Footer = () => {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#760000] hover:text-[#1DA1F2] transition-all duration-300"
+                className="text-primary hover:text-[#1DA1F2] transition-all duration-300"
                 aria-label="Twitter"
               >
                 <FaTwitter size={32} />
@@ -93,7 +93,7 @@ const Footer = () => {
                 href="https://wa.me/8801714394330"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#760000] hover:text-[#25D366] transition-all duration-300"
+                className="text-primary hover:text-[#25D366] transition-all duration-300"
                 aria-label="WhatsApp"
               >
                 <FaWhatsapp size={32} />
@@ -102,7 +102,7 @@ const Footer = () => {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#760000] hover:text-[#C13584] transition-all duration-300"
+                className="text-primary hover:text-[#C13584] transition-all duration-300"
                 aria-label="Instagram"
               >
                 <FaInstagram size={32} />
@@ -112,7 +112,7 @@ const Footer = () => {
         </div>
 
         {/* Google Maps Section */}
-        <div className="relative w-full h-[400px] bg-[#ceba98] rounded-xl mt-12 overflow-hidden">
+        <div className="relative w-full h-[400px] bg-secondary rounded-xl mt-12 overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full">
             <iframe
               className="w-full h-full border-0"
@@ -126,9 +126,9 @@ const Footer = () => {
       </div>
 
       {/* Footer Bottom Section */}
-      <div className="bg-[#a0926c] py-6 text-center rounded-md mt-16">
-        <p className="text-lg text-[#fff]">
-          &copy; 2024 Ruhanas. All Rights Reserved.
+      <div className="bg-[#56C5DC] py-6 text-center rounded-md mt-16">
+        <p className="text-lg text-white">
+          &copy; 2024 Original Collections. All Rights Reserved.
         </p>
       </div>
     </footer>

@@ -101,7 +101,7 @@ const Checkout = () => {
       <div>
         <Navbar />
         <div className="text-center my-10">
-          <h2 className="text-xl font-bold">Your Cart is Empty</h2>
+          <h2 className="text-xl text-primary font-bold">Your Cart is Empty</h2>
         </div>
         <Footer />
       </div>
@@ -112,11 +112,11 @@ const Checkout = () => {
     <div className="bg-gray-50">
       <Navbar />
       <div className="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-lg">
-        <h2 className="text-2xl font-bold mb-6">Checkout</h2>
+        <h2 className="text-2xl text-primary font-bold mb-6">Checkout</h2>
         
         {/* Order Summary */}
         <div className="border p-4 rounded mb-6">
-          <h3 className="font-bold text-lg mb-4">Order Summary</h3>
+          <h3 className="font-bold text-primary text-lg mb-4">Order Summary</h3>
           <ul className="space-y-2">
             {cartItems.map((item) => (
               <li key={item._id + item.selectedSize + item.selectedColor} className="flex justify-between">
@@ -152,7 +152,7 @@ const Checkout = () => {
               <option value="COD">Cash on Delivery</option>
             </select>
           </div>
-          <button type="submit" className="px-6 py-3 bg-[#8d5c51] text-white rounded hover:bg-[#7d835f] transition w-full">
+          <button type="submit" className="px-6 py-3 bg-primary text-white rounded hover:bg-secondary transition w-full">
             Place Order
           </button>
         </form>

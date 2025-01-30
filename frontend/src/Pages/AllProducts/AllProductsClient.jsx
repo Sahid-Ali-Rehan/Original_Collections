@@ -133,7 +133,7 @@ const AllProductsClient = () => {
   };
 
   return (
-    <div className="container mx-auto bg-[#f4ebb4]">
+    <div className="container mx-auto bg-[#fff]">
       <Navbar />
       <div className="flex flex-col md:flex-row">
         {/* Left Sidebar */}
@@ -141,7 +141,7 @@ const AllProductsClient = () => {
           <div className="mb-6">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="w-full bg-[#7b7c4d] text-white p-3 sticky shadow-md text-lg flex justify-between items-center"
+              className="w-full bg-primary text-white p-3 sticky shadow-md text-lg flex justify-between items-center"
             >
               Filters
               <svg
@@ -161,7 +161,7 @@ const AllProductsClient = () => {
 
           {showFilters && (
             <div className="bg-white shadow-md rounded-lg p-6 mt-4">
-              <h2 className="text-2xl font-semibold text-[#7b7c4d] mb-4">Filters</h2>
+              <h2 className="text-2xl font-semibold text-primary mb-4">Filters</h2>
               <div className="flex flex-col gap-4">
                 <input
                   type="text"
@@ -169,7 +169,7 @@ const AllProductsClient = () => {
                   value={filters.productCode}
                   onChange={handleFilterChange}
                   placeholder="Search by Product Code"
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
+                  className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
                 />
                 <input
                   type="text"
@@ -177,13 +177,13 @@ const AllProductsClient = () => {
                   value={filters.search}
                   onChange={handleFilterChange}
                   placeholder="Search by name"
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
-                />
+               className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+               />
                 <select
                   name="category"
                   value={filters.category}
                   onChange={handleFilterChange}
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
+                  className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
                 >
                   <option value="">Select Category</option>
                   {getUniqueValues('category').map((category) => (
@@ -196,8 +196,8 @@ const AllProductsClient = () => {
                   name="subCategory"
                   value={filters.subCategory}
                   onChange={handleFilterChange}
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
-                >
+               className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+               >
                   <option value="">Select Subcategory</option>
                   {getUniqueValues('subCategory').map((subCategory) => (
                     <option key={subCategory} value={subCategory}>
@@ -209,8 +209,8 @@ const AllProductsClient = () => {
                   name="color"
                   value={filters.color}
                   onChange={handleFilterChange}
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
-                >
+              className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+              >
                   <option value="">Select Color</option>
                   {getUniqueValues('availableColors').map((color) => (
                     <option key={color} value={color}>
@@ -222,7 +222,7 @@ const AllProductsClient = () => {
                   name="size"
                   value={filters.size}
                   onChange={handleFilterChange}
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
+                className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
                 >
                   <option value="">Select Size</option>
                   {getUniqueValues('availableSizes').map((size) => (
@@ -235,7 +235,7 @@ const AllProductsClient = () => {
                   name="sort"
                   value={filters.sort}
                   onChange={handleFilterChange}
-                  className="p-3 border border-[#8d5c51] rounded-lg w-full bg-[#faeed5] text-[#7b7c4d]"
+                className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
                 >
                   <option value="low-to-high">Price: Low to High</option>
                   <option value="high-to-low">Price: High to Low</option>
@@ -259,7 +259,7 @@ const AllProductsClient = () => {
           return (
             <div
               key={product._id}
-              className="bg-white shadow-md overflow-hidden transform transition-transform duration-200 h-auto w-full lg:h-[460px] lg:w-[300px]"
+              className="bg-white shadow-md overflow-hidden transform transition-transform duration-200 h-auto w-full lg:h-[445px] lg:w-[300px]"
             >
               <div className="relative group">
                 {/* First Image (Default) */}
@@ -276,20 +276,20 @@ const AllProductsClient = () => {
                 />
               </div>
 
-              <div className="p-4">
-                <h3 className="font-semibold text-lg text-[#7b7c4d]">{product.productName}</h3>
-                <p className="text-sm text-gray-600">{product.productCode}</p>
-                <p className="font-semibold text-xl mt-2 text-[#7b7c4d]">
+              <div className="p-4 bg-[#D7F4FA]">
+                <h3 className="font-semibold text-lg text-primary">{product.productName}</h3>
+                <p className="text-sm text-muted">{product.productCode}</p>
+                <p className="font-semibold text-xl mt-2 text-primary">
                   ৳{discountedPrice.toFixed(2)}{' '}
                   {product.discount > 0 && (
-                    <span className="line-through text-sm text-gray-400">৳{product.price.toFixed(2)}</span>
+                    <span className="line-through text-sm text-[#70D5E3]">৳{product.price.toFixed(2)}</span>
                   )}
                 </p>
               </div>
 
               <button
                 onClick={() => handleViewDetails(product._id)}
-                className="w-full bg-[#7b7c4d] text-white py-2 mt-4 hover:bg-[#a2a25b] transition duration-300"
+                className="w-full bg-[#F68C1F] text-white py-2  hover:bg-[#56C5DC] transition duration-300"
               >
                 View Details
               </button>
@@ -305,13 +305,13 @@ const AllProductsClient = () => {
     <button
       onClick={() => paginate(currentPage - 1)}
       disabled={currentPage === 1}
-      className="px-4 py-2 bg-[#7b7c4d] text-white rounded-lg mr-2 disabled:opacity-50"
+      className="px-4 py-2 bg-[#F9A02B] text-white  mr-2 disabled:opacity-50"
     >
       Previous
     </button>
     <button
       onClick={() => paginate(currentPage + 1)}
-      className="px-4 py-2 bg-[#7b7c4d] text-white rounded-lg disabled:opacity-50"
+      className="px-4 py-2 bg-[#70D5E3] text-white  disabled:opacity-50"
     >
       Next
     </button>

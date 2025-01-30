@@ -261,8 +261,8 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
           </div>
 
           <div className="space-y-6">
-            <h1 className="text-3xl font-extrabold text-gray-800">{product.productName}</h1>
-            <p className="text-lg text-gray-600">Product Code: {product.productCode}</p>
+            <h1 className="text-3xl font-extrabold text-primary">{product.productName}</h1>
+            <p className="text-lg text-muted">Product Code: {product.productCode}</p>
            
             {averageRating && (
   <div className="mt-4 flex items-center">
@@ -291,24 +291,24 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
 )}
 
             <div>
-              <p className="text-2xl font-bold text-indigo-600">
+              <p className="text-2xl font-bold text-[#56C5DC]">
                 Tk. {discountedPrice.toFixed(2)}{" "}
-                <span className="line-through text-gray-400">Tk. {selectedSizePrice}</span>
+                <span className="line-through text-[#70D5E3]">Tk. {selectedSizePrice}</span>
               </p>
-              <p className="text-md text-gray-500">You Save: Tk. {(selectedSizePrice - discountedPrice).toFixed(2)}</p>
+              <p className="text-md text-[#70D5E3]">You Save: Tk. {(selectedSizePrice - discountedPrice).toFixed(2)}</p>
             </div>
 
             {/* Size Selection */}
             <div className="mt-6">
-              <h3 className="text-xl font-semibold text-gray-700">Select Size</h3>
+              <h3 className="text-xl font-semibold text-primary">Select Size</h3>
               <div className="grid grid-cols-4 gap-2 mt-3">
                 {product.availableSizes.map((sizeObj) => (
                   <motion.button
                     key={sizeObj.size}
                     className={`px-4 py-2 border rounded-lg text-sm transition-all ${
                       selectedSize === sizeObj.size
-                        ? "bg-indigo-600 text-white"
-                        : "bg-gray-100 text-gray-700"
+                        ? "bg-primary text-white"
+                        : "bg-[#56C5DC] text-white"
                     }`}
                     onClick={() => handleSizeSelection(sizeObj.size)}
                     whileHover={{ scale: 1.1 }}
@@ -322,13 +322,13 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
 
             {/* Color Selection */}
             <div className="mt-6">
-              <h3 className="text-xl font-semibold text-gray-700">Select Color</h3>
+              <h3 className="text-xl font-semibold text-primary">Select Color</h3>
               <div className="flex space-x-3 mt-3">
                 {product.availableColors.map((color) => (
                   <motion.button
                     key={color}
                     className={`w-8 h-8 rounded-full border transition-all ${
-                      selectedColor === color ? "border-indigo-600" : ""
+                      selectedColor === color ? "border-primary" : ""
                     }`}
                     style={{ backgroundColor: color }}
                     onClick={() => handleColorSelection(color)}
@@ -341,19 +341,19 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
 
             {/* Quantity */}
             <div className="mt-6">
-              <h3 className="text-xl font-semibold text-gray-700">Quantity</h3>
+              <h3 className="text-xl font-semibold text-primary">Quantity</h3>
               <div className="flex items-center space-x-4 mt-3">
                 <button
                   onClick={() => handleQuantityChange(quantity - 1)}
                   disabled={quantity <= 1}
-                  className="px-4 py-2 bg-gray-300 rounded-lg"
+                  className="px-4 py-2 bg-primary text-white rounded-lg"
                 >
                   -
                 </button>
                 <span className="text-lg">{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(quantity + 1)}
-                  className="px-4 py-2 bg-gray-300 rounded-lg"
+                  className="px-4 py-2 bg-secondary rounded-lg"
                 >
                   +
                 </button>
@@ -362,7 +362,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
 
             <motion.button
               onClick={() => addToCart(product)}
-              className="w-full py-4 bg-indigo-600 text-white text-lg font-bold rounded-xl mt-6 hover:bg-indigo-700 transition-all"
+              className="w-full py-4 bg-primary text-white text-lg font-bold rounded-xl mt-6 hover:bg-[#56C5DC] transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -376,13 +376,13 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
           <div className="flex space-x-4">
             <button
               onClick={() => setActiveTab("description")}
-              className={`px-4 py-2 text-sm font-medium ${activeTab === "description" ? "bg-[#8d5c51] text-white" : "bg-[#f4ebb4] text-black"}`}
+              className={`px-4 py-2 text-sm font-medium ${activeTab === "description" ? "bg-primary text-white" : "bg-[#56C5DC] text-black"}`}
             >
               Description
             </button>
             <button
               onClick={() => setActiveTab("sizeChart")}
-              className={`px-4 py-2 text-sm font-medium ${activeTab === "sizeChart" ? "bg-[#8d5c51] text-white" : "bg-[#f4ebb4] text-black"}`}
+              className={`px-4 py-2 text-sm font-medium ${activeTab === "sizeChart" ? "bg-primary text-white" : "bg-[#56C5DC] text-black"}`}
             >
               Size Chart
             </button>
@@ -390,7 +390,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
 
           {/* Tab Content */}
           {activeTab === "description" && (
-            <div className="mt-4 text-[#7b7c4d]">
+            <div className="mt-4 text-muted">
               <p>{product.description}</p>
             </div>
           )}
@@ -408,7 +408,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
 
 
         <div className="mt-10">
-  <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+  <h2 className="text-2xl text-primary font-bold mb-4">Customer Reviews</h2>
   {reviews.length > 0 ? (
     reviews.map((review, idx) => (
       <div key={idx} className="border-b pb-4 mb-4">
@@ -446,7 +446,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
   </div> */}
 
 <button
-  className="px-4 py-2 bg-[#F4EBB4] text-black hover:bg-[#8D5C51] hover:text-white
+  className="px-4 py-2 bg-primary text-white hover:bg-[#56C5DC] hover:text-white
 "
   onClick={toggleReviewModal}
 >
@@ -462,7 +462,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
       transition={{ duration: 0.3 }}
       className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
     >
-      <h3 className="text-xl font-bold text-gray-800 mb-4">Add Your Review</h3>
+      <h3 className="text-xl font-bold text-primary mb-4">Add Your Review</h3>
       <input
         type="text"
         placeholder="Your Name"
@@ -485,13 +485,13 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
       ></textarea>
       <div className="mt-4 flex space-x-4">
         <button
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-[#F9A02B]"
           onClick={handleAddReview}
         >
           Submit
         </button>
         <button
-          className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+          className="px-4 py-2 bg-[#56C5DC] text-white rounded-md hover:bg-[#70D5E3]"
           onClick={toggleReviewModal}
         >
           Cancel
@@ -506,7 +506,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
       </div>
 
        {/* Related Products */}
-    <div className="max-w-7xl mx-auto px-6 sm:px-12 md:px-20">
+    <div className="bg-white max-w-7xl mx-auto px-6 sm:px-12 md:px-20">
       {/* Related Products */}
       <RelatedProduct category={product.category} currentProductId={product._id} />
     </div>

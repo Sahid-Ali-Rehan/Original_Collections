@@ -40,7 +40,7 @@ const BestSellers = () => {
   return (
     <div>
       {/* Heading for Best Sellers */}
-      <h2 className="text-3xl font-bold text-center text-[#7d835f] mt-10 mb-6">
+      <h2 className="text-3xl font-bold text-center text-primary mt-10 mb-6">
         Best Sellers
       </h2>
 
@@ -74,17 +74,17 @@ const BestSellers = () => {
                     </div>
                   )}
                 </div>
-                <div className="p-4 bg-[#f5efe9]">
-                  <h3 className="text-md font-semibold text-[#7d835f] truncate">{product.productName}</h3>
-                  <p className="text-sm font-bold text-[#8d5c51] mt-1">
+                <div className="p-4 bg-[#d7f4fa]">
+                  <h3 className="text-md font-semibold text-primary truncate">{product.productName}</h3>
+                  <p className="text-sm font-bold text-[#56C5DC] mt-1">
                     ৳{discountedPrice.toFixed(2)}{' '}
-                    <span className="line-through text-[#7b7c4d] text-xs">৳{product.price.toFixed(2)}</span>
+                    <span className="line-through text-[#70D5E3] text-xs">৳{product.price.toFixed(2)}</span>
                   </p>
-                  <p className="text-xs text-[#7b7c4d] mt-1 truncate">Code: {product.productCode}</p>
+                  <p className="text-xs text-muted mt-1 truncate">Code: {product.productCode}</p>
                   <button
                   className={`mt-3 w-full py-1.5 px-3 text-sm font-medium ${product.stock === 0
                     ? 'bg-gray-300 cursor-not-allowed'
-                    : 'bg-[#8d5c51] text-white hover:bg-[#7d835f]'}`}
+                    : 'bg-[#F68C1F] text-white hover:bg-[#56C5DC]'}`}
                   disabled={product.stock === 0}
                   onClick={() => handleViewDetails(product._id)} // Handle button click
                 >
