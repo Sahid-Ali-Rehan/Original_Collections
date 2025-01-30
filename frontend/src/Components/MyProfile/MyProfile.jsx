@@ -19,7 +19,7 @@ const MyProfile = () => {
   
           if (userId) {
             // Fetch user info
-            const response = await axios.get(`https://ruhana.onrender.com/api/users/${userId}`, {
+            const response = await axios.get(`https://original-collections.onrender.com/api/users/${userId}`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -30,7 +30,7 @@ const MyProfile = () => {
             }
   
             // Fetch orders for the logged-in user
-            const ordersResponse = await axios.get('https://ruhana.onrender.com/api/orders/user-orders', {
+            const ordersResponse = await axios.get('https://original-collections.onrender.com/api/orders/user-orders', {
               headers: {
                 Authorization: `Bearer ${token}`,
               },

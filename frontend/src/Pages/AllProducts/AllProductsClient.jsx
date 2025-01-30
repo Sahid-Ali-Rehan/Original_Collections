@@ -3,9 +3,11 @@ import axios from 'axios';
 import Navbar from '../../Components/Navigations/Navbar';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../Components/Loading/Loading';
 
 const AllProductsClient = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -36,7 +38,7 @@ const AllProductsClient = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get('https://ruhana.onrender.com/api/products/fetch-products', {
+        const { data } = await axios.get('https://original-collections.onrender.com/api/products/fetch-products', {
           params: {
             search: filters.search,
             productCode: filters.productCode,
@@ -51,8 +53,10 @@ const AllProductsClient = () => {
         });
         setProducts(data);
         setFilteredProducts(data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching products:', error);
+        setLoading(false);
       }
     };
     fetchProducts();
@@ -65,6 +69,8 @@ const AllProductsClient = () => {
       [name]: value,
     }));
   };
+
+  
 
   const getUniqueValues = (field) => {
     const values = products.map((product) => product[field]).flat();
@@ -239,75 +245,79 @@ const AllProductsClient = () => {
           )}
         </div>
 
-        {/* Right Products Grid */}
         <div className="md:w-3/4 p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.length === 0 ? (
-              <p className="col-span-4 text-center text-lg text-[#7b7c4d]">No products available.</p>
-            ) : (
-              filteredProducts.map((product) => {
-                const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
+  {loading ? (
+    <Loading />  // Show loading component while data is being fetched
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredProducts.length === 0 ? (
+        <p className="col-span-4 text-center text-lg text-[#7b7c4d]">No products available.</p>
+      ) : (
+        filteredProducts.map((product) => {
+          const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
 
-                return (
-                  <div
-  key={product._id}
-  className="bg-white shadow-md overflow-hidden transform transition-transform duration-200 h-auto w-full lg:h-[460px] lg:w-[300px]"
->
+          return (
+            <div
+              key={product._id}
+              className="bg-white shadow-md overflow-hidden transform transition-transform duration-200 h-auto w-full lg:h-[460px] lg:w-[300px]"
+            >
+              <div className="relative group">
+                {/* First Image (Default) */}
+                <img
+                  src={product.images[0] || 'https://via.placeholder.com/400x300?text=No+Image'}
+                  alt={product.name}
+                  className="w-full h-72 object-cover group-hover:opacity-0 transition-opacity duration-300"
+                />
+                {/* Second Image (On Hover) */}
+                <img
+                  src={product.images[1] || 'https://via.placeholder.com/400x300?text=No+Image+Hover'}
+                  alt={product.name}
+                  className="w-full h-72 object-cover opacity-0 group-hover:opacity-100 absolute top-0 left-0 transition-opacity duration-300"
+                />
+              </div>
 
-                   <div className="relative group">
-  {/* First Image (Default) */}
-  <img
-    src={product.images[0] || 'https://via.placeholder.com/400x300?text=No+Image'}
-    alt={product.name}
-    className="w-full h-72 object-cover group-hover:opacity-0 transition-opacity duration-300"
-  />
-  {/* Second Image (On Hover) */}
-  <img
-    src={product.images[1] || 'https://via.placeholder.com/400x300?text=No+Image+Hover'}
-    alt={product.name}
-    className="w-full h-72 object-cover opacity-0 group-hover:opacity-100 absolute top-0 left-0 transition-opacity duration-300"
-  />
+              <div className="p-4">
+                <h3 className="font-semibold text-lg text-[#7b7c4d]">{product.productName}</h3>
+                <p className="text-sm text-gray-600">{product.productCode}</p>
+                <p className="font-semibold text-xl mt-2 text-[#7b7c4d]">
+                  ৳{discountedPrice.toFixed(2)}{' '}
+                  {product.discount > 0 && (
+                    <span className="line-through text-sm text-gray-400">৳{product.price.toFixed(2)}</span>
+                  )}
+                </p>
+              </div>
+
+              <button
+                onClick={() => handleViewDetails(product._id)}
+                className="w-full bg-[#7b7c4d] text-white py-2 mt-4 hover:bg-[#a2a25b] transition duration-300"
+              >
+                View Details
+              </button>
+            </div>
+          );
+        })
+      )}
+    </div>
+  )}
+
+  {/* Pagination */}
+  <div className="flex justify-center mt-8">
+    <button
+      onClick={() => paginate(currentPage - 1)}
+      disabled={currentPage === 1}
+      className="px-4 py-2 bg-[#7b7c4d] text-white rounded-lg mr-2 disabled:opacity-50"
+    >
+      Previous
+    </button>
+    <button
+      onClick={() => paginate(currentPage + 1)}
+      className="px-4 py-2 bg-[#7b7c4d] text-white rounded-lg disabled:opacity-50"
+    >
+      Next
+    </button>
+  </div>
 </div>
 
-                    <div className="p-4">
-                      <h3 className="font-semibold text-lg text-[#7b7c4d]">{product.productName}</h3>
-                      <p className="text-sm text-gray-600">{product.productCode}</p>
-                      <p className="font-semibold text-xl mt-2 text-[#7b7c4d]">
-                      ৳{discountedPrice.toFixed(2)}{' '}
-                        {product.discount > 0 && (
-                          <span className="line-through text-sm text-gray-400">৳{product.price.toFixed(2)}</span>
-                        )}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => handleViewDetails(product._id)}
-                      className="w-full bg-[#7b7c4d] text-white py-2 mt-4 hover:bg-[#a2a25b] transition duration-300"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                );
-              })
-            )}
-          </div>
-          
-          {/* Pagination */}
-          <div className="flex justify-center mt-8">
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 bg-[#7b7c4d] text-white rounded-lg mr-2 disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              className="px-4 py-2 bg-[#7b7c4d] text-white rounded-lg disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
