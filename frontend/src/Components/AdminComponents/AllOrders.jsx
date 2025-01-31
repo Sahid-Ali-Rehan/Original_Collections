@@ -118,34 +118,36 @@ const AllOrders = () => {
           </table>
 
           {selectedOrder && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 w-3/4 shadow-lg">
-                <h2 className="text-xl font-bold mb-4 text-primary">Order Details</h2>
-                <p><strong>Order ID:</strong> {selectedOrder._id}</p>
-                <p><strong>Name:</strong> {selectedOrder.name}</p>
-                {/* <p><strong>Email:</strong> {selectedOrder.email}</p> */}
-                <p><strong>Phone:</strong> {selectedOrder.phone}</p>
-                <p><strong>Address:</strong> {selectedOrder.address}</p>
-                <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
-                <p><strong>Status:</strong> {selectedOrder.status}</p>
-                <p><strong>Items:</strong></p>
-                <ul className="list-disc ml-6">
-                  {selectedOrder.items.map((item, index) => (
-                    <li key={index}>
-                      {item.productName} - {item.quantity} x TK. {item.price} ({item.selectedSize}, {item.selectedColor})
-                    </li>
-                  ))}
-                </ul>
-                <p><strong>Total Amount:</strong> TK. {selectedOrder.totalAmount}</p>
-                <button
-                  onClick={() => setSelectedOrder(null)}
-                  className="bg-muted text-white px-4 py-2 rounded shadow-lg"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg p-6 w-3/4 shadow-lg">
+      <h2 className="text-xl font-bold mb-4 text-primary">Order Details</h2>
+      <p><strong>Order ID:</strong> {selectedOrder._id}</p>
+      <p><strong>Name:</strong> {selectedOrder.name}</p>
+      <p><strong>Phone:</strong> {selectedOrder.phone}</p>
+      <p><strong>Address:</strong> {selectedOrder.address}</p>
+      <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
+      <p><strong>Status:</strong> {selectedOrder.status}</p>
+      <p><strong>Jela:</strong> {selectedOrder.jela}</p> {/* Added field */}
+      <p><strong>Upazela:</strong> {selectedOrder.upazela}</p> {/* Added field */}
+      <p><strong>Items:</strong></p>
+      <ul className="list-disc ml-6">
+        {selectedOrder.items.map((item, index) => (
+          <li key={index}>
+            {item.productName} - {item.quantity} x TK. {item.price} ({item.selectedSize}, {item.selectedColor})
+          </li>
+        ))}
+      </ul>
+      <p><strong>Total Amount:</strong> TK. {selectedOrder.totalAmount}</p>
+      <button
+        onClick={() => setSelectedOrder(null)}
+        className="bg-muted text-white px-4 py-2 rounded shadow-lg"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
         </div>
       )}
     </div>
