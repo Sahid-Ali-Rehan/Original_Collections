@@ -9,7 +9,7 @@ import RelatedProduct from "../RelatedProduct/RelatedProduct";
 import ReactStars from "react-rating-stars-component";
 import ReactPlayer from 'react-player'; 
 import Loading from '../Loading/Loading';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import { FaStar, FaStarHalfAlt, FaRegStar, FaWhatsapp } from 'react-icons/fa';
 
 
 const SingleProductList = () => {
@@ -212,9 +212,34 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
     }
   };
 
+  const handleOrderNow = () => {
+    if (!selectedSize || !selectedColor) {
+      toast.error("Please select both size and color before proceeding.");
+      return;
+    }
   
+    addToCart(product); // Ensure product is added to cart before checkout
+    window.location.href = "/checkout"; // Redirect to checkout page
+  };
+  
+  const handleOrderOnWhatsApp = (product) => {
+    const phoneNumber = "+8801789313805"; // Your WhatsApp Number with country code
+    const productName = product.productName;
+    const currentURL = window.location.href; // Gets the current product page URL
+  
+    // WhatsApp Message Template
+    const message = `Hello, I am interested in purchasing: *${productName}*. Here is the link: ${currentURL}`;
+  
+    // Encode Message for WhatsApp URL
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  
+    // Redirect to WhatsApp
+    window.open(whatsappURL, "_blank");
+  };
   
 
+  
   return (
     <div className="bg-[#F4EBB4]">
       <Navbar />
@@ -360,16 +385,44 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
               </div>
             </div>
 
-            <motion.button
-              onClick={() => addToCart(product)}
-              className="w-full py-4 bg-primary text-white text-lg font-bold rounded-xl mt-6 hover:bg-[#56C5DC] transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Add to Cart
-            </motion.button>
-          </div>
+            <div className="mt-6 space-y-4">
+    {/* First Row: Add to Cart & Order Now */}
+    <div className="flex flex-row space-x-4">
+      {/* Add to Cart Button */}
+      <motion.button
+        onClick={() => addToCart(product)}
+        className="flex-1 py-4 bg-primary text-white text-lg font-bold rounded-xl hover:bg-[#56C5DC] transition-all"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Add to Cart
+      </motion.button>
+
+      {/* Order Now Button */}
+      <motion.button
+        onClick={handleOrderNow}
+        className="flex-1 bg-red-500 hover:bg-red-600 text-white py-4 text-lg font-semibold rounded-xl transition duration-300"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Order Now
+      </motion.button>
+    </div>
+
+    {/* Second Row: WhatsApp Button */}
+    <motion.button
+      onClick={() => handleOrderOnWhatsApp(product)}
+      className="w-full flex items-center justify-center bg-green-500 hover:bg-green-600 text-white py-4 text-lg font-semibold rounded-xl transition duration-300"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <FaWhatsapp className="mr-2 text-2xl" /> Order on WhatsApp
+    </motion.button>
+  </div>
+
         </div>
+          </div>
+          
 
         <div className="mt-10">
           {/* Tabs */}
