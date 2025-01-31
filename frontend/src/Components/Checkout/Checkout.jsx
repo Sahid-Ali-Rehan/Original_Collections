@@ -8,14 +8,10 @@ import Footer from "../Footer/Footer";
 const Checkout = () => {
   const [userDetails, setUserDetails] = useState({
     name: "",
-    email: "",
     phone: "",
-    state: "",
     jela: "",
     upazela: "",
     address: "",
-    postalCode: "",
-    zip: "",
     paymentMethod: "COD",
   });
 
@@ -49,10 +45,10 @@ const Checkout = () => {
   
     // Adding product details to the order
     const orderItems = cartItems.map(item => ({
-        productId: item._id,
-      productName: item.productName, // Assuming productName exists in cart item
-      productImage: item.productImage, // Assuming productImage exists in cart item
-      productDescription: item.productDescription, // Assuming productDescription exists in cart item
+      productId: item._id,
+      productName: item.productName,
+      productImage: item.productImage,
+      productDescription: item.productDescription,
       quantity: item.quantity,
       price: item.price,
       discount: item.discount,
@@ -82,7 +78,6 @@ const Checkout = () => {
   
       if (response.ok) {
         toast.success("Order placed successfully!");
-        // localStorage.removeItem(cart_${userId});
         localStorage.setItem("orderSuccess", JSON.stringify(order));
         navigate("/success");
       } else {
@@ -93,8 +88,6 @@ const Checkout = () => {
       toast.error("An error occurred. Please try again.");
     }
   };
-  
-  
 
   if (cartItems.length === 0) {
     return (
@@ -140,14 +133,10 @@ const Checkout = () => {
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 mb-6">
             <input type="text" name="name" placeholder="Full Name" value={userDetails.name} onChange={handleInputChange} required className="border p-3 rounded w-full" />
-            <input type="email" name="email" placeholder="Email" value={userDetails.email} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <input type="text" name="phone" placeholder="Phone Number" value={userDetails.phone} onChange={handleInputChange} required className="border p-3 rounded w-full" />
-            <input type="text" name="state" placeholder="State/City" value={userDetails.state} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <input type="text" name="jela" placeholder="District (Jela)" value={userDetails.jela} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <input type="text" name="upazela" placeholder="Sub-district (Upazela)" value={userDetails.upazela} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <textarea name="address" placeholder="Delivery Address" value={userDetails.address} onChange={handleInputChange} required className="border p-3 rounded w-full" />
-            <input type="text" name="postalCode" placeholder="Postal Code" value={userDetails.postalCode} onChange={handleInputChange} required className="border p-3 rounded w-full" />
-            <input type="text" name="zip" placeholder="ZIP Code" value={userDetails.zip} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <select name="paymentMethod" value={userDetails.paymentMethod} onChange={handleInputChange} required className="border p-3 rounded w-full">
               <option value="COD">Cash on Delivery</option>
             </select>
