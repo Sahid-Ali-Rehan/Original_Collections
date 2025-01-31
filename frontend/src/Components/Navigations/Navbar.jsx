@@ -8,31 +8,31 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"; // Cart Icon
 // Dropdown Items as JSON
 const categories = {
     mens: [
-      { name: "kimono", link: "/category/panjabi" },
-      { name: "Action", link: "/category/pajama" },
-      { name: "T-Shirts", link: "/category/shirts" },
-      { name: "Pants", link: "/category/pants" },
+      { name: "Smartphones", link: "/category/smartphones" },
+      { name: "Feature Phones", link: "/category/featured-phones" },
+      { name: "Mobile Accessories", link: "/category/mobile-accessories" },
+      { name: "Refurbished Phones", link: "/category/refurbished-phones" },
     ],
     womens: [
-      { name: "Dresses", link: "/category/dresses" },
-      { name: "Tops", link: "/category/tops" },
-      { name: "Skirts", link: "/category/skirts" },
-      { name: "Blouses", link: "/category/blouses" }, // New category added
+      { name: "Fast Charging Adapters", link: "/category/Adapters" },
+      { name: "Wireless Chargers", link: "/category/wireless-chargers" },
+      { name: "USB-C Chargers", link: "/category/usb-c" },
+      { name: "Multi-port Chargers", link: "/category/multi-port-chargers" }, // New category added
     ],
     kids: [
-      { name: "Kids' Tops", link: "/category/kids-tops" },
-      { name: "Kids' Pants", link: "/category/kids-pants" },
-      { name: "Kids' Jackets", link: "/category/kids-jackets" }, // New category added
+      { name: "USB-C Laptop Chargers", link: "/category/laptop-chargers" },
+      { name: "AC Power Adapters", link: "/category/ac-power-adapters" },
+      { name: "Universal Laptop Chargers", link: "/category/universal-laptorp-chargers" }, // New category added
     ],
     accessories: [
-      { name: "Watches", link: "/category/watches" },
-      { name: "Belts", link: "/category/belts" },
-      { name: "Sunglasses", link: "/category/sunglasses" },
+      { name: "Fitness Trackers", link: "/category/fitness-tracker" },
+      { name: "Luxury Smart Watches", link: "/category/luxury-smart-watches" },
+      { name: "Budget Smart Watches", link: "/category/budget-smart-watches" },
     ],
     footwear: [
-      { name: "Men's Shoes", link: "/category/mens-shoes" },
-      { name: "Women's Shoes", link: "/category/womens-shoes" },
-      { name: "Kids' Shoes", link: "/category/kids-shoes" },
+      { name: "High-Capacity Power Banks", link: "/category/high-capacity-powerbanks" },
+      { name: "Portable Power Banks", link: "/category/portable-powerbanks" },
+      { name: "Solar Power Banks", link: "/category/solar-powerbanks" },
     ],
   };
   
@@ -105,14 +105,14 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="relative hidden lg:flex items-center space-x-6">
-          {/* Men's Items Dropdown */}
+          {/* Mobile Phone Items Dropdown */}
           <div
             className="relative group"
             onMouseEnter={() => setIsMensDropdownOpen(true)}
             onMouseLeave={() => setIsMensDropdownOpen(false)}
           >
             <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
-              Men's Items
+              Mobile Phones
             </button>
             <div
   className={`absolute left-0 mt-2 space-y-2 bg-white shadow-lg w-48 border transition-all duration-500 ease-in-out ${isMensDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"} z-50`}
@@ -120,7 +120,7 @@ const Navbar = () => {
 
               {categories.mens.map((item) => (
                <Link
-               to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+               to={`/products?category=SmartPhones&subcategory=${item.name}`}
                key={item.name}
                className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#56C5DC] transition duration-200"
              >
@@ -131,21 +131,21 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Women's Items Dropdown */}
+          {/* Mobile CHarging Adapter Items Dropdown */}
           <div
             className="relative group"
             onMouseEnter={() => setIsWomensDropdownOpen(true)}
             onMouseLeave={() => setIsWomensDropdownOpen(false)}
           >
             <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
-              Women's Items
+              Mobile Charging Adapter
             </button>
             <div
               className={`absolute left-0 mt-2 space-y-2 bg-white shadow-lg w-48 border  transition-all duration-500 ease-in-out ${isWomensDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
             >
               {categories.womens.map((item) => (
                   <Link
-                  to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+                  to={`/products?category=Adapters&subcategory=${item.name}`}
                   key={item.name}
                   className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
@@ -156,21 +156,21 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Kid's Items Dropdown */}
+          {/* Laptop Charging Adapter Items Dropdown */}
           <div
             className="relative group"
             onMouseEnter={() => setIsKidsDropdownOpen(true)}
             onMouseLeave={() => setIsKidsDropdownOpen(false)}
           >
             <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
-              Kid's Items
+            Laptop Charging Adapter
             </button>
             <div
               className={`absolute left-0 mt-2 space-y-2 bg-white shadow-lg w-48 border  transition-all duration-500 ease-in-out ${isKidsDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
             >
               {categories.kids.map((item) => (
                   <Link
-                  to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+                  to={`/products?category=Adapters&subcategory=${item.name}`}
                   key={item.name}
                   className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
@@ -182,21 +182,21 @@ const Navbar = () => {
           </div>
 
 
-         {/* Accessories Items Dropdown */}
+         {/* Smart Watch Items Dropdown */}
          <div
             className="relative group"
             onMouseEnter={() => setIsAccessoriesDropdownOpen(true)}
             onMouseLeave={() => setIsAccessoriesDropdownOpen(false)}
           >
             <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
-              Accessories Items
+            Smart Watch
             </button>
             <div
               className={`absolute left-0 mt-2 space-y-2 bg-white shadow-lg w-48 border  transition-all duration-500 ease-in-out ${isAccessoriesDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
             >
               {categories.accessories.map((item) => (
                   <Link
-                  to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+                  to={`/products?category=Watches&subcategory=${item.name}`}
                   key={item.name}
                   className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
@@ -207,21 +207,21 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Footwear Items Dropdown */}
+          {/* Power Bank Items Dropdown */}
           <div
             className="relative group"
             onMouseEnter={() => setIsFootwearDropdownOpen(true)}
             onMouseLeave={() => setIsFootwearDropdownOpen(false)}
           >
             <button className="text-primary hover:text-[#F9A02B] transition duration-200 text-md font-semibold">
-              Footwear Items
+              Power Bank
             </button>
             <div
               className={`absolute left-0 mt-2 space-y-2 bg-white shadow-lg w-48 border  transition-all duration-500 ease-in-out ${isFootwearDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
             >
               {categories.footwear.map((item) => (
                   <Link
-                  to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+                  to={`/products?category=PowerBanks&subcategory=${item.name}`}
                   key={item.name}
                   className="block px-5 py-3 text-[#F68C1F] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
                 >
@@ -261,7 +261,7 @@ const Navbar = () => {
 
           {/* Avatar or Login/Signup */}
           {isLoggedIn ? (
-            <span className="w-7 h-7 flex items-center justify-center text-primary bg-[#F9A02B] rounded-full text-md">
+            <span className="w-7 h-7 flex items-center justify-center text-white bg-[#F9A02B] rounded-full text-md">
               {user?.fullname?.[0]}
             </span>
           ) : (
@@ -288,19 +288,19 @@ const Navbar = () => {
      {/* Mobile Menu */}
 {isMenuOpen && (
   <div className="lg:hidden bg-white px-6 py-4 space-y-4 mt-4 border-t">
-    {/* Men's Items */}
+    {/* Mobile Phones */}
     <div className="space-y-2">
       <button
         className="w-full text-left text-lg text-primary  font-semibold"
         onClick={() => setIsMensDropdownOpen(!isMensDropdownOpen)}
       >
-        Men's Items
+        Mobile Phones
       </button>
       {isMensDropdownOpen && (
         <div className="space-y-2">
           {categories.mens.map((item) => (
               <Link
-              to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+              to={`/products?category=SmartPhones&subcategory=${item.name}`}
               key={item.name}
               className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
@@ -312,19 +312,19 @@ const Navbar = () => {
       )}
     </div>
 
-    {/* Women's Items */}
+    {/* Mobile Charging Adapter Items */}
     <div className="space-y-2">
       <button
         className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsWomensDropdownOpen(!isWomensDropdownOpen)}
       >
-        Women's Items
+        Mobile Charging Adapter
       </button>
       {isWomensDropdownOpen && (
         <div className="space-y-2">
           {categories.womens.map((item) => (
               <Link
-              to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+              to={`/products?category=Adapters&subcategory=${item.name}`}
               key={item.name}
               className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
@@ -336,19 +336,19 @@ const Navbar = () => {
       )}
     </div>
 
-    {/* Kid's Items */}
+    {/* laptop Charging Adapter Items */}
     <div className="space-y-2">
       <button
         className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsKidsDropdownOpen(!isKidsDropdownOpen)}
       >
-        Kid's Items
+        Laptop Charging Adapter
       </button>
       {isKidsDropdownOpen && (
         <div className="space-y-2">
           {categories.kids.map((item) => (
               <Link
-              to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+              to={`/products?category=Adapters&subcategory=${item.name}`}
               key={item.name}
               className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >
@@ -360,19 +360,19 @@ const Navbar = () => {
       )}
     </div>
 
-    {/* Accessories Items */}
+    {/* Smart Watches Items */}
     <div className="space-y-2">
       <button
         className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsAccessoriesDropdownOpen(!isAccessoriesDropdownOpen)}
       >
-        Accessories Items
+        Smart Watch
       </button>
       {isAccessoriesDropdownOpen && (
         <div className="space-y-2">
           {categories.accessories.map((item) => (
              <Link
-             to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+             to={`/products?category=Watches&subcategory=${item.name}`}
              key={item.name}
              className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
            >
@@ -384,19 +384,19 @@ const Navbar = () => {
       )}
     </div>
 
-    {/* Footwear Items */}
+    {/* Power Bank Items */}
     <div className="space-y-2">
       <button
         className="w-full text-left text-lg text-primary font-semibold"
         onClick={() => setIsFootwearDropdownOpen(!isFootwearDropdownOpen)}
       >
-        Footwear Items
+        Power Bank
       </button>
       {isFootwearDropdownOpen && (
         <div className="space-y-2">
           {categories.footwear.map((item) => (
               <Link
-              to={`/products?category=mens&subcategory=${item.name.toLowerCase()}`}
+              to={`/products?category=PowerBanks&subcategory=${item.name}`}
               key={item.name}
               className="block px-5 py-3 text-[#56C5DC] hover:bg-[#56C5DC] hover:text-white border-b hover:border-[#a0926c] transition duration-200"
             >

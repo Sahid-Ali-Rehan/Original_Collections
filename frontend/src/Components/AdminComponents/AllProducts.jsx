@@ -44,8 +44,8 @@ const AllProducts = () => {
   };
 
   return (
-    <div className="p-8 bg-[#f4ebb4] min-h-screen">
-      <h2 className="text-3xl font-bold text-[#8d5c51] mb-6">All Products</h2>
+    <div className="p-8 bg-[#D7F4FA] min-h-screen">
+      <h2 className="text-3xl font-bold text-primary mb-6">All Products</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => {
           const discount = product.discount || 0;
@@ -61,17 +61,17 @@ const AllProducts = () => {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-[#8d5c51] truncate">{product.productName}</h3>
-              <p className="text-[#7b7c4d] text-sm mb-4 truncate">{product.description}</p>
+              <h3 className="text-xl font-semibold text-primary truncate">{product.productName}</h3>
+              <p className="text-muted text-sm mb-4 truncate">{product.description}</p>
 
               <div className="flex justify-between items-center mb-4">
                 <div className="flex flex-col">
                   {discount > 0 ? (
-                    <p className="text-lg font-bold text-[#8d5c51] line-through">
+                    <p className="text-lg font-bold text-primary line-through">
                       BDT: {Math.floor(originalPrice)}
                     </p>
                   ) : null}
-                  <p className="text-lg font-bold text-[#8d5c51]">
+                  <p className="text-lg font-bold text-secondary">
                     BDT: {Math.floor(discountedPrice)}
                   </p>
                 </div>
@@ -82,7 +82,7 @@ const AllProducts = () => {
                 )}
               </div>
 
-              <p className="text-sm text-gray-500 mb-4">Product Code: {product.productCode}</p>
+              <p className="text-sm text-muted mb-4">Product Code: {product.productCode}</p>
 
               <div className="mb-4">
                 {product.price < 50 && product.stock > 10 ? (
@@ -93,13 +93,13 @@ const AllProducts = () => {
               <div className="flex justify-between mt-4">
                 <button
                   onClick={() => handleEdit(product._id)} // Navigating to edit page with product ID
-                  className="bg-[#a0926c] text-white px-4 py-2 rounded-lg hover:bg-[#7d835f] transition-all duration-200"
+                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition-all duration-200"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(product._id)}
-                  className="bg-[#996a6c] text-white px-4 py-2 rounded-lg hover:bg-[#7d4f4b] transition-all duration-200"
+                  className="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-primary transition-all duration-200"
                 >
                   Delete
                 </button>

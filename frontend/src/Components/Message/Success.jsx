@@ -227,7 +227,7 @@ const addFooter = () => {
           <p><strong>Total:</strong> Tk. {order.totalAmount}</p>
         </div>
         <button
-          className="px-6 py-3 bg-[#8d5c51] text-white rounded hover:bg-[#7d835f] transition w-full"
+          className="px-6 py-3 bg-primary text-white rounded hover:bg-secondary transition w-full"
           onClick={() => {
             localStorage.removeItem("orderSuccess");
             navigate("/");

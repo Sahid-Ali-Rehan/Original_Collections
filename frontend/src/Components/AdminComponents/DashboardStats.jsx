@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
-import Skeleton from 'react-loading-skeleton'; // Import Skeleton
-import 'react-loading-skeleton/dist/skeleton.css'; // Optional, to add default styles
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import {
   Chart as ChartJS,
@@ -15,7 +15,6 @@ import {
   Title,
 } from 'chart.js';
 
-// Register necessary components
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -28,16 +27,16 @@ ChartJS.register(
 );
 
 const DashboardStats = () => {
-  const [donutData, setDonutData] = useState(null);  // Initially null to indicate loading
-  const [lineData, setLineData] = useState(null);    // Initially null to indicate loading
+  const [donutData, setDonutData] = useState(null);
+  const [lineData, setLineData] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const response = await fetch('https://original-collections.onrender.com/api/dashboard/stats');
         const data = await response.json();
-        
-        console.log("Fetched Data:", data);  // Debugging - check the structure of fetched data
+
+        console.log("Fetched Data:", data);
 
         if (data) {
           const { orders, products, users, salesData } = data;
@@ -47,7 +46,7 @@ const DashboardStats = () => {
             datasets: [
               {
                 data: [orders, products, users],
-                backgroundColor: ['#bb9e8c', '#faeed5', '#996a6c'],
+                backgroundColor: ['#F68C1F', '#56C5DC', '#7D835F'],
               },
             ],
           });
@@ -58,9 +57,9 @@ const DashboardStats = () => {
               {
                 label: 'Sales',
                 data: salesData.values,
-                borderColor: '#8d5c51',
+                borderColor: '#F68C1F',
                 fill: true,
-                backgroundColor: 'rgba(141, 92, 81, 0.2)',
+                backgroundColor: 'rgba(246, 140, 31, 0.2)',
               },
             ],
           });
@@ -75,30 +74,29 @@ const DashboardStats = () => {
     fetchStats();
   }, []);
 
-  // Display skeleton loaders while fetching data
   if (!donutData || !lineData) {
     return (
-      <div className="grid grid-cols-2 gap-6">
-        <div className="bg-[#afaf8a] p-6 rounded-lg shadow-lg">
-          <h3 className="text-xl font-semibold mb-4">Overview</h3>
-          <Skeleton height={200} /> {/* Skeleton loader for the donut chart */}
+      <div className="grid grid-cols-2 gap-6 bg-[#D7F4FA] p-6 rounded-lg">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-primary mb-4">Overview</h3>
+          <Skeleton height={200} />
         </div>
-        <div className="bg-[#faeed5] p-6 rounded-lg shadow-lg">
-          <h3 className="text-xl font-semibold mb-4">Sales Trend</h3>
-          <Skeleton height={200} /> {/* Skeleton loader for the line chart */}
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-primary mb-4">Sales Trend</h3>
+          <Skeleton height={200} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6">
-      <div className="bg-[#afaf8a] p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">Overview</h3>
+    <div className="grid grid-cols-2 gap-6 bg-[#D7F4FA] p-6 rounded-lg">
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-primary mb-4">Overview</h3>
         <Doughnut data={donutData} />
       </div>
-      <div className="bg-[#faeed5] p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">Sales Trend</h3>
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-primary mb-4">Sales Trend</h3>
         <Line data={lineData} />
       </div>
     </div>

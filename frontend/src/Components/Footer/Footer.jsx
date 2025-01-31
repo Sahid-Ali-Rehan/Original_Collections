@@ -128,7 +128,7 @@ const Footer = () => {
       {/* Footer Bottom Section */}
       <div className="bg-[#56C5DC] py-6 text-center rounded-md mt-16">
         <p className="text-lg text-white">
-          &copy; 2024 Original Collections. All Rights Reserved.
+         <span className="text-primary">&copy; 2025</span> Original Collections. All Rights Reserved.
         </p>
       </div>
     </footer>

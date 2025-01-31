@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { FaMale, FaFemale, FaChild, FaTshirt, FaShoePrints } from "react-icons/fa";
+import { FaMobileAlt, FaPlug, FaLaptop, FaBatteryFull, FaApple, FaHeadphonesAlt, FaLink, FaGamepad } from "react-icons/fa";
 
 const categories = [
-  { name: "Men's Clothing", items: 150, icon: <FaMale size={30} /> },
-  { name: "Women's Clothing", items: 200, icon: <FaFemale size={30} /> },
-  { name: "Kids' Wear", items: 120, icon: <FaChild size={30} /> },
-  { name: "Accessories", items: 80, icon: <FaTshirt size={30} /> },
-  { name: "Footwear", items: 100, icon: <FaShoePrints size={30} /> },
+  { name: "Mobile Phones", items: 150, icon: <FaMobileAlt size={30} />, link: "/products?category=MobilePhones" },
+  { name: "Mobile Charging Adapter", items: 120, icon: <FaPlug size={30} />, link: "/products?category=Adapters" },
+  { name: "Laptop Charging Adapter", items: 80, icon: <FaLaptop size={30} />, link: "/products?category=Adapters" },
+  { name: "Power Bank", items: 100, icon: <FaBatteryFull size={30} />, link: "/products?category=PowerBank" },
+  { name: "Smart Watch", items: 60, icon: <FaApple size={30} />, link: "/products?category=SmartWatch" },
+  { name: "Headphone / Earphone", items: 200, icon: <FaHeadphonesAlt size={30} />, link: "/products?category=Headphones" },
+  { name: "Cables", items: 180, icon: <FaLink size={30} />, link: "/products?category=Cables" },
+  { name: "Gaming Accessories", items: 90, icon: <FaGamepad size={30} />, link: "/products?category=GamingAccessories" },
 ];
 
 const AllCategories = () => {
   const [visible, setVisible] = useState(false);
   const [counts, setCounts] = useState(categories.map(() => 0));
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const section = document.getElementById("categories-section");
-      const rect = section.getBoundingClientRect();
-      if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-        setVisible(true);
-      }
-    };
+  // Function to check if section is in view
+  const handleScroll = () => {
+    const section = document.getElementById("categories-section");
+    if (!section) return;
+    
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= window.innerHeight - 100 && rect.bottom >= 0) {
+      setVisible(true);
+    }
+  };
 
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -36,7 +42,7 @@ const AllCategories = () => {
         );
       };
 
-      const interval = setInterval(incrementCounts, 20);
+      const interval = setInterval(incrementCounts, 30); // Slow down counting effect
       return () => clearInterval(interval);
     }
   }, [visible]);
@@ -55,7 +61,7 @@ const AllCategories = () => {
         </div>
 
         {/* Category Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {categories.map((category, index) => (
             <div
               key={index}
@@ -67,9 +73,15 @@ const AllCategories = () => {
               <h3 className="text-lg font-semibold mb-2 text-white">
                 {category.name}
               </h3>
-              <p className="text-primary">
+              <p className="text-white">
                 {counts[index]}+ Items
               </p>
+              <a
+                href={category.link}
+                className="mt-4 text-white underline"
+              >
+                View Products
+              </a>
             </div>
           ))}
         </div>

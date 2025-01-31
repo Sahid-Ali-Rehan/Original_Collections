@@ -7,9 +7,9 @@ import Navbar from "../../Components/Navigations/Navbar";
 
 const HomePage = () => {
     return (
-      <div className="bg-[#FAEED5] w-full h-screen">
+      <div className="bg-[#D7F4FA] w-full h-screen">
         <Navbar/>
-        <HomeBanner/>
+        {/* <HomeBanner/> */}
         <AllCategories/>
         <FeaturedProduct/>
         <BestSeller/>

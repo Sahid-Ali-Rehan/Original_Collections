@@ -45,91 +45,91 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#f4ebb4]">
+    <div className="h-screen flex items-center justify-center bg-[#D7F4FA]">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full"
       >
-        <h2 className="text-2xl font-bold text-center text-[#8d5c51] mb-4">Sign Up</h2>
-        <div className="flex items-center mb-4 border-b border-[#7b7c4d]">
-          <AiOutlineUser className="text-2xl text-[#7b7c4d] mr-2" />
+        <h2 className="text-2xl font-bold text-center text-primary mb-4">Sign Up</h2>
+        <div className="flex items-center mb-4 border-b border-primary">
+          <AiOutlineUser className="text-2xl text-secondary mr-2" />
           <input
             type="text"
             name="fullname"
             placeholder="Full Name"
             value={formData.fullname}
             onChange={handleChange}
-            className="w-full focus:outline-none text-[#7d835f]"
+            className="w-full focus:outline-none text-muted"
             required
           />
         </div>
-        <div className="flex items-center mb-4 border-b border-[#7b7c4d]">
-          <AiOutlineMail className="text-2xl text-[#7b7c4d] mr-2" />
+        <div className="flex items-center mb-4 border-b border-primary">
+          <AiOutlineMail className="text-2xl text-secondary mr-2" />
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full focus:outline-none text-[#7d835f]"
+            className="w-full focus:outline-none text-muted"
             required
           />
         </div>
-        <div className="flex items-center mb-4 border-b border-[#7b7c4d]">
-          <AiOutlinePhone className="text-2xl text-[#7b7c4d] mr-2" />
+        <div className="flex items-center mb-4 border-b border-primary">
+          <AiOutlinePhone className="text-2xl text-secondary mr-2" />
           <input
             type="text"
             name="phonenumber"
             placeholder="Phone Number"
             value={formData.phonenumber}
             onChange={handleChange}
-            className="w-full focus:outline-none text-[#7d835f]"
+            className="w-full focus:outline-none text-muted"
             required
           />
         </div>
-        <div className="flex items-center mb-4 border-b border-[#7b7c4d]">
-          <AiOutlineLock className="text-2xl text-[#7b7c4d] mr-2" />
+        <div className="flex items-center mb-4 border-b border-primary">
+          <AiOutlineLock className="text-2xl text-secondary mr-2" />
           <input
             type={showPassword ? "text" : "password"} // toggle password visibility
             name="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full focus:outline-none text-[#7d835f]"
+            className="w-full focus:outline-none text-muted"
             required
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)} // toggle showPassword state
-            className="ml-2 text-[#996a6c]"
+            className="ml-2 text-primary"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
         </div>
-        <div className="flex items-center mb-6 border-b border-[#7b7c4d]">
-          <AiOutlineLock className="text-2xl text-[#7b7c4d] mr-2" />
+        <div className="flex items-center mb-6 border-b border-primary">
+          <AiOutlineLock className="text-2xl text-secondary mr-2" />
           <input
             type={showPassword ? "text" : "password"} // toggle confirm password visibility
             name="confirmPassword"
             placeholder="Confirm Password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full focus:outline-none text-[#7d835f]"
+            className="w-full focus:outline-none text-muted"
             required
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-[#8d5c51] text-white py-2 rounded-md hover:bg-[#7b7c4d] transition-all"
+          className="w-full bg-primary text-white py-2 rounded-md hover:bg-secondary transition-all"
         >
           Sign Up
         </button>
-        <p className="text-center text-[#7b7c4d] mt-4">
+        <p className="text-center text-muted mt-4">
           Already have an account?{" "}
           <button
             type="button"
             onClick={() => navigate("/login")}
-            className="text-[#8d5c51] font-semibold"
+            className="text-primary font-semibold"
           >
             Login
           </button>
