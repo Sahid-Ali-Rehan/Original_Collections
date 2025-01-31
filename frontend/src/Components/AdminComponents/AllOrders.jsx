@@ -123,7 +123,7 @@ const AllOrders = () => {
                 <h2 className="text-xl font-bold mb-4 text-primary">Order Details</h2>
                 <p><strong>Order ID:</strong> {selectedOrder._id}</p>
                 <p><strong>Name:</strong> {selectedOrder.name}</p>
-                <p><strong>Email:</strong> {selectedOrder.email}</p>
+                {/* <p><strong>Email:</strong> {selectedOrder.email}</p> */}
                 <p><strong>Phone:</strong> {selectedOrder.phone}</p>
                 <p><strong>Address:</strong> {selectedOrder.address}</p>
                 <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
