@@ -122,16 +122,15 @@ const Success = () => {
 const addOrderTable = () => {
   let yOffset = 320;
 
-  // Table Header
-  doc.setFont("helvetica", "bold");
-  doc.setFillColor(255, 255, 255, 0); // Transparent background
-  doc.setDrawColor("#F68C1F"); // Heading color for the border
-  doc.rect(20, yOffset, pageWidth - 40, 20, "FD"); // 'F' for fill and 'D' for drawing border
-  doc.setTextColor("#F68C1F"); // Heading color for the text
-  doc.text("No.", 30, yOffset + 15);
-  doc.text("Description", 80, yOffset + 15);
-  doc.text("Quantity", pageWidth - 170, yOffset + 15, { align: "right" });
-  doc.text("Amount", pageWidth - 50, yOffset + 15, { align: "right" });
+// Table Header
+doc.setFont("helvetica", "bold");
+doc.setDrawColor("#F68C1F"); // Heading color for the border
+doc.rect(20, yOffset, pageWidth - 40, 20, "D"); // Only draw border, no fill
+doc.setTextColor("#F68C1F"); // Heading color for the text
+doc.text("No.", 30, yOffset + 15);
+doc.text("Description", 80, yOffset + 15);
+doc.text("Quantity", pageWidth - 170, yOffset + 15, { align: "right" });
+doc.text("Amount", pageWidth - 50, yOffset + 15, { align: "right" });
 
   // Table Content
   yOffset += 30;
@@ -163,7 +162,7 @@ const addOrderTable = () => {
   
     // Footer
     const addFooter = () => {
-      const footerText = "Thank you for shopping with Original Collection! Payment must be made immediately.";
+      const footerText = "Thank you for shopping with Original Collections! Payment must be made immediately.";
       const footerY = pageHeight - 50;
   
       doc.setFont("helvetica", "italic");
@@ -180,7 +179,7 @@ const addOrderTable = () => {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8);
       doc.setTextColor("#7D835F"); // Baby text color for copyright text
-      doc.text("@copyright 2025 reserved by Original Collection", pageWidth / 2, footerY + 25, { align: "center" });
+      doc.text("@copyright 2025 reserved by Original Collections", pageWidth / 2, footerY + 25, { align: "center" });
     };
     addFooter();
   
