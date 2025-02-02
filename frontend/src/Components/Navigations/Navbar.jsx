@@ -30,7 +30,7 @@ const categories = {
       { name: "Budget Smart Watches", link: "/category/budget-smart-watches" },
     ],
     footwear: [
-      { name: "High-Capacity Power Banks", link: "/category/high-capacity-powerbanks" },
+      { name: "High Capacity Power Banks", link: "/category/high-capacity-powerbanks" },
       { name: "Portable Power Banks", link: "/category/portable-powerbanks" },
       { name: "Solar Power Banks", link: "/category/solar-powerbanks" },
     ],

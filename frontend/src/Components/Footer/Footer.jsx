@@ -14,7 +14,7 @@ const Footer = () => {
           <div>
             <h3 className="text-3xl font-semibold mb-6 text-primary">About Us</h3>
             <p className="text-lg leading-relaxed text-secondary">
-              We are a leading provider of innovative solutions, dedicated to helping businesses grow in the digital era.
+            Shop with Confidence: Premium, Original Electronics You Can Trust! 
             </p>
             <div className="flex space-x-6 mt-6">
               <a href="#" className="hover:text-primary transition-all duration-300" aria-label="Facebook">
@@ -52,9 +52,9 @@ const Footer = () => {
           <div>
             <h3 className="text-3xl font-semibold mb-6 text-primary">Contact Info</h3>
             <p className="text-lg mb-4 text-secondary">Address: Section 12, Block C, Line No: 6, House No 13, Pallabi Thana Mirpur Dhaka 1216</p>
-            <p className="text-lg mb-4 text-secondary">Phone: (+880) 1714394330</p>
-            <p className="text-lg mb-4 text-secondary">Email: ruhanas0311@gmail.com</p>
-            <p className="text-lg mb-4 text-secondary">Emergency: (+880) 9638259714</p>
+            <p className="text-lg mb-4 text-secondary">Phone: (+880) 1789313805</p>
+            <p className="text-lg mb-4 text-secondary">Email: Originalcollections772@gmail.com</p>
+            {/* <p className="text-lg mb-4 text-secondary">Emergency: (+880) 9638259714</p> */}
           </div>
 
           {/* Column 4: Social Media */}
@@ -63,7 +63,7 @@ const Footer = () => {
             <p className="text-lg mb-6 text-secondary">Connect with us on social media:</p>
             <div className="flex space-x-6 text-2xl">
               <a
-                href="https://www.facebook.com/smsharfarraz.jhony"
+                href="https://www.facebook.com/originalcollections"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-[#4267B2] transition-all duration-300"
@@ -72,7 +72,7 @@ const Footer = () => {
                 <FaFacebookF size={32} />
               </a>
               <a
-                href="https://messenger.com"
+                href="https://www.messenger.com/t/210831205441089"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-[#00B2FF] transition-all duration-300"
@@ -90,7 +90,7 @@ const Footer = () => {
                 <FaTwitter size={32} />
               </a>
               <a
-                href="https://wa.me/8801714394330"
+                href="https://wa.me/8801789313805"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-[#25D366] transition-all duration-300"
@@ -116,7 +116,7 @@ const Footer = () => {
           <div className="absolute top-0 left-0 w-full h-full">
             <iframe
               className="w-full h-full border-0"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3991.173002676015!2d90.36323174413143!3d23.827340459307717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c1ae043955f1%3A0x9b5859a2015ec2a0!2sRuhanas%20Fashion%20Studio!5e1!3m2!1sen!2sbd!4v1733498032045!5m2!1sen!2sbd"
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3524.808249764628!2d90.40774357533991!3d23.878302578583416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjPCsDUyJzQxLjkiTiA5MMKwMjQnMzcuMiJF!5e1!3m2!1sen!2sbd!4v1738493201186!5m2!1sen!2sbd"
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

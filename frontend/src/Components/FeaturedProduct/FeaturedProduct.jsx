@@ -1,6 +1,6 @@
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import featured from '/Featured/Featured.jpg';
+import featured from '/Featured/Featured.png';
 
 const FeaturedProduct = () => {
   return (
@@ -13,7 +13,7 @@ const FeaturedProduct = () => {
           {/* Product Image */}
           <div className="flex justify-center">
             <img
-              src="/Featured/Featured.jpg" // Replace with product image URL
+              src="/Featured/Featured.png" // Replace with product image URL
               alt="Featured Product"
               className="rounded-lg shadow-lg"
               style={{
@@ -29,13 +29,13 @@ const FeaturedProduct = () => {
               className="text-3xl font-bold mb-4"
               style={{ color: "#F68C1F" }} // Use your custom color for title
             >
-              Handcrafted Rose Ribbon Vase
+              Oppo SuperVOOC Charger 65W
             </h2>
             <p
               className="text-md mb-6"
               style={{ color: "#56c5dc" }} // Use muted color for subtitle
             >
-              Add a touch of elegance to your space with this beautifully handcrafted vase, wrapped in vibrant multicolor yarn and adorned with delicate pink fabric roses. Perfect as a decorative centerpiece or a charming gift for loved ones. Durable and lightweight, this vase effortlessly blends style and utility.
+              Experience lightning-fast charging with the Oppo SuperVOOC 65W charger. Designed to deliver exceptional performance, this premium adapter ensures your devices are charged in record time, saving you precious hours. With advanced safety features, it protects against overcharging, overheating, and short circuits, providing peace of mind while powering your devices. The compact, travel-friendly design makes it convenient to carry anywhere, whether at home, in the office, or on the go. Ideal for Oppo smartphones and compatible with a wide range of USB Type-C devices.
             </p>
             <div className="flex items-center mb-6">
               <p
@@ -48,7 +48,7 @@ const FeaturedProduct = () => {
                 className="text-sm line-through"
                 style={{ color: "#56c5dc" }} // Use muted color for discount
               >
-                ৳2000.00
+                ৳1549.00
               </span>
             </div>
             {/* Add to Cart Button */}
