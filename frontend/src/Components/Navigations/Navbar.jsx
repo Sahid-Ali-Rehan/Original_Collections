@@ -99,9 +99,11 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center lg:flex-row flex-row-reverse">
 
         {/* Logo */}
-        <div className="flex items-center space-x-2 order-last lg:order-none">
-          <img src="/Images/Navlogo.png" alt="Logo" className=" h-16 object-contain" />
-        </div>
+<div className="flex items-center space-x-2 order-last lg:order-none">
+  <Link to="/">
+    <img src="/Images/Navlogo.png" alt="Logo" className="h-16 object-contain cursor-pointer" />
+  </Link>
+</div>
 
         {/* Desktop Menu */}
         <div className="relative hidden lg:flex items-center space-x-6">
