@@ -1,73 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import decstop1 from '/Banner/Decs1.png'
-import decstop2 from '/Banner/Decs2.jpg'
-import decstop3 from '/Banner/Decs3.jpg'
-import decstop4 from '/Banner/Decs4.png'
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import mob1 from '/Banner/Mob1.jpg'
-import mob2 from '/Banner/Mob2.jpg'
-import mob3 from '/Banner/Mob3.jpg'
-import mob4 from '/Banner/Mob4.jpg'
-
+gsap.registerPlugin(ScrollTrigger);
 
 const HomeBanner = () => {
-  // Desktop images
-  const desktopImages = [
-    decstop1,
-    decstop2,
-    decstop3,
-    decstop4
-  ];
-
-  // Mobile images
-  const mobileImages = [
-    mob1,
-    mob2,
-    mob3,
-    mob4
-  ];
-
-  const [isMobile, setIsMobile] = useState(false);
+  const videoRef = useRef(null);
+  const originalTextRef = useRef(null);
+  const collectionTextRef = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+    // Scale video on scroll
+    gsap.to(videoRef.current, {
+      scale: 0.7,
+      scrollTrigger: {
+        trigger: videoRef.current,
+        start: "top top",
+        end: "+=500",
+        scrub: 1,
+      },
+    });
+
+    // Animate text after scrolling down
+    const triggerSettings = {
+      start: "top 60%", // Activates after scrolling down
+      toggleActions: "play none none reverse",
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    // "Original" from left to right
+    gsap.fromTo(
+      originalTextRef.current,
+      { opacity: 0, x: "-100%" },
+      { opacity: 1, x: "0%", duration: 1.5, scrollTrigger: { trigger: originalTextRef.current, ...triggerSettings } }
+    );
+
+    // "Collection" from right to left
+    gsap.fromTo(
+      collectionTextRef.current,
+      { opacity: 0, x: "100%" },
+      { opacity: 1, x: "0%", duration: 1.5, scrollTrigger: { trigger: collectionTextRef.current, ...triggerSettings } }
+    );
   }, []);
 
-  const settings = {
-    autoplay: true,
-    autoplaySpeed: 3000,
-    dots: false,
-    arrows: false,
-    fade: true,
-    infinite: true,
-    speed: 500,
-  };
-
-  // Determine which images to display based on the screen size
-  const imagesToDisplay = isMobile ? mobileImages : desktopImages;
-
   return (
-    <div className="w-full h-screen overflow-hidden relative">
-      <Slider {...settings}>
-        {imagesToDisplay.map((image, index) => (
-          <div key={index} className="w-full h-full flex justify-center items-center">
-            <img
-              src={image}
-              alt={`Banner ${index}`}
-              className="w-full h-screen object-cover"
-              style={{ zIndex: -1 }} // Keep the image behind other content
-            />
-          </div>
-        ))}
-      </Slider>
+    <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+      {/* Video */}
+      <video
+        ref={videoRef}
+        src="/Videos/Original-Collections.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      ></video>
+
+      {/* Gradient Text */}
+      <div className="absolute flex gap-4 text-5xl font-bold">
+        <span
+          ref={originalTextRef}
+          className="opacity-0 bg-gradient-to-r from-[#56C5DC] to-[#F68C1F] text-transparent bg-clip-text"
+        >
+          Original
+        </span>
+        <span
+          ref={collectionTextRef}
+          className="opacity-0 bg-gradient-to-r from-[#F68C1F] to-[#56C5DC] text-transparent bg-clip-text"
+        >
+          Collections
+        </span>
+      </div>
     </div>
   );
 };

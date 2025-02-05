@@ -9,7 +9,7 @@ const HomePage = () => {
     return (
       <div className="bg-[#D7F4FA] w-full h-screen">
         <Navbar/>
-        {/* <HomeBanner/> */}
+        <HomeBanner/>
         <AllCategories/>
         <FeaturedProduct/>
         <BestSeller/>

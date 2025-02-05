@@ -6,3 +6,23 @@ body {
   
   font-family: 'Inter', sans-serif;
 }
+
+
+/* Custom Thin Scrollbar */
+::-webkit-scrollbar {
+  width: 6px; /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Light background */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #56C5DC, #F68C1F); /* Gradient color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #F68C1F, #56C5DC); /* Reverse on hover */
+}
