@@ -143,7 +143,7 @@ const AllProductsClient = () => {
               onClick={() => setShowFilters(!showFilters)}
               className="w-full bg-primary text-white p-3 sticky shadow-md text-lg flex justify-between items-center"
             >
-              Filters
+              ফিল্টার
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`h-5 w-5 transform ${showFilters ? 'rotate-180' : ''}`}
@@ -160,89 +160,90 @@ const AllProductsClient = () => {
           </div>
 
           {showFilters && (
-            <div className="bg-white shadow-md rounded-lg p-6 mt-4">
-              <h2 className="text-2xl font-semibold text-primary mb-4">Filters</h2>
-              <div className="flex flex-col gap-4">
-                <input
-                  type="text"
-                  name="productCode"
-                  value={filters.productCode}
-                  onChange={handleFilterChange}
-                  placeholder="Search by Product Code"
-                  className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-                />
-                <input
-                  type="text"
-                  name="search"
-                  value={filters.search}
-                  onChange={handleFilterChange}
-                  placeholder="Search by name"
-               className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-               />
-                <select
-                  name="category"
-                  value={filters.category}
-                  onChange={handleFilterChange}
-                  className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-                >
-                  <option value="">Select Category</option>
-                  {getUniqueValues('category').map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="subCategory"
-                  value={filters.subCategory}
-                  onChange={handleFilterChange}
-               className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-               >
-                  <option value="">Select Subcategory</option>
-                  {getUniqueValues('subCategory').map((subCategory) => (
-                    <option key={subCategory} value={subCategory}>
-                      {subCategory}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="color"
-                  value={filters.color}
-                  onChange={handleFilterChange}
-              className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-              >
-                  <option value="">Select Color</option>
-                  {getUniqueValues('availableColors').map((color) => (
-                    <option key={color} value={color}>
-                      {color}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="size"
-                  value={filters.size}
-                  onChange={handleFilterChange}
-                className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-                >
-                  <option value="">Select Size</option>
-                  {getUniqueValues('availableSizes').map((size) => (
-                    <option key={size.size} value={size.size}>
-                      {size.size}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="sort"
-                  value={filters.sort}
-                  onChange={handleFilterChange}
-                className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
-                >
-                  <option value="low-to-high">Price: Low to High</option>
-                  <option value="high-to-low">Price: High to Low</option>
-                </select>
-              </div>
-            </div>
-          )}
+  <div className="bg-white shadow-md rounded-lg p-6 mt-4">
+    <h2 className="text-2xl font-semibold text-primary mb-4">সার্চ করুন</h2>
+    <div className="flex flex-col gap-4">
+      <input
+        type="text"
+        name="productCode"
+        value={filters.productCode}
+        onChange={handleFilterChange}
+        placeholder="প্রোডাক্ট কোড দ্বারা সার্চ করুন"
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      />
+      <input
+        type="text"
+        name="search"
+        value={filters.search}
+        onChange={handleFilterChange}
+        placeholder="নামের দ্বারা সার্চ করুন"
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      />
+      <select
+        name="category"
+        value={filters.category}
+        onChange={handleFilterChange}
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      >
+        <option value="">ক্যাটাগরি নির্বাচন করুন</option>
+        {getUniqueValues('category').map((category) => (
+          <option key={category} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+      <select
+        name="subCategory"
+        value={filters.subCategory}
+        onChange={handleFilterChange}
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      >
+        <option value="">সাব-ক্যাটাগরি নির্বাচন করুন</option>
+        {getUniqueValues('subCategory').map((subCategory) => (
+          <option key={subCategory} value={subCategory}>
+            {subCategory}
+          </option>
+        ))}
+      </select>
+      <select
+        name="color"
+        value={filters.color}
+        onChange={handleFilterChange}
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      >
+        <option value="">রঙ নির্বাচন করুন</option>
+        {getUniqueValues('availableColors').map((color) => (
+          <option key={color} value={color}>
+            {color}
+          </option>
+        ))}
+      </select>
+      <select
+        name="size"
+        value={filters.size}
+        onChange={handleFilterChange}
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      >
+        <option value="">সাইজ নির্বাচন করুন</option>
+        {getUniqueValues('availableSizes').map((size) => (
+          <option key={size.size} value={size.size}>
+            {size.size}
+          </option>
+        ))}
+      </select>
+      <select
+        name="sort"
+        value={filters.sort}
+        onChange={handleFilterChange}
+        className="p-3 border border-[#D7F4FA] rounded-lg w-full bg-[#D7F4FA] text-primary placeholder-primary"
+      >
+        <option value="low-to-high">মূল্য: কম থেকে বেশি</option>
+        <option value="high-to-low">মূল্য: বেশি থেকে কম</option>
+      </select>
+    </div>
+  </div>
+)}
+
         </div>
 
         <div className="md:w-3/4 p-4">
@@ -307,13 +308,13 @@ const AllProductsClient = () => {
       disabled={currentPage === 1}
       className="px-4 py-2 bg-[#F9A02B] text-white  mr-2 disabled:opacity-50"
     >
-      Previous
+      পূর্ববর্তী
     </button>
     <button
       onClick={() => paginate(currentPage + 1)}
       className="px-4 py-2 bg-[#70D5E3] text-white  disabled:opacity-50"
     >
-      Next
+      পরবর্তী
     </button>
   </div>
 </div>

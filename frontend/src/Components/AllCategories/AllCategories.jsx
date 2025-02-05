@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import { FaMobileAlt, FaPlug, FaLaptop, FaBatteryFull, FaApple, FaHeadphonesAlt, FaTools } from "react-icons/fa";
 
 const categories = [
-  { name: "মোবাইল ফোন", items: 150, icon: <FaMobileAlt size={30} />, link: "/products?category=SmartPhones" },
   { name: "মোবাইল ফোন চারজার", items: 120, icon: <FaPlug size={30} />, link: "/products?category=Adapters" },
   { name: "ল্যাপটপ চারজার", items: 80, icon: <FaLaptop size={30} />, link: "/products?category=Adapters" },
+  { name: "এয়ার ফোন / হেড ফোন", items: 200, icon: <FaHeadphonesAlt size={30} />, link: "/products?category=Headphones" },
   { name: "পাওয়ার ব্যাংক", items: 100, icon: <FaBatteryFull size={30} />, link: "/products?category=PowerBank" },
   { name: "স্মার্ট ওয়াচ", items: 60, icon: <FaApple size={30} />, link: "/products?category=SmartWatch" },
-  { name: "এয়ার ফোন / হেড ফোন", items: 200, icon: <FaHeadphonesAlt size={30} />, link: "/products?category=Headphones" },
   { name: "মোবাইল গ্যাজেট", items: 90, icon: <FaTools size={30} />, link: "/products?category=MobileGadgets" },
+  { name: "মোবাইল ফোন", items: 150, icon: <FaMobileAlt size={30} />, link: "/products?category=SmartPhones" },
   { name: "গেমিং অ্যাক্সেসরিজ", items: 110, icon: <FaTools size={30} />, link: "/products?category=GamingAccessories" },
 ];
 
