@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF, FaFacebookMessenger, FaTwitter, FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { FaFacebookF, FaFacebookMessenger, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -20,33 +20,28 @@ const Footer = () => {
               <a href="#" className="hover:text-primary transition-all duration-300" aria-label="Facebook">
                 <FaFacebookF size={24} />
               </a>
-              <a href="#" className="hover:text-primary transition-all duration-300" aria-label="Twitter">
-                <FaTwitter size={24} />
-              </a>
-              <a href="#" className="hover:text-primary transition-all duration-300" aria-label="LinkedIn">
+              <a href="https://imo.im/sms?+8801789313805" className="hover:text-primary transition-all duration-300" aria-label="Imo">
                 <FaWhatsapp size={24} />
               </a>
             </div>
           </div>
 
           {/* Column 2: Quick Links */}
-          <div>
-            <h3 className="text-3xl font-semibold mb-6 text-primary">Quick Links</h3>
-            <ul>
-              <li className="mb-4 hover:text-primary transition-all duration-300">
-                <a href="#">Home</a>
-              </li>
-              <li className="mb-4 hover:text-primary transition-all duration-300">
-                <a href="#">Services</a>
-              </li>
-              <li className="mb-4 hover:text-primary transition-all duration-300">
-                <a href="#">Portfolio</a>
-              </li>
-              <li className="mb-4 hover:text-primary transition-all duration-300">
-                <a href="#">Contact</a>
-              </li>
-            </ul>
-          </div>
+<div>
+  <h3 className="text-3xl font-semibold mb-6 text-primary">Quick Links</h3>
+  <ul>
+    <li className="mb-4 hover:text-primary transition-all duration-300">
+      <a href="/">Home</a>
+    </li>
+    <li className="mb-4 hover:text-primary transition-all duration-300">
+      <a href="/Policy/TC.pdf" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
+    </li>
+    <li className="mb-4 hover:text-primary transition-all duration-300">
+      <a href="/Policy/TC.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+    </li>
+  </ul>
+</div>
+
 
           {/* Column 3: Contact Info */}
           <div>
@@ -54,7 +49,6 @@ const Footer = () => {
             <p className="text-lg mb-4 text-secondary">Address: Section 12, Block C, Line No: 6, House No 13, Pallabi Thana Mirpur Dhaka 1216</p>
             <p className="text-lg mb-4 text-secondary">Phone: (+880) 1789313805</p>
             <p className="text-lg mb-4 text-secondary">Email: Originalcollections772@gmail.com</p>
-            {/* <p className="text-lg mb-4 text-secondary">Emergency: (+880) 9638259714</p> */}
           </div>
 
           {/* Column 4: Social Media */}
@@ -79,15 +73,6 @@ const Footer = () => {
                 aria-label="Messenger"
               >
                 <FaFacebookMessenger size={32} />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-[#1DA1F2] transition-all duration-300"
-                aria-label="Twitter"
-              >
-                <FaTwitter size={32} />
               </a>
               <a
                 href="https://wa.me/8801789313805"
