@@ -10,20 +10,24 @@ const HomeBanner = () => {
   const collectionTextRef = useRef(null);
 
   useEffect(() => {
-    // Scale video on scroll
-    gsap.to(videoRef.current, {
-      scale: 0.7,
-      scrollTrigger: {
-        trigger: videoRef.current,
-        start: "top top",
-        end: "+=500",
-        scrub: 1,
-      },
-    });
+    const isMobile = window.innerWidth < 768; // Detect mobile devices
 
-    // Animate text after scrolling down
+    // Scale video on scroll (only for larger screens)
+    if (!isMobile) {
+      gsap.to(videoRef.current, {
+        scale: 0.85, // Adjusted scale
+        scrollTrigger: {
+          trigger: videoRef.current,
+          start: "top top",
+          end: "+=400",
+          scrub: 1,
+        },
+      });
+    }
+
+    // Animation trigger settings (adjusted for mobile)
     const triggerSettings = {
-      start: "top 60%", // Activates after scrolling down
+      start: isMobile ? "top 80%" : "top 60%", // Delayed for mobile
       toggleActions: "play none none reverse",
     };
 
@@ -56,7 +60,7 @@ const HomeBanner = () => {
       ></video>
 
       {/* Gradient Text */}
-      <div className="absolute flex gap-4 text-5xl font-bold">
+      <div className="absolute flex gap-2 sm:gap-4 text-3xl sm:text-4xl md:text-5xl font-bold">
         <span
           ref={originalTextRef}
           className="opacity-0 bg-gradient-to-r from-[#56C5DC] to-[#F68C1F] text-transparent bg-clip-text"
