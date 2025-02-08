@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const BestSellers = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const sectionRef = useRef(null); // Reference for the section
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch all products from your API
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://original-collections.onrender.com/api/products/fetch-products"); // Replace with your API URL
+        const response = await fetch("https://original-collections.onrender.com/api/products/fetch-products");
         const data = await response.json();
-        // Filter the products to get only the best sellers
         const bestSellers = data.filter((product) => product.isBestSeller === true);
         setProducts(bestSellers);
       } catch (error) {
@@ -25,24 +31,71 @@ const BestSellers = () => {
     fetchProducts();
   }, []);
 
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  useEffect(() => {
+    // GSAP animations
+    if (sectionRef.current) {
+      const cards = sectionRef.current.querySelectorAll(".product-card");
+
+      cards.forEach((card, index) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%", // Animation starts when the top of the card hits 80% of the viewport
+            end: "bottom 20%", // Animation ends when the bottom of the card hits 20% of the viewport
+            toggleActions: "play none none reverse", // Play on enter, reverse on leave
+          },
+        });
+
+        // Add a hover effect
+        gsap.to(card, {
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
+          paused: true,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            end: "bottom 20%",
+          },
+        });
+
+        card.addEventListener("mouseenter", () => {
+          gsap.to(card, { scale: 1.05, duration: 0.3 });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(card, { scale: 1, duration: 0.3 });
+        });
+      });
+
+      // Add shapes or decorative elements
+      const shapes = gsap.timeline({ repeat: -1, yoyo: true });
+      shapes.to(".shape-1", { x: 50, y: -50, duration: 3, ease: "power1.inOut" });
+      shapes.to(".shape-2", { x: -50, y: 50, duration: 3, ease: "power1.inOut" }, "-=3");
+    }
+  }, [products]); // Re-run animations when products are loaded
 
   const handleViewDetails = (productId) => {
-    // Redirect to the product details page
     navigate(`/products/single/${productId}`);
   };
 
-
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (
-    <div>
+    <div ref={sectionRef}>
       {/* Heading for Best Sellers */}
       <h2 className="text-3xl font-bold text-center text-primary mt-10 mb-6">
         Best Sellers
       </h2>
+
+      {/* Decorative shapes */}
+      <div className="shape-1 absolute w-20 h-20 bg-[#56C5DC] rounded-full opacity-30 top-20 left-10"></div>
+      <div className="shape-2 absolute w-20 h-20 bg-[#F68C1F] rounded-full opacity-30 bottom-20 right-10"></div>
 
       {products.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
@@ -52,7 +105,7 @@ const BestSellers = () => {
             return (
               <div
                 key={product._id}
-                className="bg-white shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-200"
+                className="product-card bg-white shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-200"
                 style={{ height: "440px" }}
               >
                 <div className="relative group">
@@ -82,14 +135,14 @@ const BestSellers = () => {
                   </p>
                   <p className="text-xs text-muted mt-1 truncate">Code: {product.productCode}</p>
                   <button
-                  className={`mt-3 w-full py-1.5 px-3 text-sm font-medium ${product.stock === 0
-                    ? 'bg-gray-300 cursor-not-allowed'
-                    : 'bg-[#F68C1F] text-white hover:bg-[#56C5DC]'}`}
-                  disabled={product.stock === 0}
-                  onClick={() => handleViewDetails(product._id)} // Handle button click
-                >
-                  {product.stock === 0 ? 'Out of Stock' : 'View Details'}
-                </button>
+                    className={`mt-3 w-full py-1.5 px-3 text-sm font-medium ${product.stock === 0
+                      ? 'bg-gray-300 cursor-not-allowed'
+                      : 'bg-[#F68C1F] text-white hover:bg-[#56C5DC]'}`}
+                    disabled={product.stock === 0}
+                    onClick={() => handleViewDetails(product._id)}
+                  >
+                    {product.stock === 0 ? 'Out of Stock' : 'View Details'}
+                  </button>
                 </div>
               </div>
             );
