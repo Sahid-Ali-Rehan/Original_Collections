@@ -37,6 +37,11 @@ const userSchema = new mongoose.Schema({
       message: 'Password must be at least 8 characters long and contain only letters and numbers.',
     },
   },
+
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
   
   role: {
     type: String,
@@ -44,6 +49,8 @@ const userSchema = new mongoose.Schema({
     enum: ['customer', 'admin'],
   },
 }, { timestamps: true });
+
+
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {

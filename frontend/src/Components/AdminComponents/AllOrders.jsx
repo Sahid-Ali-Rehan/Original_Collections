@@ -81,7 +81,7 @@ const AllOrders = () => {
                       {order.items?.length > 0
                         ? order.items.map((item, index) => (
                             <div key={index}>
-                              {item.name || "Unknown product"} ({item.selectedSize}, {item.selectedColor})
+                              {item.productName || "Unknown product"} ({item.selectedSize}, {item.selectedColor})
                             </div>
                           ))
                         : "No items"}

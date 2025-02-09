@@ -92,6 +92,9 @@ const Navbar = () => {
     navigate('/products');
   };
 
+  const handleRoute = () => {
+    navigate('/my-profile');
+  };
 
   return (
     <nav className="p-3 backdrop-blur-md  shadow-lg z-50 sticky top-0">
@@ -263,9 +266,12 @@ const Navbar = () => {
 
           {/* Avatar or Login/Signup */}
           {isLoggedIn ? (
-            <span className="w-7 h-7 flex items-center justify-center text-white bg-[#F9A02B] rounded-full text-md">
-              {user?.fullname?.[0]}
-            </span>
+            <span 
+            onClick={handleRoute} 
+            className="w-7 h-7 flex items-center justify-center text-white bg-[#F9A02B] rounded-full text-md cursor-pointer"
+          >
+            {user?.fullname?.[0]}
+          </span>
           ) : (
             <div className="flex items-center space-x-2">
               <Link
