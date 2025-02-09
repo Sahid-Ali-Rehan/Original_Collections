@@ -78,7 +78,8 @@ const Checkout = () => {
   
       if (response.ok) {
         toast.success("Order placed successfully!");
-        localStorage.setItem("orderSuccess", JSON.stringify(order));
+        // localStorage.setItem("orderSuccess", JSON.stringify(order));
+        localStorage.setItem("orderSuccess", JSON.stringify(responseData.order));
         navigate("/success");
       } else {
         toast.error(responseData.error || "Failed to place the order. Please try again.");

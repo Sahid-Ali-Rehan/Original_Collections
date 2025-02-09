@@ -55,7 +55,7 @@ const Success = () => {
       doc.setFontSize(12);
   
       // Text contents
-      const invoiceNo = `Invoice No: ${Math.floor(100000 + Math.random() * 900000)}`;
+      const invoiceNo = `Invoice No: ${order._id}`;
       const invoiceDate = `Invoice Date: ${new Date().toLocaleDateString()}`;
       const deliveryDateText = `Delivery Date: ${deliveryDate.toDateString()}`;
   

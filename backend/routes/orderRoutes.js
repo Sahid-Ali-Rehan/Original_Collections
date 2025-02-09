@@ -65,7 +65,11 @@ router.post("/checkout", async (req, res) => {
     });
 
     await order.save();
-    res.status(201).json({ message: "Order placed successfully", order });
+    // res.status(201).json({ message: "Order placed successfully", order });
+    res.status(201).json({ 
+      message: "Order placed successfully", 
+      order: order.toObject() // Convert Mongoose document to plain object
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
