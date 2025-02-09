@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -53,6 +55,45 @@ const AllOrders = () => {
     }
   };
 
+  const handleDownload = (order) => {
+    const worksheetData = [
+      ["Order ID", order._id],
+      ["Customer Name", order.name || "N/A"],
+      ["Phone", order.phone || "N/A"],
+      ["Address", order.address || "N/A"],
+      ["Jela", order.jela || "N/A"],
+      ["Upazela", order.upazela || "N/A"],
+      ["Payment Method", order.paymentMethod || "N/A"],
+      ["Status", order.status || "N/A"],
+      ["Total Amount", `TK. ${order.totalAmount}`],
+      [],
+      ["Items", "Size", "Color", "Quantity", "Price"]
+    ];
+
+    order.items.forEach(item => {
+      worksheetData.push([
+        item.productName || "Unknown Product",
+        item.selectedSize || "N/A",
+        item.selectedColor || "N/A",
+        item.quantity,
+        `TK. ${item.price}`
+      ]);
+    });
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    
+    worksheet["!cols"] = [
+      { wch: 25 }, { wch: 20 }, { wch: 15 }, 
+      { wch: 15 }, { wch: 15 }
+    ];
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Order Details");
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(data, `Order_${order._id.slice(-6)}.xlsx`);
+  };
+
   return (
     <div className="min-h-screen p-8 bg-[#D7F4FA]">
       <h1 className="text-3xl font-bold mb-6 text-primary">All Orders</h1>
@@ -69,6 +110,7 @@ const AllOrders = () => {
                 <th className="p-3 border-b text-left">Total Amount</th>
                 <th className="p-3 border-b text-left">Status</th>
                 <th className="p-3 border-b text-left">View More</th>
+                <th className="p-3 border-b text-left">Download</th>
               </tr>
             </thead>
             <tbody>
@@ -107,47 +149,66 @@ const AllOrders = () => {
                         View More
                       </button>
                     </td>
+                    <td className="p-3 border-b">
+                      <button
+                        onClick={() => handleDownload(order)}
+                        className="bg-green-600 text-white px-4 py-2 rounded shadow-lg hover:bg-green-700 flex items-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 mr-2"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Excel
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center p-4 text-secondary">No orders available</td>
+                  <td colSpan="7" className="text-center p-4 text-secondary">No orders available</td>
                 </tr>
               )}
             </tbody>
           </table>
 
           {selectedOrder && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg p-6 w-3/4 shadow-lg">
-      <h2 className="text-xl font-bold mb-4 text-primary">Order Details</h2>
-      <p><strong>Order ID:</strong> {selectedOrder._id}</p>
-      <p><strong>Name:</strong> {selectedOrder.name}</p>
-      <p><strong>Phone:</strong> {selectedOrder.phone}</p>
-      <p><strong>Address:</strong> {selectedOrder.address}</p>
-      <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
-      <p><strong>Status:</strong> {selectedOrder.status}</p>
-      <p><strong>Jela:</strong> {selectedOrder.jela}</p> {/* Added field */}
-      <p><strong>Upazela:</strong> {selectedOrder.upazela}</p> {/* Added field */}
-      <p><strong>Items:</strong></p>
-      <ul className="list-disc ml-6">
-        {selectedOrder.items.map((item, index) => (
-          <li key={index}>
-            {item.productName} - {item.quantity} x TK. {item.price} ({item.selectedSize}, {item.selectedColor})
-          </li>
-        ))}
-      </ul>
-      <p><strong>Total Amount:</strong> TK. {selectedOrder.totalAmount}</p>
-      <button
-        onClick={() => setSelectedOrder(null)}
-        className="bg-muted text-white px-4 py-2 rounded shadow-lg"
-      >
-        Close
-      </button>
-    </div>
-  </div>
-)}
-
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-6 w-3/4 shadow-lg">
+                <h2 className="text-xl font-bold mb-4 text-primary">Order Details</h2>
+                <p><strong>Order ID:</strong> {selectedOrder._id}</p>
+                <p><strong>Name:</strong> {selectedOrder.name}</p>
+                <p><strong>Phone:</strong> {selectedOrder.phone}</p>
+                <p><strong>Address:</strong> {selectedOrder.address}</p>
+                <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
+                <p><strong>Status:</strong> {selectedOrder.status}</p>
+                <p><strong>Jela:</strong> {selectedOrder.jela}</p>
+                <p><strong>Upazela:</strong> {selectedOrder.upazela}</p>
+                <p><strong>Items:</strong></p>
+                <ul className="list-disc ml-6">
+                  {selectedOrder.items.map((item, index) => (
+                    <li key={index}>
+                      {item.productName} - {item.quantity} x TK. {item.price} ({item.selectedSize}, {item.selectedColor})
+                    </li>
+                  ))}
+                </ul>
+                <p><strong>Total Amount:</strong> TK. {selectedOrder.totalAmount}</p>
+                <button
+                  onClick={() => setSelectedOrder(null)}
+                  className="bg-muted text-white px-4 py-2 rounded shadow-lg"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

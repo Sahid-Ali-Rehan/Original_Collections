@@ -292,6 +292,16 @@ const fetchProfile = async () => {
                 </div>
               </div>
 
+              {/* Tracking Information */}
+<div className="bg-white rounded-2xl shadow-lg p-8 border border-blue-100">
+  <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+    <FiTruck className="text-primary" /> Live Tracking Information
+  </h3>
+  <p className="text-gray-600">
+    Your order tracking link will be sent via SMS to {profileData?.phonenumber} once the shipment is on its way. Please check your messages for real-time updates.
+  </p>
+</div>
+
               {/* ... rest of the order sections with similar styling improvements ... */}
 
               {/* Cancellation Section */}

@@ -159,6 +159,31 @@ doc.text("Amount", pageWidth - 50, yOffset + 15, { align: "right" });
   doc.text(`Total Amount (after discount): Tk. ${finalAmount}`, 20, yOffset);
 };
     addOrderTable();
+
+
+    // Add Order Display Button Section
+const addOrderDisplayButton = () => {
+  let yOffset = pageHeight - 100; // Position above footer
+  const buttonWidth = 150;
+  const buttonHeight = 25;
+  const buttonX = (pageWidth - buttonWidth) / 2;
+
+  // Button Text
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.setTextColor("#F68C1F");
+  doc.textWithLink("Track Order", pageWidth / 2, yOffset + 15, {
+    url: "https://original-collections.onrender.com/my-profile",
+    align: "center",
+  });
+
+  // Underline Effect (Hover Simulation)
+  doc.setDrawColor("#F68C1F");
+  doc.line(pageWidth / 2 - 40, yOffset + 18, pageWidth / 2 + 40, yOffset + 18);
+};
+
+addOrderDisplayButton();
+
   
     // Footer
     const addFooter = () => {
@@ -216,10 +241,10 @@ doc.text("Amount", pageWidth - 50, yOffset + 15, { align: "right" });
           className="px-6 py-3 bg-primary text-white rounded hover:bg-secondary transition w-full"
           onClick={() => {
             localStorage.removeItem("orderSuccess");
-            navigate("/");
+            navigate("/my-profile");
           }}
         >
-          Back to Home
+          Track My Order
         </button>
       </div>
       <Footer />

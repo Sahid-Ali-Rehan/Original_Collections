@@ -16,6 +16,7 @@
     "backend": "file:..",
     "chart.js": "^4.4.6",
     "dotenv": "^16.4.5",
+    "file-saver": "^2.0.5",
     "framer-motion": "^11.15.0",
     "gsap": "^3.12.7",
     "html2canvas": "^1.4.1",
@@ -31,7 +32,8 @@
     "react-spinners": "^0.15.0",
     "react-toastify": "^10.0.6",
     "slick-carousel": "^1.8.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
