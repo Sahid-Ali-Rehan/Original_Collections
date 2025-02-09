@@ -16,6 +16,7 @@ const HomeBanner = () => {
     if (!isMobile) {
       gsap.to(videoRef.current, {
         scale: 0.85, // Adjusted scale
+        borderRadius: "30px", // Rounder corners
         scrollTrigger: {
           trigger: videoRef.current,
           start: "top top",
@@ -24,6 +25,7 @@ const HomeBanner = () => {
         },
       });
     }
+    
 
     // Animation trigger settings (adjusted for mobile)
     const triggerSettings = {

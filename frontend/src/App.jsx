@@ -34,7 +34,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />
-          {/* <Route path="/my-profile" element={<MyProfile />} /> */}
+          <Route path="/my-profile" element={<MyProfile />} />
 
 
 

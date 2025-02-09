@@ -128,6 +128,21 @@ router.post("/checkout", async (req, res) => {
     }
   });
   
+
+  router.get("/:orderId", async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await Order.findById(orderId).populate("items.productId", "productName");
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      res.status(200).json(order);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
+  
   
   
 
