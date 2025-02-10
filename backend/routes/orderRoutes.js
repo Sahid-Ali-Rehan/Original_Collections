@@ -146,6 +146,46 @@ router.post("/checkout", async (req, res) => {
       res.status(500).json({ error: "Server error" });
     }
   });
+
+  // Add new routes
+router.put('/request-cancel/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    order.status = 'CancellationRequested';
+    await order.save();
+    res.json({ message: 'Cancellation requested', order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.delete('/cancel/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    // Restore product stock
+    for (const item of order.items) {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        product.stock += item.quantity;
+        await product.save();
+      }
+    }
+
+    await Order.findByIdAndDelete(req.params.orderId);
+    res.json({ message: 'Order cancelled and deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
   
   
   

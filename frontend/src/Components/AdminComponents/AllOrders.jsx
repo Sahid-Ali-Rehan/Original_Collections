@@ -94,6 +94,25 @@ const AllOrders = () => {
     saveAs(data, `Order_${order._id.slice(-6)}.xlsx`);
   };
 
+
+  // Add this function inside the AllOrders component
+const handleApproveCancellation = async (orderId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await axios.delete(
+      `https://original-collections.onrender.com/api/orders/cancel/${orderId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    toast.success("Order cancelled and deleted");
+    setOrders(orders.filter(order => order._id !== orderId));
+  } catch (error) {
+    toast.error("Failed to approve cancellation");
+    console.error(error);
+  }
+};
+
+
+
   return (
     <div className="min-h-screen p-8 bg-[#D7F4FA]">
       <h1 className="text-3xl font-bold mb-6 text-primary">All Orders</h1>
@@ -169,13 +188,31 @@ const AllOrders = () => {
                         Excel
                       </button>
                     </td>
+
+                    
                   </tr>
+                  
                 ))
               ) : (
                 <tr>
                   <td colSpan="7" className="text-center p-4 text-secondary">No orders available</td>
                 </tr>
               )}
+
+{/* // Add new column in table header */}
+<th className="p-3 border-b text-left">Actions</th>
+
+{/* // Add new cell in table row */}
+<td className="p-3 border-b">
+  {order.status === "CancellationRequested" && (
+    <button
+      onClick={() => handleApproveCancellation(order._id)}
+      className="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600"
+    >
+      Approve Cancellation
+    </button>
+  )}
+</td>
             </tbody>
           </table>
 

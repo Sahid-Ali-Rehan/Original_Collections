@@ -141,6 +141,34 @@ const fetchProfile = async () => {
     return ((currentIndex + 1) / statusOrder.length) * 100;
   };
 
+
+  // Add this function inside the MyProfile component
+const handleCancelRequest = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Authentication required");
+      return;
+    }
+
+    const response = await axios.put(
+      `https://original-collections.onrender.com/api/orders/request-cancel/${order._id}`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    if (response.data) {
+      toast.success("Cancellation request sent to admin");
+      setOrder({ ...order, status: "CancellationRequested" });
+    }
+  } catch (error) {
+    toast.error("Failed to request cancellation");
+    console.error(error);
+  }
+};
+
+
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-12 profile-container">
       <div className="max-w-6xl mx-auto">
@@ -305,20 +333,21 @@ const fetchProfile = async () => {
               {/* ... rest of the order sections with similar styling improvements ... */}
 
               {/* Cancellation Section */}
-              {order && !["Shipped", "Delivered"].includes(order.status) && (
-                <div ref={deleteRef} className="bg-white rounded-2xl shadow-lg p-8 border border-red-100 text-center">
-                  <h3 className="text-xl font-bold text-red-600 mb-4">Need to Cancel Order?</h3>
-                  <p className="text-gray-600 mb-6">
-                    You can request cancellation before shipping. Contact support for immediate assistance.
-                  </p>
-                  <button
-                    onClick={() => toast.info("Cancellation request feature coming soon")}
-                    className="px-6 py-2 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-400"
-                  >
-                    Request Cancellation
-                  </button>
-                </div>
-              )}
+             
+{order && !["Shipped", "Delivered", "CancellationRequested"].includes(order.status) && (
+  <div ref={deleteRef} className="bg-white rounded-2xl shadow-lg p-8 border border-red-100 text-center">
+    <h3 className="text-xl font-bold text-red-600 mb-4">Need to Cancel Order?</h3>
+    <p className="text-gray-600 mb-6">
+      You can request cancellation before shipping. Contact support for immediate assistance.
+    </p>
+    <button
+      onClick={handleCancelRequest}
+      className="px-6 py-2 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-400"
+    >
+      Request Cancellation
+    </button>
+  </div>
+)}
             </div>
           )}
           
