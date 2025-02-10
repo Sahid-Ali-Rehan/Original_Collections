@@ -130,6 +130,8 @@ const handleApproveCancellation = async (orderId) => {
                 <th className="p-3 border-b text-left">Status</th>
                 <th className="p-3 border-b text-left">View More</th>
                 <th className="p-3 border-b text-left">Download</th>
+<th className="p-3 border-b text-left">Actions</th>
+
               </tr>
             </thead>
             <tbody>
@@ -200,18 +202,24 @@ const handleApproveCancellation = async (orderId) => {
               )}
 
 {/* // Add new column in table header */}
-<th className="p-3 border-b text-left">Actions</th>
 
 {/* // Add new cell in table row */}
 <td className="p-3 border-b">
-  {order.status === "CancellationRequested" && (
-    <button
-      onClick={() => handleApproveCancellation(order._id)}
-      className="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600"
-    >
-      Approve Cancellation
-    </button>
-  )}
+{orders.map((order) => (
+  <tr key={order._id} className="hover:bg-secondary">
+    {/* ... other cells ... */}
+    <td className="p-3 border-b">
+      {order.status === "CancellationRequested" && (
+        <button
+          onClick={() => handleApproveCancellation(order._id)}
+          className="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600"
+        >
+          Approve Cancellation
+        </button>
+      )}
+    </td>
+  </tr>
+))}
 </td>
             </tbody>
           </table>
