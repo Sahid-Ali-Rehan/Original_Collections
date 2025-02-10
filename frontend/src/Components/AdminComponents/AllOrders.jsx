@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
+  const componentRef = useRef(null);
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -54,6 +56,7 @@ const AllOrders = () => {
       toast.error("Error updating order status");
     }
   };
+  
 
   const handleDownload = (order) => {
     const worksheetData = [
@@ -112,148 +115,176 @@ const handleApproveCancellation = async (orderId) => {
 };
 
 
+useEffect(() => {
+  if (orders.length > 0) {
+    gsap.utils.toArray("tbody tr").forEach((row) => {
+      gsap.from(row, {
+        opacity: 0,
+        x: -50,
+        duration: 0.5,
+        scrollTrigger: {
+          trigger: row,
+          start: "top center+=100",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+  }
+}, [orders]);
+
+
+
 
   return (
-    <div className="min-h-screen p-8 bg-[#D7F4FA]">
+    <div className="min-h-screen p-8 bg-[#D7F4FA]" ref={componentRef}>
       <h1 className="text-3xl font-bold mb-6 text-primary">All Orders</h1>
+      
       {loading ? (
         <p className="text-center text-secondary">Loading orders...</p>
       ) : (
-        <div>
-          <table className="min-w-full bg-white border border-muted shadow-lg rounded-lg">
-            <thead>
-              <tr className="bg-primary text-white">
-                <th className="p-3 border-b text-left">Order ID</th>
-                <th className="p-3 border-b text-left">Name</th>
-                <th className="p-3 border-b text-left">Items</th>
-                <th className="p-3 border-b text-left">Total Amount</th>
-                <th className="p-3 border-b text-left">Status</th>
-                <th className="p-3 border-b text-left">View More</th>
-                <th className="p-3 border-b text-left">Download</th>
-<th className="p-3 border-b text-left">Actions</th>
-
+        <div className="overflow-x-auto rounded-lg shadow-xl">
+          <table className="w-full bg-white">
+            <thead className="bg-primary text-white">
+              <tr>
+                <th className="p-4 text-left min-w-[180px]">Order ID</th>
+                <th className="p-4 text-left">Customer</th>
+                <th className="p-4 text-left">Items</th>
+                <th className="p-4 text-left">Total</th>
+                <th className="p-4 text-left">Status</th>
+                <th className="p-4 text-left">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {orders.length > 0 ? (
-                orders.map((order) => (
-                  <tr key={order._id} className="hover:bg-secondary">
-                    <td className="p-3 border-b">{order._id}</td>
-                    <td className="p-3 border-b">{order.name || "No name"}</td>
-                    <td className="p-3 border-b">
-                      {order.items?.length > 0
-                        ? order.items.map((item, index) => (
-                            <div key={index}>
-                              {item.productName || "Unknown product"} ({item.selectedSize}, {item.selectedColor})
-                            </div>
-                          ))
-                        : "No items"}
-                    </td>
-                    <td className="p-3 border-b">TK. {order.totalAmount}</td>
-                    <td className="p-3 border-b">
-                      <select
-                        value={order.status}
-                        onChange={(e) => updateStatus(order._id, e.target.value)}
-                        className="border p-2 rounded bg-muted text-black shadow-sm"
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Confirm">Confirm</option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Delivered">Delivered</option>
-                      </select>
-                    </td>
-                    <td className="p-3 border-b">
+            
+            <tbody className="divide-y divide-gray-200">
+              {orders.length > 0 ? orders.map((order) => (
+                <tr key={order._id} className="hover:bg-gray-50 transition-colors">
+                  <td className="p-4 text-sm font-medium text-gray-700">{order._id.slice(-8)}</td>
+                  <td className="p-4">
+                    <div className="flex flex-col">
+                      <span className="font-medium">{order.name || "No name"}</span>
+                      <span className="text-sm text-gray-500">{order.phone}</span>
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex flex-col gap-1">
+                      {order.items?.map((item, index) => (
+                        <div key={index} className="text-sm">
+                          {item.productName} ({item.quantity})
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td className="p-4 font-medium">৳{order.totalAmount}</td>
+                  <td className="p-4">
+                    <select
+                      value={order.status}
+                      onChange={(e) => updateStatus(order._id, e.target.value)}
+                      className="px-3 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Confirm">Confirm</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-3">
                       <button
                         onClick={() => setSelectedOrder(order)}
-                        className="bg-primary text-white px-4 py-2 rounded shadow-lg"
+                        className="p-2 rounded-lg text-primary hover:bg-gray-100"
+                        aria-label="View details"
                       >
-                        View More
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
                       </button>
-                    </td>
-                    <td className="p-3 border-b">
+
                       <button
                         onClick={() => handleDownload(order)}
-                        className="bg-green-600 text-white px-4 py-2 rounded shadow-lg hover:bg-green-700 flex items-center"
+                        className="p-2 rounded-lg text-green-600 hover:bg-gray-100"
+                        aria-label="Download Excel"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
-                        Excel
                       </button>
-                    </td>
 
-                    
-                  </tr>
-                  
-                ))
-              ) : (
+                      {order.status === "CancellationRequested" && (
+                        <button
+                          onClick={() => handleApproveCancellation(order._id)}
+                          className="p-2 rounded-lg text-red-600 hover:bg-gray-100"
+                          aria-label="Approve cancellation"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              )) : (
                 <tr>
-                  <td colSpan="7" className="text-center p-4 text-secondary">No orders available</td>
+                  <td colSpan="6" className="p-6 text-center text-gray-500">
+                    No orders found
+                  </td>
                 </tr>
               )}
-
-{/* // Add new column in table header */}
-
-{/* // Add new cell in table row */}
-<td className="p-3 border-b">
-{orders.map((order) => (
-  <tr key={order._id} className="hover:bg-secondary">
-    {/* ... other cells ... */}
-    <td className="p-3 border-b">
-      {order.status === "CancellationRequested" && (
-        <button
-          onClick={() => handleApproveCancellation(order._id)}
-          className="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600"
-        >
-          Approve Cancellation
-        </button>
-      )}
-    </td>
-  </tr>
-))}
-</td>
             </tbody>
           </table>
+        </div>
+      )}
 
-          {selectedOrder && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 w-3/4 shadow-lg">
-                <h2 className="text-xl font-bold mb-4 text-primary">Order Details</h2>
+      {/* Order Details Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold">Order Details</h2>
+              <button
+                onClick={() => setSelectedOrder(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
                 <p><strong>Order ID:</strong> {selectedOrder._id}</p>
                 <p><strong>Name:</strong> {selectedOrder.name}</p>
                 <p><strong>Phone:</strong> {selectedOrder.phone}</p>
                 <p><strong>Address:</strong> {selectedOrder.address}</p>
+              </div>
+              <div>
                 <p><strong>Payment Method:</strong> {selectedOrder.paymentMethod}</p>
-                <p><strong>Status:</strong> {selectedOrder.status}</p>
                 <p><strong>Jela:</strong> {selectedOrder.jela}</p>
                 <p><strong>Upazela:</strong> {selectedOrder.upazela}</p>
-                <p><strong>Items:</strong></p>
-                <ul className="list-disc ml-6">
-                  {selectedOrder.items.map((item, index) => (
-                    <li key={index}>
-                      {item.productName} - {item.quantity} x TK. {item.price} ({item.selectedSize}, {item.selectedColor})
-                    </li>
-                  ))}
-                </ul>
-                <p><strong>Total Amount:</strong> TK. {selectedOrder.totalAmount}</p>
-                <button
-                  onClick={() => setSelectedOrder(null)}
-                  className="bg-muted text-white px-4 py-2 rounded shadow-lg"
-                >
-                  Close
-                </button>
+                <p><strong>Total:</strong> ৳{selectedOrder.totalAmount}</p>
               </div>
             </div>
-          )}
+
+            <div className="border-t pt-4">
+              <h3 className="font-medium mb-2">Items</h3>
+              <div className="space-y-2">
+                {selectedOrder.items.map((item, index) => (
+                  <div key={index} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <div>
+                      <p className="font-medium">{item.productName}</p>
+                      <p className="text-sm text-gray-500">{item.selectedSize}, {item.selectedColor}</p>
+                    </div>
+                    <div className="text-right">
+                      <p>Qty: {item.quantity}</p>
+                      <p className="text-primary">৳{item.price}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
