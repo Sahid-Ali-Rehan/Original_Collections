@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { HiMenu } from "react-icons/hi"; // For menu
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"; // Cart Icon
+import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 // Dropdown Items as JSON
 const categories = {
@@ -256,14 +256,26 @@ const Navbar = () => {
 
         {/* Cart and Avatar/ Login */}
         <div className="flex items-center space-x-4">
-          {/* Cart */}
-          <Link to="/cart" className="flex items-center">
-            <FontAwesomeIcon
-              icon={faShoppingCart}
-              className="w-6 h-6 text-primary hover:text-[#F9A02B] transition-all duration-200"
-            />
-          </Link>
 
+          
+        
+  {/* Wishlist */}
+  {isLoggedIn && (
+    <Link to="/wish-list" className="flex items-center">
+      <FontAwesomeIcon
+        icon={faHeart}
+        className="w-6 h-6 text-primary hover:text-red-500 transition-all duration-200"
+      />
+    </Link>
+  )}
+  
+  {/* Cart */}
+  <Link to="/cart" className="flex items-center">
+    <FontAwesomeIcon
+      icon={faShoppingCart}
+      className="w-6 h-6 text-primary hover:text-[#F9A02B] transition-all duration-200"
+    />
+  </Link>
           {/* Avatar or Login/Signup */}
           {isLoggedIn ? (
             <span 

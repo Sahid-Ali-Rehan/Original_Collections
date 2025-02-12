@@ -145,6 +145,35 @@ router.put("/update-status/:id",  async (req, res) => {
 });
 
 
+// Add to userRoutes.js
+router.get('/wishlist',  async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate('wishlist');
+    res.json({ wishlist: user.wishlist });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.post('/wishlist/:productId', async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const index = user.wishlist.indexOf(req.params.productId);
+    
+    if (index === -1) {
+      user.wishlist.push(req.params.productId);
+    } else {
+      user.wishlist.splice(index, 1);
+    }
+    
+    await user.save();
+    res.json({ wishlist: user.wishlist });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 
 
 module.exports = router;

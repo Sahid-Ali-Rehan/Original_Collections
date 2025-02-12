@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, axios } from "react";
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 const BestSellers = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [wishlist, setWishlist] = useState([]);
+
   const sectionRef = useRef(null); // Reference for the section
   const navigate = useNavigate();
 
@@ -82,6 +86,50 @@ const BestSellers = () => {
     navigate(`/products/single/${productId}`);
   };
 
+
+  const handleWishlist = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return navigate('/login');
+  
+      const response = await axios.post(
+        `https://original-collections.onrender.com/api/users/wishlist/${productId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      
+      setWishlist(response.data.wishlist);
+    } catch (error) {
+      console.error("Wishlist error:", error);
+    }
+  };
+  
+  const isInWishlist = (productId) => 
+    wishlist.some(item => item._id === productId);
+  
+  // Add useEffect to fetch wishlist on component mount
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+  
+        const response = await axios.get(
+          "https://original-collections.onrender.com/api/users/wishlist",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        
+        setWishlist(response.data.wishlist);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+  
+    fetchWishlist();
+  }, []);
+
   if (loading) {
     return <Loading />;
   }
@@ -134,6 +182,20 @@ const BestSellers = () => {
                     <span className="line-through text-[#70D5E3] text-xs">৳{product.price.toFixed(2)}</span>
                   </p>
                   <p className="text-xs text-muted mt-1 truncate">Code: {product.productCode}</p>
+                  <div className="absolute top-2 right-2">
+  <button 
+    onClick={(e) => {
+      e.stopPropagation();
+      handleWishlist(product._id);
+    }}
+    className="p-2 hover:text-red-500 transition-all"
+  >
+    <FontAwesomeIcon
+      icon={isInWishlist(product._id) ? solidHeart : regularHeart}
+      className={`text-xl ${isInWishlist(product._id) ? 'text-red-500 animate-pulse' : 'text-gray-400'}`}
+    />
+  </button>
+</div>
                   <button
                     className={`mt-3 w-full py-1.5 px-3 text-sm font-medium ${product.stock === 0
                       ? 'bg-gray-300 cursor-not-allowed'

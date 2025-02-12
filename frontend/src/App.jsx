@@ -18,6 +18,7 @@ import Checkout from "./Components/Checkout/Checkout";
 import Success from "./Components/Message/Success";
 import AllOrders from "./Components/AdminComponents/AllOrders";
 import MyProfile from "./Components/MyProfile/MyProfile";
+import Wishlist from "./Components/Wishlist/Wishlist";
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />
           <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/wish-list" element={<Wishlist/>} />
+
 
 
 
