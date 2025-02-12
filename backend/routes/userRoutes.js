@@ -147,7 +147,7 @@ router.put("/update-status/:id",  async (req, res) => {
 
 
 // Add to wishlist
-router.post('/wishlist/:productId', async (req, res) => {
+router.post('/wishlist/:productId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -169,9 +169,10 @@ router.post('/wishlist/:productId', async (req, res) => {
 });
 
 // Get wishlist
-router.get('/wishlist', async (req, res) => {
+router.get('/wishlist', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate('wishlist');
+    
+const user = await User.findById(req.user._id).populate('wishlist');
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json({ wishlist: user.wishlist });
   } catch (error) {
