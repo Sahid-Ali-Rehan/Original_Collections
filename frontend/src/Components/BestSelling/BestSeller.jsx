@@ -87,31 +87,24 @@ const BestSellers = () => {
     navigate(`/products/single/${productId}`);
   };
 
-  const handleWishlist = async (productId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return navigate('/login');
-      
-      const response = await axios.post(
-        `https://original-collections.onrender.com/api/users/wishlist/${productId}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setWishlist(response.data.wishlist);
-    } catch (error) {
-      if (!navigator.onLine) {
-        alert("It seems you're offline. Please check your internet connection.");
-      } else {
-        console.error("Error adding to wishlist:", error.message);
-        alert("An error occurred while adding to your wishlist.");
-      }
-      
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        localStorage.removeItem("token");
-        navigate('/login');
-      }
-    }
-  };
+ // BestSellers.js (updated wishlist handling)
+const handleWishlist = (product) => {
+  const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  const exists = storedWishlist.some(item => item._id === product._id);
+  const updatedWishlist = exists
+    ? storedWishlist.filter(item => item._id !== product._id)
+    : [...storedWishlist, product];
+  
+  localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+  setWishlist(updatedWishlist);
+};
+
+// Update the initial wishlist state
+useEffect(() => {
+  const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  setWishlist(storedWishlist);
+}, []);
+
   
   
   const isInWishlist = (productId) => 
@@ -195,13 +188,13 @@ const BestSellers = () => {
   <button 
     onClick={(e) => {
       e.stopPropagation();
-      handleWishlist(product._id);
+      handleWishlist(product);
     }}
     className="p-2 hover:text-red-500 transition-all"
   >
     <FontAwesomeIcon
-      icon={isInWishlist(product._id) ? solidHeart : regularHeart}
-      className={`text-xl ${isInWishlist(product._id) ? 'text-red-500 animate-pulse' : 'text-gray-400'}`}
+      icon={wishlist.some(item => item._id === product._id) ? solidHeart : regularHeart}
+      className={`text-xl ${wishlist.some(item => item._id === product._id) ? 'text-red-500 animate-pulse' : 'text-gray-400'}`}
     />
   </button>
 </div>
