@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, axios } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import { gsap } from "gsap";
@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,7 +87,6 @@ const BestSellers = () => {
     navigate(`/products/single/${productId}`);
   };
 
-
   const handleWishlist = async (productId) => {
     try {
       const token = localStorage.getItem("token");
@@ -95,14 +95,17 @@ const BestSellers = () => {
       const response = await axios.post(
         `https://original-collections.onrender.com/api/users/wishlist/${productId}`,
         {},
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       
       setWishlist(response.data.wishlist);
     } catch (error) {
       console.error("Wishlist error:", error);
+      // Add error handling for 401/403 statuses
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        localStorage.removeItem("token");
+        navigate('/login');
+      }
     }
   };
   
@@ -115,12 +118,13 @@ const BestSellers = () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-  
+        
         const response = await axios.get(
           "https://original-collections.onrender.com/api/users/wishlist",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         
+        // Ensure response contains populated products
         setWishlist(response.data.wishlist);
       } catch (error) {
         console.error("Error fetching wishlist:", error);

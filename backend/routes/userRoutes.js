@@ -145,34 +145,39 @@ router.put("/update-status/:id",  async (req, res) => {
 });
 
 
-// Add to userRoutes.js
-router.get('/wishlist',  async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).populate('wishlist');
-    res.json({ wishlist: user.wishlist });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
 
+// Add to wishlist
 router.post('/wishlist/:productId', async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    const index = user.wishlist.indexOf(req.params.productId);
-    
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const productId = req.params.productId;
+    const index = user.wishlist.indexOf(productId);
+
     if (index === -1) {
-      user.wishlist.push(req.params.productId);
+      user.wishlist.push(productId);
     } else {
       user.wishlist.splice(index, 1);
     }
-    
+
     await user.save();
     res.json({ wishlist: user.wishlist });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error', error });
   }
 });
 
+// Get wishlist
+router.get('/wishlist', async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate('wishlist');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ wishlist: user.wishlist });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
 
 
 
