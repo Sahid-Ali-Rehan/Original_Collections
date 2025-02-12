@@ -12,6 +12,7 @@ export default {
         black: "#000000",     // Black for text
         white: "#FFFFFF",     // White for backgrounds and contrast
         muted: "#7D835F",     // Muted tone for borders and subtle text
+        
       },
     },
   },

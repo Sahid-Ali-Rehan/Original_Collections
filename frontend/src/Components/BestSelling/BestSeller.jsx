@@ -88,16 +88,24 @@ const BestSellers = () => {
   };
 
  // BestSellers.js (updated wishlist handling)
-const handleWishlist = (product) => {
+ const handleWishlist = (product) => {
   const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
   const exists = storedWishlist.some(item => item._id === product._id);
   const updatedWishlist = exists
     ? storedWishlist.filter(item => item._id !== product._id)
     : [...storedWishlist, product];
-  
+
   localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
   setWishlist(updatedWishlist);
+
+  // Show toast notifications
+  if (exists) {
+    toast.error(`${product.productName} removed from wishlist`, { position: 'bottom-right' });
+  } else {
+    toast.success(`${product.productName} added to wishlist`, { position: 'bottom-right' });
+  }
 };
+
 
 // Update the initial wishlist state
 useEffect(() => {
@@ -107,30 +115,7 @@ useEffect(() => {
 
   
   
-  const isInWishlist = (productId) => 
-    wishlist.some(item => item._id.toString() === productId.toString());
-  
-  // Add useEffect to fetch wishlist on component mount
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-        
-        const response = await axios.get(
-          "https://original-collections.onrender.com/api/users/wishlist",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        
-        // Ensure response contains populated products
-        setWishlist(response.data.wishlist);
-      } catch (error) {
-        console.error("Error fetching wishlist:", error);
-      }
-    };
-  
-    fetchWishlist();
-  }, []);
+ 
 
   if (loading) {
     return <Loading />;

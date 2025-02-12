@@ -53,10 +53,10 @@ const Wishlist = () => {
 
   return (
     <div className="container mx-auto p-4" ref={sectionRef}>
-      <h1 className="text-3xl font-bold mb-6">My Wishlist</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-primary">My Wishlist</h1>
       {wishlist.length === 0 ? (
         <div className="text-center">
-          <p className="text-xl">Your wishlist is empty</p>
+          <p className="text-xl text-secondary">Your wishlist is empty</p>
           <Link to="/products" className="text-blue-500 hover:underline">
             Browse Products
           </Link>

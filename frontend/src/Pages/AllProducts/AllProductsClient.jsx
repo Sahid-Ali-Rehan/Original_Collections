@@ -3,6 +3,9 @@ import axios from 'axios';
 import Navbar from '../../Components/Navigations/Navbar';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from '../../Components/Loading/Loading';
 
 const AllProductsClient = () => {
@@ -11,6 +14,8 @@ const AllProductsClient = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [wishlist, setWishlist] = useState([]);
+  
   const [showFilters, setShowFilters] = useState(true);
   const [filters, setFilters] = useState({
     search: '',
@@ -131,6 +136,33 @@ const AllProductsClient = () => {
   const handleViewDetails = (productId) => {
     navigate(`/products/single/${productId}`);
   };
+
+
+   // BestSellers.js (updated wishlist handling)
+   const handleWishlist = (product) => {
+    const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const exists = storedWishlist.some(item => item._id === product._id);
+    const updatedWishlist = exists
+      ? storedWishlist.filter(item => item._id !== product._id)
+      : [...storedWishlist, product];
+  
+    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    setWishlist(updatedWishlist);
+  
+    // Show toast notifications
+    if (exists) {
+      toast.error(`${product.productName} removed from wishlist`, { position: 'bottom-right' });
+    } else {
+      toast.success(`${product.productName} added to wishlist`, { position: 'bottom-right' });
+    }
+  };
+  
+  // Update the initial wishlist state
+  useEffect(() => {
+    const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    setWishlist(storedWishlist);
+  }, []);
+  
 
   return (
     <div className="container mx-auto bg-[#fff]">
@@ -286,6 +318,21 @@ const AllProductsClient = () => {
                     <span className="line-through text-sm text-[#70D5E3]">৳{product.price.toFixed(2)}</span>
                   )}
                 </p>
+              </div>
+
+                      <div className="absolute top-2 right-2">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleWishlist(product);
+                  }}
+                  className="p-2 hover:text-red-500 transition-all"
+                >
+                  <FontAwesomeIcon
+                    icon={wishlist.some(item => item._id === product._id) ? solidHeart : regularHeart}
+                    className={`text-xl ${wishlist.some(item => item._id === product._id) ? 'text-red-500 animate-pulse' : 'text-gray-400'}`}
+                  />
+                </button>
               </div>
 
               <button
