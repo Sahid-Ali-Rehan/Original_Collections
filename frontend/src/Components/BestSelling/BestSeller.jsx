@@ -91,17 +91,21 @@ const BestSellers = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return navigate('/login');
-  
+      
       const response = await axios.post(
         `https://original-collections.onrender.com/api/users/wishlist/${productId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
       setWishlist(response.data.wishlist);
     } catch (error) {
-      console.error("Wishlist error:", error);
-      // Add error handling for 401/403 statuses
+      if (!navigator.onLine) {
+        alert("It seems you're offline. Please check your internet connection.");
+      } else {
+        console.error("Error adding to wishlist:", error.message);
+        alert("An error occurred while adding to your wishlist.");
+      }
+      
       if (error.response?.status === 401 || error.response?.status === 403) {
         localStorage.removeItem("token");
         navigate('/login');
@@ -109,8 +113,9 @@ const BestSellers = () => {
     }
   };
   
+  
   const isInWishlist = (productId) => 
-    wishlist.some(item => item._id === productId);
+    wishlist.some(item => item._id.toString() === productId.toString());
   
   // Add useEffect to fetch wishlist on component mount
   useEffect(() => {
