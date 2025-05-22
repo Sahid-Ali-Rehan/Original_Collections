@@ -111,11 +111,32 @@ const Footer = () => {
       </div>
 
       {/* Footer Bottom Section */}
-      <div className="bg-[#56C5DC] py-6 text-center rounded-md mt-16">
-        <p className="text-lg text-white">
-         <span className="text-primary">&copy; 2025</span> Original Collections. All Rights Reserved.
+<div className="bg-[#56C5DC] py-6 rounded-md mt-16">
+  <div className="container mx-auto px-4 md:px-12">
+    <div className="flex flex-col md:flex-row items-center justify-between">
+      {/* Copyright - Centered on desktop, top on mobile */}
+      <div className="mb-4 md:mb-0 md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+        <p className="text-lg text-white text-center">
+          <span className="text-primary">&copy; 2025</span> Original Collections. All Rights Reserved.
         </p>
       </div>
+
+      {/* Developer Credit - Right-aligned on desktop, bottom on mobile */}
+      <div className="flex items-center space-x-2 group md:ml-auto">
+        <span className="text-white">Developed by</span>
+        <a
+          href="https://www.instagram.com/ur_rehu/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center hover:text-[#C13584] transition-all duration-300"
+        >
+          <FaInstagram size={20} className="mr-1 transform group-hover:scale-110 transition-transform" />
+          <span className="font-medium hover:underline">@ur_rehu</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
     </footer>
   );
 };
