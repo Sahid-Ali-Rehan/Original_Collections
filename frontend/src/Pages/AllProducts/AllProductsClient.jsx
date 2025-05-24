@@ -282,70 +282,83 @@ const AllProductsClient = () => {
   {loading ? (
     <Loading />  // Show loading component while data is being fetched
   ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {filteredProducts.length === 0 ? (
-        <p className="col-span-4 text-center text-lg text-[#7b7c4d]">No products available.</p>
-      ) : (
-        filteredProducts.map((product) => {
-          const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+  {filteredProducts.length === 0 ? (
+    <p className="col-span-full text-center text-lg text-[#7b7c4d]">No products available.</p>
+  ) : (
+    filteredProducts.map((product) => {
+      const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
 
-          return (
-            <div
-              key={product._id}
-              className="bg-white shadow-md overflow-hidden transform transition-transform duration-200 h-auto w-full lg:h-[445px] lg:w-[300px]"
-            >
-              <div className="relative group">
-                {/* First Image (Default) */}
-                <img
-                  src={product.images[0] || 'https://via.placeholder.com/400x300?text=No+Image'}
-                  alt={product.name}
-                  className="w-full h-72 object-cover group-hover:opacity-0 transition-opacity duration-300"
-                />
-                {/* Second Image (On Hover) */}
-                <img
-                  src={product.images[1] || 'https://via.placeholder.com/400x300?text=No+Image+Hover'}
-                  alt={product.name}
-                  className="w-full h-72 object-cover opacity-0 group-hover:opacity-100 absolute top-0 left-0 transition-opacity duration-300"
-                />
+      return (
+        <div
+          key={product._id}
+          className="relative bg-white shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-200"
+          style={{ height: "440px" }}
+        >
+          <div className="relative group">
+            <img
+              src={product.images[0] || 'https://via.placeholder.com/400x300?text=No+Image'}
+              alt={product.name}
+              className="w-full object-cover group-hover:opacity-0 transition-opacity duration-300"
+              style={{ height: "300px" }}
+            />
+            <img
+              src={product.images[1] || 'https://via.placeholder.com/400x300?text=No+Image+Hover'}
+              alt={product.name}
+              className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ height: "300px" }}
+            />
+
+            {product.stock === 0 && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm font-bold">
+                Out of Stock
               </div>
+            )}
+          </div>
 
-              <div className="p-4 bg-[#D7F4FA]">
-                <h3 className="font-semibold text-lg text-primary">{product.productName}</h3>
-                <p className="text-sm text-muted">{product.productCode}</p>
-                <p className="font-semibold text-xl mt-2 text-primary">
-                  ৳{discountedPrice.toFixed(2)}{' '}
-                  {product.discount > 0 && (
-                    <span className="line-through text-sm text-[#70D5E3]">৳{product.price.toFixed(2)}</span>
-                  )}
-                </p>
-              </div>
+          <div className="p-4 bg-[#d7f4fa] relative h-[140px]">
+            <h3 className="text-md font-semibold text-primary truncate">{product.productName}</h3>
+            <p className="text-sm font-bold text-[#56C5DC] mt-1">
+              ৳{discountedPrice.toFixed(2)}{' '}
+              {product.discount > 0 && (
+                <span className="line-through text-[#70D5E3] text-xs">৳{product.price.toFixed(2)}</span>
+              )}
+            </p>
+            <p className="text-xs text-muted mt-1 truncate">Code: {product.productCode}</p>
 
-                      <div className="absolute top-2 right-2">
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleWishlist(product);
-                  }}
-                  className="p-2 hover:text-red-500 transition-all"
-                >
-                  <FontAwesomeIcon
-                    icon={wishlist.some(item => item._id === product._id) ? solidHeart : regularHeart}
-                    className={`text-xl ${wishlist.some(item => item._id === product._id) ? 'text-red-500 animate-pulse' : 'text-gray-400'}`}
-                  />
-                </button>
-              </div>
-
-              <button
-                onClick={() => handleViewDetails(product._id)}
-                className="w-full bg-[#F68C1F] text-white py-2  hover:bg-[#56C5DC] transition duration-300"
+            <div className="absolute top-2 right-2">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleWishlist(product);
+                }}
+                className="p-2 hover:text-red-500 transition-all"
               >
-                View Details
+                <FontAwesomeIcon
+                  icon={wishlist.some(item => item._id === product._id) ? solidHeart : regularHeart}
+                  className={`text-xl ${wishlist.some(item => item._id === product._id) ? 'text-red-500 animate-pulse' : 'text-gray-400'}`}
+                />
               </button>
             </div>
-          );
-        })
-      )}
-    </div>
+
+            <button
+              onClick={() => product.stock !== 0 && handleViewDetails(product._id)}
+              disabled={product.stock === 0}
+              className={`mt-3 w-full py-1.5 px-3 text-sm font-medium ${
+                product.stock === 0 
+                  ? 'bg-gray-300 cursor-not-allowed text-gray-600' 
+                  : 'bg-[#F68C1F] text-white hover:bg-[#56C5DC]'
+              }`}
+            >
+              {product.stock === 0 ? 'Out of Stock' : 'View Details'}
+            </button>
+          </div>
+        </div>
+      );
+    })
+  )}
+</div>
+
   )}
 
   {/* Pagination */}
