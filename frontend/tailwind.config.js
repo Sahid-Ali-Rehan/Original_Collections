@@ -14,6 +14,10 @@ export default {
         muted: "#7D835F",     // Muted tone for borders and subtle text
         
       },
+       transitionProperty: {
+        'height': 'height',
+        'spacing': 'margin, padding',
+      }
     },
   },
   plugins: [],
