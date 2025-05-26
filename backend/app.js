@@ -32,13 +32,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/dashboard', dashboardRoute);
 app.use("/api/reviews", reviewRoutes);
 
-// Add this at the top of your backend server file
-app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect('https://' + req.headers.host + req.url);
-  }
-  next();
-});
+
 
 app.use(express.static(path.join(_dirname, "/frontend/dist")))
 app.get('*', (_, res)=>{
