@@ -9,10 +9,12 @@ router.post('/create-payment-intent', async (req, res) => {
   try {
     const { amount } = req.body;
     
-    const paymentIntent = await stripe.paymentIntents.create({
+   // In create-payment-intent route
+const paymentIntent = await stripe.paymentIntents.create({
   amount: Math.round(amount * 100),
-  currency: 'usd', // Change from 'bdt' to 'usd' for testing
+  currency: 'usd', // Must use 'usd' for testing environment
   payment_method_types: ['card'],
+  metadata: { integration_check: 'accept_a_payment' } // Add this line
 });
 
     res.status(200).json({ clientSecret: paymentIntent.client_secret });

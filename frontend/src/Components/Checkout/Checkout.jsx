@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+const [stripeError, setStripeError] = useState(null);
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
@@ -84,6 +85,7 @@ const Checkout = () => {
 
         // Confirm card payment
         // Modify the Stripe confirmation block:
+// Modify Stripe payment handler
 const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
   payment_method: {
     card: elements.getElement(CardElement),
@@ -97,10 +99,14 @@ const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
     }
   }
 }).catch((error) => {
-  throw new Error("Network error. Please check your internet connection");
+  setStripeError("Network error. Please check your internet connection and try again.");
+  throw error;
 });
 
-        if (error) throw error;
+if (error) {
+  setStripeError(error.message);
+  throw error;
+}
         if (paymentIntent.status !== "succeeded") {
           throw new Error("Payment failed");
         }
@@ -249,6 +255,12 @@ useEffect(() => {
   </div>
 )}
           </div>
+      
+{stripeError && (
+  <div className="text-red-500 mb-4">
+    {stripeError}
+  </div>
+)}
           <button 
             type="submit" 
             disabled={processing}
