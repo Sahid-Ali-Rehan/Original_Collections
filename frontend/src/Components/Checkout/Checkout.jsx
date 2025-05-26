@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,6 +7,10 @@ import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
 
 const Checkout = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const navigate = useNavigate();
+  
   const [userDetails, setUserDetails] = useState({
     name: "",
     phone: "",
@@ -14,8 +19,8 @@ const Checkout = () => {
     address: "",
     paymentMethod: "COD",
   });
-
-  const navigate = useNavigate();
+  
+  const [processing, setProcessing] = useState(false);
   const cartItems = JSON.parse(localStorage.getItem(`cart_${localStorage.getItem("userId")}`)) || [];
 
   const deliveryCharge = 120;
@@ -23,8 +28,6 @@ const Checkout = () => {
     (acc, item) => acc + item.quantity * item.price * (1 - item.discount / 100),
     0
   ) + deliveryCharge;
-  const estimatedDeliveryDate = new Date();
-  estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 7);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,60 +36,110 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userId = localStorage.getItem("userId");
-  
-    // Ensure all fields are filled
-    for (let key in userDetails) {
-      if (!userDetails[key]) {
-        toast.error(`Please fill in the ${key.replace(/([A-Z])/g, " $1").toLowerCase()} field.`);
+    setProcessing(true);
+    
+    // Validate all fields
+    const requiredFields = ['name', 'phone', 'jela', 'upazela', 'address'];
+    for (const field of requiredFields) {
+      if (!userDetails[field]) {
+        toast.error(`Please fill in the ${field} field`);
+        setProcessing(false);
         return;
       }
     }
-  
-    // Adding product details to the order
-    const orderItems = cartItems.map(item => ({
-      productId: item._id,
-      productName: item.productName,
-      productImage: item.productImage,
-      productDescription: item.productDescription,
-      quantity: item.quantity,
-      price: item.price,
-      discount: item.discount,
-      selectedSize: item.selectedSize,
-      selectedColor: item.selectedColor,
-      productCode: item.productCode
-    }));
-  
-    const order = {
-      userId,
-      items: orderItems,
-      deliveryCharge,
-      totalAmount: totalPrice,
-      status: "Pending",
-      estimatedDeliveryDate,
-      ...userDetails,
-    };
-  
+
+    let paymentIntentId = null;
+    
     try {
-      const response = await fetch("https://original-collections.onrender.com/api/orders/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(order),
-      });
-  
-      const responseData = await response.json();
-  
-      if (response.ok) {
-        toast.success("Order placed successfully!");
-        // localStorage.setItem("orderSuccess", JSON.stringify(order));
-        localStorage.setItem("orderSuccess", JSON.stringify(responseData.order));
-        navigate("/success");
-      } else {
-        toast.error(responseData.error || "Failed to place the order. Please try again.");
+      // Handle Stripe payment
+      if (userDetails.paymentMethod === "Stripe") {
+        if (!stripe || !elements) {
+          toast.error("Stripe is not initialized");
+          return;
+        }
+
+        // Create payment intent
+        const paymentIntentResponse = await fetch(
+          "https://original-collections.onrender.com/api/orders/create-payment-intent",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: totalPrice }),
+          }
+        );
+
+        if (!paymentIntentResponse.ok) {
+          throw new Error("Failed to create payment intent");
+        }
+
+        const { clientSecret } = await paymentIntentResponse.json();
+
+        // Confirm card payment
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardElement),
+            billing_details: {
+              name: userDetails.name,
+              phone: userDetails.phone,
+              address: {
+                city: userDetails.upazela,
+                country: "BD",
+              }
+            }
+          }
+        });
+
+        if (error) throw error;
+        if (paymentIntent.status !== "succeeded") {
+          throw new Error("Payment failed");
+        }
+        paymentIntentId = paymentIntent.id;
       }
+
+      // Prepare order items
+      const orderItems = cartItems.map(item => ({
+        productId: item._id,
+        productName: item.productName,
+        quantity: item.quantity,
+        price: item.price,
+        discount: item.discount,
+        selectedSize: item.selectedSize,
+        selectedColor: item.selectedColor,
+      }));
+
+      // Submit order
+      const orderResponse = await fetch(
+        "https://original-collections.onrender.com/api/orders/checkout",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...userDetails,
+            items: orderItems,
+            deliveryCharge,
+            totalAmount: totalPrice,
+            estimatedDeliveryDate: new Date(),
+            userId: localStorage.getItem("userId"),
+            paymentIntentId
+          }),
+        }
+      );
+
+      const responseData = await orderResponse.json();
+      
+      if (!orderResponse.ok) {
+        throw new Error(responseData.error || "Order submission failed");
+      }
+
+      // Clear cart and handle success
+      localStorage.removeItem(`cart_${localStorage.getItem("userId")}`);
+      localStorage.setItem("orderSuccess", JSON.stringify(responseData.order));
+      navigate("/success");
     } catch (error) {
-      console.error(error);
-      toast.error("An error occurred. Please try again.");
+      console.error("Checkout Error:", error);
+      toast.error(error.message || "An error occurred during checkout");
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -138,12 +191,46 @@ const Checkout = () => {
             <input type="text" name="jela" placeholder="District (Jela)" value={userDetails.jela} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <input type="text" name="upazela" placeholder="Sub-district (Upazela)" value={userDetails.upazela} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <textarea name="address" placeholder="Delivery Address" value={userDetails.address} onChange={handleInputChange} required className="border p-3 rounded w-full" />
-            <select name="paymentMethod" value={userDetails.paymentMethod} onChange={handleInputChange} required className="border p-3 rounded w-full">
+            <select 
+              name="paymentMethod" 
+              value={userDetails.paymentMethod} 
+              onChange={handleInputChange}
+              className="border p-3 rounded w-full"
+            >
               <option value="COD">Cash on Delivery</option>
+              <option value="Stripe">Credit/Debit Card (Stripe)</option>
             </select>
+
+             {userDetails.paymentMethod === "Stripe" && (
+              <div className="border p-4 rounded">
+                <CardElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: "16px",
+                        color: "#424770",
+                        "::placeholder": {
+                          color: "#aab7c4",
+                        },
+                      },
+                      invalid: {
+                        color: "#9e2146",
+                      },
+                    },
+                    hidePostalCode: true
+                  }}
+                />
+              </div>
+            )}
           </div>
-          <button type="submit" className="px-6 py-3 bg-primary text-white rounded hover:bg-secondary transition w-full">
-            Place Order
+          <button 
+            type="submit" 
+            disabled={processing}
+            className={`px-6 py-3 text-white rounded transition w-full ${
+              processing ? "bg-gray-400" : "bg-primary hover:bg-secondary"
+            }`}
+          >
+            {processing ? "Processing..." : "Place Order"}
           </button>
         </form>
       </div>

@@ -19,7 +19,10 @@ import Success from "./Components/Message/Success";
 import AllOrders from "./Components/AdminComponents/AllOrders";
 import MyProfile from "./Components/MyProfile/MyProfile";
 import Wishlist from "./Components/Wishlist/Wishlist";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
+const stripePromise = loadStripe('pk_test_51RSv6HQu2XY94ocpyNXlGLygbvTCIBSFrODrGTvAtAxnQQM0bFDNpC36pJ4EH9cb1GJEKSHigVz6xVWZFeHMZJSV001CPevlli');
 function App() {
   return (
     <>
@@ -33,7 +36,15 @@ function App() {
           <Route path="/products/single/:id" element={<SingleProductList />}/>
           <Route path="/cart" element={<Cart />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/checkout" element={<Checkout />} />
+          
+<Route 
+  path="/checkout" 
+  element={
+    <Elements stripe={stripePromise}>
+      <Checkout />
+    </Elements>
+  }
+/>
           <Route path="/success" element={<Success />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/wish-list" element={<Wishlist/>} />
