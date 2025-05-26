@@ -15,14 +15,14 @@ const CheckoutForm = () => {
   const navigate = useNavigate();
   const [processing, setProcessing] = useState(false);
   const [userDetails, setUserDetails] = useState({
-    name: "",
-    phone: "",
-    jela: "",
-    upazela: "",
-    address: "",
-    paymentMethod: "COD",
-  });
-
+  name: "",
+  phone: "",
+  jela: "",
+  upazela: "",
+  address: "",
+  postalCode: "", // Add this
+  paymentMethod: "COD",
+});
   const cartItems = JSON.parse(localStorage.getItem(`cart_${localStorage.getItem("userId")}`)) || [];
   const deliveryCharge = 120;
   const subtotal = cartItems.reduce(
@@ -74,19 +74,19 @@ const CheckoutForm = () => {
         const { clientSecret } = await paymentIntentResponse.json();
         
         const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: userDetails.name,
-              phone: userDetails.phone,
-              address: {
-                city: userDetails.jela,
-                line1: userDetails.address
-              }
-            }
-          }
-        });
-
+  payment_method: {
+    card: elements.getElement(CardElement),
+    billing_details: {
+      name: userDetails.name,
+      phone: userDetails.phone,
+      address: {
+        city: userDetails.jela,
+        line1: userDetails.address,
+        postal_code: userDetails.postalCode // Add this
+      }
+    }
+  }
+});
         if (stripeError) {
           toast.error(stripeError.message);
           setProcessing(false);
@@ -111,7 +111,7 @@ const CheckoutForm = () => {
 
       // Modify order object creation to conditionally include userId
 const order = {
-  ...(userId && { userId }), // Only include userId if it exists
+  ...(userId && userId !== "undefined" && { userId }), // Only include userId if it exists
   items: orderItems,
   deliveryCharge,
   totalAmount: totalPrice,
@@ -254,6 +254,18 @@ const order = {
                 />
               </div>
 
+              <div>
+  <input
+    type="text"
+    name="postalCode"
+    placeholder="Postal Code"
+    value={userDetails.postalCode}
+    onChange={handleInputChange}
+    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+    required={userDetails.paymentMethod === "Stripe"}
+  />
+</div>
+
               <div className="border-t pt-4">
                 <label className="block mb-2 font-medium">Payment Method</label>
                 <select
@@ -270,22 +282,22 @@ const order = {
               {userDetails.paymentMethod === "Stripe" && (
                 <div className="p-4 border rounded bg-gray-50">
                   <CardElement
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "16px",
-                          color: "#424770",
-                          "::placeholder": {
-                            color: "#aab7c4",
-                          },
-                        },
-                        invalid: {
-                          color: "#9e2146",
-                        },
-                      },
-                    }}
-                    className="p-2"
-                  />
+  options={{
+    hidePostalCode: true, // Add this line
+    style: {
+      base: {
+        fontSize: "16px",
+        color: "#424770",
+        "::placeholder": {
+          color: "#aab7c4",
+        },
+      },
+      invalid: {
+        color: "#9e2146",
+      },
+    },
+  }}
+/>
                 </div>
               )}
 
