@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
+
 
 const Checkout = () => {
   const stripe = useStripe();
@@ -81,19 +83,22 @@ const Checkout = () => {
         const { clientSecret } = await paymentIntentResponse.json();
 
         // Confirm card payment
-        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: userDetails.name,
-              phone: userDetails.phone,
-              address: {
-                city: userDetails.upazela,
-                country: "BD",
-              }
-            }
-          }
-        });
+        // Modify the Stripe confirmation block:
+const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+  payment_method: {
+    card: elements.getElement(CardElement),
+    billing_details: {
+      name: userDetails.name,
+      phone: userDetails.phone,
+      address: {
+        city: userDetails.upazela,
+        country: "BD",
+      }
+    }
+  }
+}).catch((error) => {
+  throw new Error("Network error. Please check your internet connection");
+});
 
         if (error) throw error;
         if (paymentIntent.status !== "succeeded") {
@@ -120,14 +125,14 @@ const Checkout = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            ...userDetails,
-            items: orderItems,
-            deliveryCharge,
-            totalAmount: totalPrice,
-            estimatedDeliveryDate: new Date(),
-            userId: userId,
-            paymentIntentId
-          }),
+  ...userDetails,
+  items: orderItems,
+  deliveryCharge,
+  totalAmount: totalPrice,
+  estimatedDeliveryDate: new Date(),
+  userId: localStorage.getItem("userId"), // Use stored user ID
+  paymentIntentId
+}),
         }
       );
 
@@ -149,6 +154,14 @@ const Checkout = () => {
     }
   };
 
+// Add authentication check
+useEffect(() => {
+  const userId = localStorage.getItem("userId");
+  if (!userId || userId === "undefined") {
+    navigate("/login");
+  }
+}, [navigate]);
+
   if (cartItems.length === 0) {
     return (
       <div>
@@ -160,6 +173,8 @@ const Checkout = () => {
       </div>
     );
   }
+
+  
 
   return (
     <div className="bg-gray-50">
@@ -206,27 +221,33 @@ const Checkout = () => {
   <option value="Stripe">Credit/Debit Card (Stripe)</option>
 </select>
 
-             {userDetails.paymentMethod === "Stripe" && (
-              <div className="border p-4 rounded">
-                <CardElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: "16px",
-                        color: "#424770",
-                        "::placeholder": {
-                          color: "#aab7c4",
-                        },
-                      },
-                      invalid: {
-                        color: "#9e2146",
-                      },
-                    },
-                    hidePostalCode: true
-                  }}
-                />
-              </div>
-            )}
+            
+{userDetails.paymentMethod === "Stripe" && (
+  <div className="border p-4 rounded">
+    <CardElement
+      options={{
+        style: {
+          base: {
+            fontSize: "16px",
+            color: "#424770",
+            "::placeholder": {
+              color: "#aab7c4",
+            },
+          },
+          invalid: {
+            color: "#9e2146",
+          },
+        },
+        hidePostalCode: true
+      }}
+      onChange={(e) => {
+        if (e.error) {
+          toast.error(e.error.message);
+        }
+      }}
+    />
+  </div>
+)}
           </div>
           <button 
             type="submit" 

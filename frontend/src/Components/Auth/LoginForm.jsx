@@ -27,11 +27,14 @@ const LoginForm = () => {
 
 
       // Redirect based on user role
-      if (data.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+      // In LoginForm.js, modify the success handler:
+if (data.role === "admin") {
+  navigate("/admin");
+} else {
+  // Store user ID correctly
+  localStorage.setItem('userId', data.user._id); // Assuming response has user object
+  navigate("/");
+}
     } catch (error) {
       console.error("Error during login:", error);  // Log the error to the console
       toast.error(error.response?.data?.message || "Login failed");

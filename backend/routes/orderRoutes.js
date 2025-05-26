@@ -10,10 +10,10 @@ router.post('/create-payment-intent', async (req, res) => {
     const { amount } = req.body;
     
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convert to cents
-      currency: 'bdt',
-      payment_method_types: ['card'],
-    });
+  amount: Math.round(amount * 100),
+  currency: 'usd', // Change from 'bdt' to 'usd' for testing
+  payment_method_types: ['card'],
+});
 
     res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {

@@ -25,9 +25,10 @@ const orderSchema = new mongoose.Schema({
     jela: { type: String, required: true },
     upazela: { type: String, required: true },
     address: { type: String, required: true },
-    paymentMethod: { 
+ 
+paymentMethod: { 
   type: String, 
-  enum: ["COD", "Stripe"],  // Change from "Card" to "Stripe"
+  enum: ["COD", "Stripe"],
   default: "COD" 
 }
 });
