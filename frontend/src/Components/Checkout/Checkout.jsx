@@ -37,7 +37,13 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
-    
+    const userId = localStorage.getItem("userId");
+
+    if (!userId || userId === "undefined") {
+  toast.error("Please login to complete your order");
+  navigate("/login");
+  return;
+}
     // Validate all fields
     const requiredFields = ['name', 'phone', 'jela', 'upazela', 'address'];
     for (const field of requiredFields) {
@@ -119,7 +125,7 @@ const Checkout = () => {
             deliveryCharge,
             totalAmount: totalPrice,
             estimatedDeliveryDate: new Date(),
-            userId: localStorage.getItem("userId"),
+            userId: userId,
             paymentIntentId
           }),
         }
@@ -192,14 +198,13 @@ const Checkout = () => {
             <input type="text" name="upazela" placeholder="Sub-district (Upazela)" value={userDetails.upazela} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <textarea name="address" placeholder="Delivery Address" value={userDetails.address} onChange={handleInputChange} required className="border p-3 rounded w-full" />
             <select 
-              name="paymentMethod" 
-              value={userDetails.paymentMethod} 
-              onChange={handleInputChange}
-              className="border p-3 rounded w-full"
-            >
-              <option value="COD">Cash on Delivery</option>
-              <option value="Stripe">Credit/Debit Card (Stripe)</option>
-            </select>
+  name="paymentMethod" 
+  value={userDetails.paymentMethod} 
+  onChange={handleInputChange}
+>
+  <option value="COD">Cash on Delivery</option>
+  <option value="Stripe">Credit/Debit Card (Stripe)</option>
+</select>
 
              {userDetails.paymentMethod === "Stripe" && (
               <div className="border p-4 rounded">
