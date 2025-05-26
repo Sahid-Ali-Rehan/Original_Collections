@@ -40,11 +40,11 @@ function App() {
 <Route 
   path="/checkout" 
   element={
-    <PrivateRoute>
+    
       <Elements stripe={stripePromise}>
         <Checkout />
       </Elements>
-    </PrivateRoute>
+   
   }
 />
           <Route path="/success" element={<Success />} />

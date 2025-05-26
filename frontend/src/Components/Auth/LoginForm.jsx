@@ -21,18 +21,17 @@ const LoginForm = () => {
       toast.success(data.message);
 
       // Save token to localStorage
-localStorage.setItem("token", data.token);
-localStorage.setItem('userId', data.user._id); // Changed from data._id to data.user._id
+      localStorage.setItem("token", data.token);
+      // After successful login
+      localStorage.setItem('userId', data._id); // where `user.id` is the logged-in user's ID
+
 
       // Redirect based on user role
-      // In LoginForm.js, modify the success handler:
-
-// Redirect based on role
-if (data.user.role === "admin") { // Changed from data.role to data.user.role
-  navigate("/admin");
-} else {
-  navigate("/");
-}
+      if (data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error during login:", error);  // Log the error to the console
       toast.error(error.response?.data?.message || "Login failed");

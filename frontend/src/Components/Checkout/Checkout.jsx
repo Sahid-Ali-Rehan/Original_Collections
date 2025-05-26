@@ -23,7 +23,7 @@ const Checkout = () => {
   });
   
   const [processing, setProcessing] = useState(false);
-  const cartItems = JSON.parse(localStorage.getItem(`cart_${localStorage.getItem("userId")}`)) || [];
+  const cartItems = JSON.parse(localStorage.getItem('guest_cart')) || [];
 
   const deliveryCharge = 120;
   const totalPrice = cartItems.reduce(
@@ -41,11 +41,11 @@ const Checkout = () => {
     setProcessing(true);
     const userId = localStorage.getItem("userId");
 
-    if (!userId || userId === "undefined") {
-  toast.error("Please login to complete your order");
-  navigate("/login");
-  return;
-}
+//     if (!userId || userId === "undefined") {
+//   toast.error("Please login to complete your order");
+//   navigate("/login");
+//   return;
+// }
     // Validate all fields
     const requiredFields = ['name', 'phone', 'jela', 'upazela', 'address'];
     for (const field of requiredFields) {
@@ -121,13 +121,13 @@ const Checkout = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+         body: JSON.stringify({
   ...userDetails,
   items: orderItems,
   deliveryCharge,
   totalAmount: totalPrice,
   estimatedDeliveryDate: new Date(),
-  userId: localStorage.getItem("userId"), // Use stored user ID
+  // Remove userId field entirely
   paymentIntentId
 }),
         }
@@ -152,12 +152,12 @@ const Checkout = () => {
   };
 
 // Add authentication check
-useEffect(() => {
-  const userId = localStorage.getItem("userId");
-  if (!userId || userId === "undefined") {
-    navigate("/login");
-  }
-}, [navigate]);
+// useEffect(() => {
+//   const userId = localStorage.getItem("userId");
+//   if (!userId || userId === "undefined") {
+//     navigate("/login");
+//   }
+// }, [navigate]);
 
   if (cartItems.length === 0) {
     return (
@@ -218,33 +218,27 @@ useEffect(() => {
   <option value="Stripe">Credit/Debit Card (Stripe)</option>
 </select>
 
-            
-{userDetails.paymentMethod === "Stripe" && (
-  <div className="border p-4 rounded">
-    <CardElement
-      options={{
-        style: {
-          base: {
-            fontSize: "16px",
-            color: "#424770",
-            "::placeholder": {
-              color: "#aab7c4",
-            },
-          },
-          invalid: {
-            color: "#9e2146",
-          },
-        },
-        hidePostalCode: true
-      }}
-      onChange={(e) => {
-        if (e.error) {
-          toast.error(e.error.message);
-        }
-      }}
-    />
-  </div>
-)}
+             {userDetails.paymentMethod === "Stripe" && (
+              <div className="border p-4 rounded">
+                <CardElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: "16px",
+                        color: "#424770",
+                        "::placeholder": {
+                          color: "#aab7c4",
+                        },
+                      },
+                      invalid: {
+                        color: "#9e2146",
+                      },
+                    },
+                    hidePostalCode: true
+                  }}
+                />
+              </div>
+            )}
           </div>
           <button 
             type="submit" 
