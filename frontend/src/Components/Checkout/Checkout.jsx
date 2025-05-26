@@ -109,16 +109,17 @@ const CheckoutForm = () => {
         productCode: item.productCode
       }));
 
-      const order = {
-        userId,
-        items: orderItems,
-        deliveryCharge,
-        totalAmount: totalPrice,
-        status: "Pending",
-        estimatedDeliveryDate,
-        ...userDetails,
-        paymentIntentId
-      };
+      // Modify order object creation to conditionally include userId
+const order = {
+  ...(userId && { userId }), // Only include userId if it exists
+  items: orderItems,
+  deliveryCharge,
+  totalAmount: totalPrice,
+  status: "Pending",
+  estimatedDeliveryDate,
+  ...userDetails,
+  paymentIntentId
+};
 
       const response = await fetch("https://original-collections.onrender.com/api/orders/checkout", {
         method: "POST",

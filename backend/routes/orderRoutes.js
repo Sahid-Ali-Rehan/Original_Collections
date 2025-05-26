@@ -83,8 +83,8 @@ router.post("/checkout", async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    const requiredFields = ['items', 'deliveryCharge', 'totalAmount', 'name', 
-      'phone', 'jela', 'upazela', 'address', 'paymentMethod', 'userId'];
+   // Change required fields validation in /checkout route
+const requiredFields = ['items', 'deliveryCharge', 'totalAmount', 'name', 'phone', 'jela', 'upazela', 'address', 'paymentMethod'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.status(400).json({ error: `${field} is required` });
@@ -145,6 +145,8 @@ router.post("/checkout", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+
 
 // Keep all your existing routes below...
 
