@@ -24,6 +24,45 @@ const paymentIntent = await stripe.paymentIntents.create({
   }
 });
 
+// Add this after your existing routes
+router.post('/stripe-webhook', async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    console.error('Webhook Error:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+      // Update your order status here
+      await Order.updateOne(
+        { paymentIntentId: paymentIntent.id },
+        { $set: { status: 'PaymentSucceeded' } }
+      );
+      break;
+    case 'payment_intent.payment_failed':
+      const failedIntent = event.data.object;
+      await Order.updateOne(
+        { paymentIntentId: failedIntent.id },
+        { $set: { status: 'PaymentFailed' } }
+      );
+      break;
+    // Add other event types as needed
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  res.json({ received: true });
+});
+
 // Modified checkout route
 router.post("/checkout", async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../Navigations/Navbar";
 import Footer from "../Footer/Footer";
@@ -8,67 +8,92 @@ import Footer from "../Footer/Footer";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
-    // Changed to use generic cart key
-    const storedCart = JSON.parse(localStorage.getItem('guest_cart')) || [];
+    const userId = localStorage.getItem("userId");
+  
+    if (!userId) {
+      toast.error("Please log in to view your cart.");
+      navigate("/login"); // Redirect to login if user is not logged in
+      return;
+    }
+  
+    const storedCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
     
+    // Ensure all items have productId set, if not, assign _id as productId
     const updatedCart = storedCart.map(item => ({
       ...item,
-      productId: item.productId || item._id,
+      productId: item.productId || item._id, // Assign _id as productId if productId is missing
     }));
     
     setCartItems(updatedCart);
-
+  
+    // Calculate total price
     const total = updatedCart.reduce((acc, item) => {
       return acc + item.quantity * item.price * (1 - item.discount / 100);
     }, 0);
     setTotalPrice(total);
-  }, []); // Removed navigate dependency
-
+  }, [navigate]);
+  
   const handleQuantityChange = (item, amount) => {
+    const userId = localStorage.getItem("userId");
+  
+    if (!userId) {
+      toast.error("Please log in to update cart.");
+      navigate("/login");
+      return;
+    }
+  
     const updatedCartItems = cartItems.map((cartItem) => {
       if (cartItem._id === item._id && cartItem.selectedSize === item.selectedSize && cartItem.selectedColor === item.selectedColor) {
         const newQuantity = cartItem.quantity + amount;
-
-        if (newQuantity <= 0) return null;
-        if (newQuantity > item.stock) {
+  
+        if (newQuantity <= 0) return null; // Prevent negative or zero quantity
+        if (newQuantity > item.stock) { // Use stock value from product schema
           toast.error(`Cannot exceed the stock quantity of ${item.stock}`);
-          return cartItem;
+          return cartItem; // Do not update the quantity if it exceeds stock
         }
-
+  
         return { ...cartItem, quantity: newQuantity };
       }
       return cartItem;
-    }).filter(Boolean);
-
+    }).filter(Boolean); // Remove invalid items
+  
     setCartItems(updatedCartItems);
-    // Changed to use generic cart key
-    localStorage.setItem('guest_cart', JSON.stringify(updatedCartItems));
-
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+  
     const total = updatedCartItems.reduce((acc, item) => {
       return acc + item.quantity * item.price * (1 - item.discount / 100);
     }, 0);
     setTotalPrice(total);
   };
-
+  
   const handleRemoveItem = (item) => {
+    const userId = localStorage.getItem("userId");
+  
+    if (!userId) {
+      toast.error("Please log in to remove items from your cart.");
+      navigate("/login");
+      return;
+    }
+  
     const updatedCartItems = cartItems.filter((cartItem) => {
       return !(cartItem._id === item._id && cartItem.selectedSize === item.selectedSize && cartItem.selectedColor === item.selectedColor);
     });
-
+  
     setCartItems(updatedCartItems);
     
+    // Make sure the productId is correctly assigned if missing
     updatedCartItems.forEach(item => {
       if (!item.productId) {
-        item.productId = item._id;
+        item.productId = item._id; // Assign productId if it's missing
       }
     });
-
-    // Changed to use generic cart key
-    localStorage.setItem('guest_cart', JSON.stringify(updatedCartItems));
-
+  
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+  
+    // Recalculate total price
     const total = updatedCartItems.reduce((acc, item) => {
       return acc + item.quantity * item.price * (1 - item.discount / 100);
     }, 0);
