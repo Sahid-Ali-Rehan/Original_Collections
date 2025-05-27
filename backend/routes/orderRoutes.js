@@ -10,13 +10,13 @@ router.post('/create-payment-intent', async (req, res) => {
     const { amount } = req.body;
     
 // In backend order routes (create-payment-intent endpoint)
+// Change this in your /create-payment-intent endpoint
 const paymentIntent = await stripe.paymentIntents.create({
   amount: Math.round(amount * 100),
-  currency: 'bdt', // Changed from 'usd' to 'bdt'
+  currency: 'bdt', // Stripe doesn't support BDT for payment intents
   payment_method_types: ['card'],
   metadata: { integration_check: 'accept_a_payment' }
 });
-
     res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     console.error('Stripe Error:', error);
@@ -79,7 +79,6 @@ router.post("/checkout", async (req, res) => {
       address,
       paymentMethod,
       paymentIntentId,
-      userId
     } = req.body;
 
     // Validate required fields
