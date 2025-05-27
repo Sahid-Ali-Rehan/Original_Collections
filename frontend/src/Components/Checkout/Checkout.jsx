@@ -1,6 +1,5 @@
 // Checkout.jsx
 import React, { useState, useEffect } from "react";
-
 import { Elements, useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { ToastContainer, toast } from "react-toastify";
@@ -68,8 +67,8 @@ const CheckoutForm = () => {
     paymentMethod: "COD",
   });
 
-  const userId = localStorage.getItem("userId") || "guest";
-  const cartItems = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+  
+   const cartItems = JSON.parse(localStorage.getItem('cart_guest')) || [];
   const deliveryCharge = 120;
   const subtotal = cartItems.reduce((acc, item) => acc + item.quantity * item.price * (1 - item.discount / 100), 0);
   const totalPrice = subtotal + deliveryCharge;
@@ -158,7 +157,6 @@ const CheckoutForm = () => {
       }));
 
       const order = {
-        userId: userId !== "guest" ? userId : undefined,
         items: orderItems,
         deliveryCharge,
         totalAmount: totalPrice,
@@ -168,7 +166,7 @@ const CheckoutForm = () => {
         paymentIntentId
       };
 
-      const response = await fetch("https://original-collections.onrender.com/api/orders/checkout", {
+    const response = await fetch("https://original-collections.onrender.com/api/orders/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(order),
@@ -176,7 +174,8 @@ const CheckoutForm = () => {
 
       if (!response.ok) throw new Error("Order submission failed");
       
-      localStorage.removeItem(`cart_${userId}`);
+      // Changed: Remove guest cart
+      localStorage.removeItem('cart_guest');
       toast.success("Order placed successfully!");
       navigate("/success");
 
@@ -422,8 +421,8 @@ const CheckoutForm = () => {
 };
 
 const Checkout = () => {
-  const userId = localStorage.getItem("userId") || "guest";
-  const cartItems = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+  // Simplified cart check
+  const cartItems = JSON.parse(localStorage.getItem('cart_guest')) || [];
 
   if (cartItems.length === 0) {
     return (

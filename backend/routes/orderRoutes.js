@@ -119,7 +119,7 @@ const requiredFields = ['items', 'deliveryCharge', 'totalAmount', 'name', 'phone
 
     // Create order
     const order = new Order({
-      userId,
+      
       items,
       deliveryCharge,
       totalAmount,

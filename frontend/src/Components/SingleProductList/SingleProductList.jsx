@@ -154,11 +154,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
   };
 
   const addToCart = (product) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      toast.error("Please log in to add items to your cart.");
-      return;
-    }
+   
   
     // If size or color is not selected, show toast error
     if (!selectedSize || !selectedColor) {
@@ -175,7 +171,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
       return;
     }
   
-    const existingCartItems = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+    const existingCartItems = JSON.parse(localStorage.getItem('cart_guest')) || [];
     const existingItem = existingCartItems.find(
       (item) =>
         item._id === product._id &&
@@ -191,7 +187,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
         return;
       }
       existingItem.quantity = updatedQuantity;
-      localStorage.setItem(`cart_${userId}`, JSON.stringify(existingCartItems));
+     localStorage.setItem('cart_guest', JSON.stringify(existingCartItems));
       toast.info("Product quantity increased in the cart!");
     } else {
       // If the item does not exist, add to the cart with selected size, color, and quantity
@@ -207,7 +203,7 @@ const toggleReviewModal = () => setReviewModalOpen((prev) => !prev);
         selectedColor,
       };
       existingCartItems.push(cartItem);
-      localStorage.setItem(`cart_${userId}`, JSON.stringify(existingCartItems));
+      localStorage.setItem('cart_guest', JSON.stringify(existingCartItems));
       toast.success("Product added to the cart!");
     }
   };

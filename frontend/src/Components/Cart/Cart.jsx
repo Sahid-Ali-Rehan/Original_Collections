@@ -8,98 +8,72 @@ import Footer from "../Footer/Footer";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-  
-    if (!userId) {
-      toast.error("Please log in to view your cart.");
-      navigate("/login"); // Redirect to login if user is not logged in
-      return;
-    }
-  
-    const storedCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+    // Always use guest cart without user check
+    const storedCart = JSON.parse(localStorage.getItem('cart_guest')) || [];
     
-    // Ensure all items have productId set, if not, assign _id as productId
     const updatedCart = storedCart.map(item => ({
       ...item,
-      productId: item.productId || item._id, // Assign _id as productId if productId is missing
+      productId: item.productId || item._id,
     }));
     
     setCartItems(updatedCart);
-  
-    // Calculate total price
-    const total = updatedCart.reduce((acc, item) => {
-      return acc + item.quantity * item.price * (1 - item.discount / 100);
-    }, 0);
+    const total = updatedCart.reduce((acc, item) => 
+      acc + item.quantity * item.price * (1 - item.discount / 100), 0
+    );
     setTotalPrice(total);
-  }, [navigate]);
-  
-  const handleQuantityChange = (item, amount) => {
-    const userId = localStorage.getItem("userId");
-  
-    if (!userId) {
-      toast.error("Please log in to update cart.");
-      navigate("/login");
-      return;
-    }
-  
-    const updatedCartItems = cartItems.map((cartItem) => {
-      if (cartItem._id === item._id && cartItem.selectedSize === item.selectedSize && cartItem.selectedColor === item.selectedColor) {
-        const newQuantity = cartItem.quantity + amount;
-  
-        if (newQuantity <= 0) return null; // Prevent negative or zero quantity
-        if (newQuantity > item.stock) { // Use stock value from product schema
-          toast.error(`Cannot exceed the stock quantity of ${item.stock}`);
-          return cartItem; // Do not update the quantity if it exceeds stock
-        }
-  
-        return { ...cartItem, quantity: newQuantity };
+  }, []); // Remove navigate from dependencies
+
+ const handleQuantityChange = (item, amount) => {
+  const updatedCartItems = cartItems.map((cartItem) => {
+    if (cartItem._id === item._id && 
+        cartItem.selectedSize === item.selectedSize && 
+        cartItem.selectedColor === item.selectedColor) {
+      
+      const newQuantity = cartItem.quantity + amount;
+      
+      // Stock validation
+      if (newQuantity > cartItem.stock) {
+        toast.error(`Cannot exceed available stock of ${cartItem.stock}`);
+        return cartItem; // Return unchanged item
       }
-      return cartItem;
-    }).filter(Boolean); // Remove invalid items
-  
-    setCartItems(updatedCartItems);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
-  
-    const total = updatedCartItems.reduce((acc, item) => {
-      return acc + item.quantity * item.price * (1 - item.discount / 100);
-    }, 0);
-    setTotalPrice(total);
-  };
-  
-  const handleRemoveItem = (item) => {
-    const userId = localStorage.getItem("userId");
-  
-    if (!userId) {
-      toast.error("Please log in to remove items from your cart.");
-      navigate("/login");
-      return;
-    }
-  
-    const updatedCartItems = cartItems.filter((cartItem) => {
-      return !(cartItem._id === item._id && cartItem.selectedSize === item.selectedSize && cartItem.selectedColor === item.selectedColor);
-    });
-  
-    setCartItems(updatedCartItems);
-    
-    // Make sure the productId is correctly assigned if missing
-    updatedCartItems.forEach(item => {
-      if (!item.productId) {
-        item.productId = item._id; // Assign productId if it's missing
+      if (newQuantity <= 0) {
+        toast.error("Quantity cannot be less than 1");
+        return cartItem; // Return unchanged item
       }
-    });
+      
+      return { ...cartItem, quantity: newQuantity };
+    }
+    return cartItem;
+  });
+
+  setCartItems(updatedCartItems);
+  localStorage.setItem('cart_guest', JSON.stringify(updatedCartItems));
   
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+  const total = updatedCartItems.reduce((acc, item) => 
+    acc + item.quantity * item.price * (1 - item.discount / 100), 0
+  );
+  setTotalPrice(total);
+};
+
+const handleRemoveItem = (item) => {
+  const updatedCartItems = cartItems.filter((cartItem) => 
+    !(cartItem._id === item._id && 
+    cartItem.selectedSize === item.selectedSize && 
+    cartItem.selectedColor === item.selectedColor)
+  );
+
+  setCartItems(updatedCartItems);
+  localStorage.setItem('cart_guest', JSON.stringify(updatedCartItems));
   
-    // Recalculate total price
-    const total = updatedCartItems.reduce((acc, item) => {
-      return acc + item.quantity * item.price * (1 - item.discount / 100);
-    }, 0);
-    setTotalPrice(total);
-  };
-  
+  const total = updatedCartItems.reduce((acc, item) => 
+    acc + item.quantity * item.price * (1 - item.discount / 100), 0
+  );
+  setTotalPrice(total);
+  toast.success("Item removed from cart");
+};
 
   if (cartItems.length === 0) {
     return (
