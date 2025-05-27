@@ -139,52 +139,55 @@ const CheckoutForm = () => {
     }
   };
 
-  const submitOrder = async (paymentIntentId = null) => {
-    try {
-      setProcessing(true);
-      
-      const orderItems = cartItems.map(item => ({
-        productId: item._id,
-        productName: item.productName,
-        productImage: item.images[0],
-        productDescription: item.productDescription,
-        productCode: item.productCode,
-        quantity: item.quantity,
-        price: item.price,
-        discount: item.discount,
-        selectedSize: item.selectedSize,
-        selectedColor: item.selectedColor
-      }));
+ const submitOrder = async (paymentIntentId = null) => {
+  try {
+    setProcessing(true);
+    
+    const orderItems = cartItems.map(item => ({
+      productId: item._id,
+      productName: item.productName,
+      productImage: item.images[0],
+      productDescription: item.productDescription,
+      productCode: item.productCode,
+      quantity: item.quantity,
+      price: item.price,
+      discount: item.discount,
+      selectedSize: item.selectedSize,
+      selectedColor: item.selectedColor
+    }));
 
-      const order = {
-        items: orderItems,
-        deliveryCharge,
-        totalAmount: totalPrice,
-        status: "Pending",
-        estimatedDeliveryDate: new Date(new Date().setDate(new Date().getDate() + 7)),
-        ...userDetails,
-        paymentIntentId
-      };
+    const order = {
+      items: orderItems,
+      deliveryCharge,
+      totalAmount: totalPrice,
+      status: "Pending",
+      estimatedDeliveryDate: new Date(new Date().setDate(new Date().getDate() + 7)),
+      ...userDetails,
+      paymentIntentId
+    };
 
     const response = await fetch("https://original-collections.onrender.com/api/orders/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(order),
-      });
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order),
+    });
 
-      if (!response.ok) throw new Error("Order submission failed");
-      
-      // Changed: Remove guest cart
-      localStorage.removeItem('cart_guest');
-      toast.success("Order placed successfully!");
-      navigate("/success");
+    if (!response.ok) throw new Error("Order submission failed");
+    
+    // Add this code to save the order data
+    const data = await response.json();
+    localStorage.setItem('orderSuccess', JSON.stringify(data.order));
 
-    } catch (error) {
-      toast.error(error.message || "Checkout failed");
-    } finally {
-      setProcessing(false);
-    }
-  };
+    localStorage.removeItem('cart_guest');
+    toast.success("Order placed successfully!");
+    navigate("/success");
+
+  } catch (error) {
+    toast.error(error.message || "Checkout failed");
+  } finally {
+    setProcessing(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50 relative">
